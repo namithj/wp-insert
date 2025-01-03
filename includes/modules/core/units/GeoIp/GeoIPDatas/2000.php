@@ -1,4 +1,4 @@
 <?php
 return [
-['2000::', '2000:ffff:ffff:ffff:ffff:ffff:ffff:ffff', 'ZZ'],
+	[ '2000::', '2000:ffff:ffff:ffff:ffff:ffff:ffff:ffff', 'ZZ' ],
 ];

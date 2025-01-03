@@ -1,16 +1,16 @@
 <?php
-require_once(dirname(__FILE__).'/functions.php');
+require_once __DIR__ . '/functions.php';
 
 /* Begin Add Assets */
-add_action('wp_insert_modules_js', 'wp_insert_module_trackingcodes_js', 0);
+add_action( 'wp_insert_modules_js', 'wp_insert_module_trackingcodes_js', 0 );
 function wp_insert_module_trackingcodes_js() {
-	wp_register_script('wp-insert-module-trackingcodes-js', WP_INSERT_URL.'includes/modules/general/trackingcodes/js/module.js', array('wp-insert-js'), WP_INSERT_VERSION.((WP_INSERT_DEBUG)?rand(0,9999):''));
-	wp_enqueue_script('wp-insert-module-trackingcodes-js');
+	wp_register_script( 'wp-insert-module-trackingcodes-js', WP_INSERT_URL . 'includes/modules/general/trackingcodes/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? rand( 0, 9999 ) : '' ) );
+	wp_enqueue_script( 'wp-insert-module-trackingcodes-js' );
 }
 /* End Add Assets */
 
 /* Begin Add Card in Admin Panel */
-add_action('wp_insert_plugin_card', 'wp_insert_trackingcodes_plugin_card', 80);
+add_action( 'wp_insert_plugin_card', 'wp_insert_trackingcodes_plugin_card', 80 );
 function wp_insert_trackingcodes_plugin_card() {
 	echo '<div class="plugin-card">';
 		echo '<div class="plugin-card-top">';
@@ -25,4 +25,3 @@ function wp_insert_trackingcodes_plugin_card() {
 	echo '</div>';
 }
 /* End Add Card in Admin Panel */
-?>

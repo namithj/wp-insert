@@ -1,65 +1,66 @@
-<?php 
-add_action('admin_menu', 'wp_insert_admin_menu');
-add_action('plugin_action_links_wp-insert/wp-insert.php', 'wp_insert_plugin_action_links');
-function wp_insert_plugin_action_links($links) {
+<?php
+add_action( 'admin_menu', 'wp_insert_admin_menu' );
+add_action( 'plugin_action_links_wp-insert/wp-insert.php', 'wp_insert_plugin_action_links' );
+function wp_insert_plugin_action_links( $links ) {
 	$links = array_merge(
-		array('<a href="'.esc_url(admin_url('/admin.php?page=wp-insert')).'">Settings</a>'),
+		[ '<a href="' . esc_url( admin_url( '/admin.php?page=wp-insert' ) ) . '">Settings</a>' ],
 		$links
 	);
 	return $links;
 }
 
 function wp_insert_admin_menu() {
-	add_menu_page('Wp Insert', 'Wp Insert', 'manage_options', 'wp-insert', 'wp_insert_admin_page', WP_INSERT_URL.'/includes/assets/images/icon.png');
+	add_menu_page( 'Wp Insert', 'Wp Insert', 'manage_options', 'wp-insert', 'wp_insert_admin_page', WP_INSERT_URL . '/includes/assets/images/icon.png' );
 }
 
-add_action('admin_enqueue_scripts', 'wp_insert_admin_enqueue_scripts', 99999);
-function wp_insert_admin_enqueue_scripts($page) {
-	wp_register_script('wp-insert-global-js', WP_INSERT_URL.'includes/assets/js/wp-insert-global.js', array('jquery'), WP_INSERT_VERSION);
-	wp_enqueue_script('wp-insert-global-js');
-	if($page == 'toplevel_page_wp-insert') {
-		wp_register_style('wp-insert-css', WP_INSERT_URL.'includes/assets/css/wp-insert.css', array(), WP_INSERT_VERSION.rand(0,9999));
-		wp_enqueue_style('wp-insert-css');
-		wp_register_style('wp-insert-jquery-ui', 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css', array(), WP_INSERT_VERSION);
-		wp_enqueue_style('wp-insert-jquery-ui');
-		wp_register_script('wp-insert-js', WP_INSERT_URL.'includes/assets/js/wp-insert.js', array('jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog'), WP_INSERT_VERSION.rand(0,9999), true);
-		wp_enqueue_script('wp-insert-js');
-		wp_register_script('chart-js', WP_INSERT_URL.'includes/assets/js/Chart.bundle.min.js', array('jquery'), WP_INSERT_VERSION, true);
-		wp_enqueue_script('chart-js');
-		do_action('wp_insert_modules_css');
-		do_action('wp_insert_modules_js');
-		smartlogixControls::enqueue_assets(WP_INSERT_URL.'includes/modules/core/controls', WP_INSERT_VERSION);
-		wp_enqueue_script('editor');
-        wp_enqueue_script('quicktags');
-		wp_enqueue_style('buttons');
+add_action( 'admin_enqueue_scripts', 'wp_insert_admin_enqueue_scripts', 99999 );
+function wp_insert_admin_enqueue_scripts( $page ) {
+	wp_register_script( 'wp-insert-global-js', WP_INSERT_URL . 'includes/assets/js/wp-insert-global.js', [ 'jquery' ], WP_INSERT_VERSION );
+	wp_enqueue_script( 'wp-insert-global-js' );
+	if ( $page == 'toplevel_page_wp-insert' ) {
+		wp_register_style( 'wp-insert-css', WP_INSERT_URL . 'includes/assets/css/wp-insert.css', [], WP_INSERT_VERSION . rand( 0, 9999 ) );
+		wp_enqueue_style( 'wp-insert-css' );
+		wp_register_style( 'wp-insert-jquery-ui', 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css', [], WP_INSERT_VERSION );
+		wp_enqueue_style( 'wp-insert-jquery-ui' );
+		wp_register_script( 'wp-insert-js', WP_INSERT_URL . 'includes/assets/js/wp-insert.js', [ 'jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog' ], WP_INSERT_VERSION . rand( 0, 9999 ), true );
+		wp_enqueue_script( 'wp-insert-js' );
+		wp_register_script( 'chart-js', WP_INSERT_URL . 'includes/assets/js/Chart.bundle.min.js', [ 'jquery' ], WP_INSERT_VERSION, true );
+		wp_enqueue_script( 'chart-js' );
+		do_action( 'wp_insert_modules_css' );
+		do_action( 'wp_insert_modules_js' );
+		smartlogixControls::enqueue_assets( WP_INSERT_URL . 'includes/modules/core/controls', WP_INSERT_VERSION );
+		wp_enqueue_script( 'editor' );
+		wp_enqueue_script( 'quicktags' );
+		wp_enqueue_style( 'buttons' );
 		/*Page Links To Plugin incompatible code override*/
-		wp_dequeue_style('wp-jquery-ui-dialog');
-		wp_dequeue_script('plt-quick-add');
-		wp_dequeue_style('plt-quick-add');
-		wp_deregister_style('wp-jquery-ui-dialog');	
-		wp_deregister_script('plt-quick-add');
-		wp_deregister_style('plt-quick-add');
+		wp_dequeue_style( 'wp-jquery-ui-dialog' );
+		wp_dequeue_script( 'plt-quick-add' );
+		wp_dequeue_style( 'plt-quick-add' );
+		wp_deregister_style( 'wp-jquery-ui-dialog' );
+		wp_deregister_script( 'plt-quick-add' );
+		wp_deregister_style( 'plt-quick-add' );
 	}
 }
 
-function wp_insert_admin_page() { ?>
-    <div class="wrap wp-insert">
+function wp_insert_admin_page() {
+	?>
+	<div class="wrap wp-insert">
 		<h2 id="wp_insert_title" style="display: none;"></h2>
 		<div class="wp-list-table widefat plugin-install">
-			<?php do_action('wp_insert_plugin_card'); ?>			
-			<input type="hidden" id="wp_insert_admin_ajax" name="wp_insert_admin_ajax" value="<?php echo admin_url('admin-ajax.php'); ?>" />
-			<input type="hidden" id="wp_insert_nonce" name="wp_insert_nonce" value="<?php echo wp_create_nonce('wp-insert'); ?>" />
+			<?php do_action( 'wp_insert_plugin_card' ); ?>			
+			<input type="hidden" id="wp_insert_admin_ajax" name="wp_insert_admin_ajax" value="<?php echo admin_url( 'admin-ajax.php' ); ?>" />
+			<input type="hidden" id="wp_insert_nonce" name="wp_insert_nonce" value="<?php echo wp_create_nonce( 'wp-insert' ); ?>" />
 		</div>
 	</div>
-<?php
+	<?php
 }
 
 /* Begin Add Card in Admin Panel */
-add_action('wp_insert_plugin_card', 'wp_insert_title_plugin_card', 0);
+add_action( 'wp_insert_plugin_card', 'wp_insert_title_plugin_card', 0 );
 function wp_insert_title_plugin_card() {
 	echo '<div class="plugin-card">';
 		echo '<div class="plugin-card-top">';
-			echo '<a id="wpInsertLogo" href="https://www.wpinsert.smartlogix.co.in"><img src="'.WP_INSERT_URL.'/includes/assets/images/header-banner.png?'.WP_INSERT_VERSION.'" /></a>';
+			echo '<a id="wpInsertLogo" href="https://www.wpinsert.smartlogix.co.in"><img src="' . WP_INSERT_URL . '/includes/assets/images/header-banner.png?' . WP_INSERT_VERSION . '" /></a>';
 		echo '</div>';
 		echo '<div class="plugin-card-bottom">';
 			echo '<div id="wpInsertMeta">';
@@ -74,7 +75,7 @@ function wp_insert_title_plugin_card() {
 
 /* Begin Admin Notice */
 /*add_action('admin_notices', 'wp_insert_admin_notices');
-function wp_insert_admin_notices() {	
+function wp_insert_admin_notices() {
 	if(current_user_can('manage_options')) {
 		$userId = get_current_user_id();
 		if(!get_user_meta($userId, 'wp_insert_2.3_admin_notice_dismissed', true)) {
@@ -93,11 +94,11 @@ function wp_insert_admin_notices() {
 	}
 }*/
 
-add_action('wp_ajax_wp_insert_admin_notice_dismiss', 'wp_insert_admin_notice_dismiss');
+add_action( 'wp_ajax_wp_insert_admin_notice_dismiss', 'wp_insert_admin_notice_dismiss' );
 function wp_insert_admin_notice_dismiss() {
-	check_ajax_referer('wp-insert-admin-notice', 'wp_insert_admin_notice_nonce');	
+	check_ajax_referer( 'wp-insert-admin-notice', 'wp_insert_admin_notice_nonce' );
 	$userId = get_current_user_id();
-	update_user_meta($userId, 'wp_insert_2.3_admin_notice_dismissed', 'true');
+	update_user_meta( $userId, 'wp_insert_2.3_admin_notice_dismissed', 'true' );
 	die();
 }
 /* End Admin Notice */

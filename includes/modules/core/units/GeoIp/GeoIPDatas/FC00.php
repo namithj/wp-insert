@@ -1,4 +1,4 @@
 <?php
 return [
-['fc00::', 'fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff', 'ZZ'],
+	[ 'fc00::', 'fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff', 'ZZ' ],
 ];
