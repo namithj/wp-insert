@@ -4,7 +4,7 @@ require_once __DIR__ . '/adunit.php';
 require_once __DIR__ . '/adcode.php';
 require_once __DIR__ . '/device-styles.php';
 if ( ! class_exists( 'iriven\\GeoIPCountry' ) ) {
-	require_once __DIR__ . '/GeoIp/GeoIPCountry.php';
+	require_once __DIR__ . '/GeoIp/class-geoipcountry.php';
 }
 require_once __DIR__ . '/geo-targeting.php';
 require_once __DIR__ . '/notes.php';

@@ -1,31 +1,30 @@
 <?php
 function wp_insert_vi_api_get_settings() {
-	$viSettings = get_transient( 'wp_insert_vi_api_settings' );
-	if ( ( $viSettings === false ) || ! is_array( $viSettings ) ) {
+	$vi_settings = get_transient( 'wp_insert_vi_api_settings' );
+	if ( ( false === $vi_settings ) || ! is_array( $vi_settings ) ) {
 		try {
 			$response = wp_remote_get( 'https://dashboard-api.vidint.net/v1/api/widget/settings', [ 'timeout' => 15 ] );
 			if ( ! is_wp_error( $response ) && ( 200 === wp_remote_retrieve_response_code( $response ) ) ) {
-				$responseBody = json_decode( $response['body'] );
-				//echo '<pre>'; print_r($responseBody->data); echo '</pre>';
-				if ( ( json_last_error() === JSON_ERROR_NONE ) && ( $responseBody->status === 'ok' ) ) {
-					$viSettings = [
-						'signupURL'           => $responseBody->data->signupURL,
-						'demoPageURL'         => $responseBody->data->demoPageURL,
-						'iabCategoriesURL'    => $responseBody->data->iabCategoriesURL,
-						'loginAPI'            => $responseBody->data->loginAPI,
-						'directSellURL'       => $responseBody->data->directSellURL,
-						'dashboardURL'        => $responseBody->data->dashboardURL,
-						'revenueAPI'          => $responseBody->data->revenueAPI,
-						'adsTxtAPI'           => $responseBody->data->adsTxtAPI,
-						'languages'           => $responseBody->data->languages,
-						'jsTagAPI'            => $responseBody->data->jsTagAPI,
-						'vendorListURL'       => $responseBody->data->vendorListURL,
-						'vendorListVersion'   => $responseBody->data->vendorListVersion,
-						'consentPopupContent' => $responseBody->data->consentPopupContent,
-						'purposes'            => $responseBody->data->purposes,
+				$response_body = json_decode( $response['body'] );
+				if ( ( JSON_ERROR_NONE === json_last_error() ) && ( 'ok' === $response_body->status ) ) {
+					$vi_settings = [
+						'signupURL'           => $response_body->data->signupURL,
+						'demoPageURL'         => $response_body->data->demoPageURL,
+						'iabCategoriesURL'    => $response_body->data->iabCategoriesURL,
+						'loginAPI'            => $response_body->data->loginAPI,
+						'directSellURL'       => $response_body->data->directSellURL,
+						'dashboardURL'        => $response_body->data->dashboardURL,
+						'revenueAPI'          => $response_body->data->revenueAPI,
+						'adsTxtAPI'           => $response_body->data->adsTxtAPI,
+						'languages'           => $response_body->data->languages,
+						'jsTagAPI'            => $response_body->data->jsTagAPI,
+						'vendorListURL'       => $response_body->data->vendorListURL,
+						'vendorListVersion'   => $response_body->data->vendorListVersion,
+						'consentPopupContent' => $response_body->data->consentPopupContent,
+						'purposes'            => $response_body->data->purposes,
 					];
 					delete_transient( 'wp_insert_vi_api_settings' );
-					set_transient( 'wp_insert_vi_api_settings', $viSettings, WEEK_IN_SECONDS );
+					set_transient( 'wp_insert_vi_api_settings', $vi_settings, WEEK_IN_SECONDS );
 				} else {
 					return false;
 				}
@@ -34,7 +33,7 @@ function wp_insert_vi_api_get_settings() {
 			return false;
 		}
 	}
-	return $viSettings;
+	return $vi_settings;
 }
 
 function wp_insert_vi_api_reset_settings() {
@@ -42,34 +41,34 @@ function wp_insert_vi_api_reset_settings() {
 }
 
 function wp_insert_vi_api_get_signupurl() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		return $viSettings['signupURL'];
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		return $vi_settings['signupURL'];
 	}
 	return false;
 }
 
 function wp_insert_vi_api_get_dashboardurl() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		return $viSettings['dashboardURL'];
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		return $vi_settings['dashboardURL'];
 	}
 	return false;
 }
 
-function wp_insert_vi_api_get_iabCategoriesURL() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		return $viSettings['iabCategoriesURL'];
+function wp_insert_vi_api_get_iab_categories_url() {
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		return $vi_settings['iabCategoriesURL'];
 	}
 	return false;
 }
 
 function wp_insert_vi_api_get_languages() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
 		$languages = [];
-		foreach ( $viSettings['languages'] as $language ) {
+		foreach ( $vi_settings['languages'] as $language ) {
 			foreach ( $language as $key => $value ) {
 				$languages[ $key ] = $value;
 			}
@@ -84,42 +83,42 @@ function wp_insert_vi_api_get_languages() {
 }
 
 function wp_insert_vi_api_get_consent_popup_content() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		return $viSettings['consentPopupContent'];
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		return $vi_settings['consentPopupContent'];
 	}
 	return false;
 }
 
 function wp_insert_vi_api_get_consent_purposes() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		return $viSettings['purposes'];
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		return $vi_settings['purposes'];
 	}
 	return false;
 }
 
 function wp_insert_vi_api_get_adstxt_content() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		$viToken = wp_insert_vi_api_get_publisher_token();
-		if ( $viToken !== false ) {
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		$vi_token = wp_insert_vi_api_get_publisher_token();
+		if ( false !== $vi_token ) {
 			try {
 				$response = wp_remote_get(
-					$viSettings['adsTxtAPI'],
+					$vi_settings['adsTxtAPI'],
 					[
 						'timeout' => 15,
 						'headers' => [
 							'Content-Type'  => 'application/json',
-							'Authorization' => $viToken,
+							'Authorization' => $vi_token,
 						],
 					]
 				);
 				if ( ! is_wp_error( $response ) ) {
 					if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
-						$responseBody = json_decode( $response['body'] );
-						if ( ( json_last_error() === JSON_ERROR_NONE ) && ( $responseBody->status === 'ok' ) ) {
-							return $responseBody->data;
+						$response_body = json_decode( $response['body'] );
+						if ( ( JSON_ERROR_NONE === json_last_error() ) && ( 'ok' === $response_body->status ) ) {
+							return $response_body->data;
 						} else {
 							return false;
 						}
@@ -139,18 +138,18 @@ function wp_insert_vi_api_get_adstxt_content() {
 }
 
 function wp_insert_vi_api_login( $email, $password ) {
-	if ( ( $email !== '' ) && ( $password !== '' ) ) {
-		$viSettings = wp_insert_vi_api_get_settings();
-		if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
+	if ( ( '' !== $email ) && ( '' !== $password ) ) {
+		$vi_settings = wp_insert_vi_api_get_settings();
+		if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
 			try {
 				$response = wp_remote_post(
-					$viSettings['loginAPI'],
+					$vi_settings['loginAPI'],
 					[
 						'timeout' => 15,
 						'headers' => [
 							'Content-Type' => 'application/json',
 						],
-						'body'    => json_encode(
+						'body'    => wp_json_encode(
 							[
 								'email'    => $email,
 								'password' => $password,
@@ -160,12 +159,12 @@ function wp_insert_vi_api_login( $email, $password ) {
 				);
 				if ( ! is_wp_error( $response ) ) {
 					if ( 401 === wp_remote_retrieve_response_code( $response ) ) {
-						$responseBody = json_decode( $response['body'] );
-						if ( ( json_last_error() === JSON_ERROR_NONE ) && ( $responseBody->status === 'error' ) ) {
+						$response_body = json_decode( $response['body'] );
+						if ( ( JSON_ERROR_NONE === json_last_error() ) && ( 'error' === $response_body->status ) ) {
 							return [
 								'status'    => 'error',
 								'errorCode' => 'WIVI008',
-								'message'   => $responseBody->error->message . ':' . $responseBody->error->description . '',
+								'message'   => $response_body->error->message . ':' . $response_body->error->description . '',
 							];
 						} else {
 							return [
@@ -175,11 +174,11 @@ function wp_insert_vi_api_login( $email, $password ) {
 							];
 						}
 					} elseif ( 200 === wp_remote_retrieve_response_code( $response ) ) {
-						$responseBody = json_decode( $response['body'] );
-						if ( ( json_last_error() === JSON_ERROR_NONE ) && ( $responseBody->status === 'ok' ) ) {
-							$viToken = $responseBody->data;
+						$response_body = json_decode( $response['body'] );
+						if ( ( JSON_ERROR_NONE === json_last_error() ) && ( 'ok' === $response_body->status ) ) {
+							$vi_token = $response_body->data;
 							delete_transient( 'wp_insert_vi_api_authetication_token' );
-							set_transient( 'wp_insert_vi_api_authetication_token', $viToken, MONTH_IN_SECONDS );
+							set_transient( 'wp_insert_vi_api_authetication_token', $vi_token, MONTH_IN_SECONDS );
 						} else {
 							return [
 								'status'    => 'error',
@@ -222,65 +221,64 @@ function wp_insert_vi_api_login( $email, $password ) {
 			'message'   => 'Email / Password is Empty!',
 		];
 	}
-	return $viToken;
+	return $vi_token;
 }
 
 function wp_insert_vi_api_logout() {
 	delete_transient( 'wp_insert_vi_api_authetication_token' );
-	//delete_transient('wp_insert_vi_api_settings');
 }
 
 function wp_insert_vi_api_get_publisher_id() {
-	$viToken = get_transient( 'wp_insert_vi_api_authetication_token' );
-	if ( $viToken === false ) {
+	$vi_token = get_transient( 'wp_insert_vi_api_authetication_token' );
+	if ( false === $vi_token ) {
 		return false;
 	}
-	$viToken = explode( '.', $viToken );
-	$viToken = base64_decode( $viToken[1] );
-	$viToken = json_decode( $viToken );
-	if ( json_last_error() === JSON_ERROR_NONE ) {
-		return $viToken->publisherId;
+	$vi_token = explode( '.', $vi_token );
+	$vi_token = base64_decode( $vi_token[1] ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+	$vi_token = json_decode( $vi_token );
+	if ( JSON_ERROR_NONE === json_last_error() ) {
+		return $vi_token->publisherId; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	}
 	return false;
 }
 
 function wp_insert_vi_api_get_publisher_token() {
-	$viToken = get_transient( 'wp_insert_vi_api_authetication_token' );
-	if ( $viToken === false ) {
+	$vi_token = get_transient( 'wp_insert_vi_api_authetication_token' );
+	if ( false === $vi_token ) {
 		return false;
 	}
-	return $viToken;
+	return $vi_token;
 }
 
 function wp_insert_vi_api_is_loggedin() {
-	$viToken = get_transient( 'wp_insert_vi_api_authetication_token' );
-	if ( $viToken === false ) {
+	$vi_token = get_transient( 'wp_insert_vi_api_authetication_token' );
+	if ( false === $vi_token ) {
 		return false;
 	}
 	return true;
 }
 
 function wp_insert_vi_api_get_revenue_data() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		$viToken = wp_insert_vi_api_get_publisher_token();
-		if ( $viToken !== false ) {
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		$vi_token = wp_insert_vi_api_get_publisher_token();
+		if ( false !== $vi_token ) {
 			try {
 				$response = wp_remote_get(
-					$viSettings['revenueAPI'],
+					$vi_settings['revenueAPI'],
 					[
 						'timeout' => 15,
 						'headers' => [
 							'Content-Type'  => 'application/json',
-							'Authorization' => $viToken,
+							'Authorization' => $vi_token,
 						],
 					]
 				);
 				if ( ! is_wp_error( $response ) ) {
 					if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
-						$responseBody = json_decode( $response['body'] );
-						if ( ( json_last_error() === JSON_ERROR_NONE ) && ( $responseBody->status === 'ok' ) ) {
-							return json_decode( json_encode( $responseBody->data ), true );
+						$response_body = json_decode( $response['body'] );
+						if ( ( JSON_ERROR_NONE === json_last_error() ) && ( 'ok' === $response_body->status ) ) {
+							return json_decode( wp_json_encode( $response_body->data ), true );
 						} else {
 							return false;
 						}
@@ -300,74 +298,74 @@ function wp_insert_vi_api_get_revenue_data() {
 }
 
 function wp_insert_vi_api_set_vi_code( $args = null ) {
-	$domain                 = wp_insert_get_domain_name_from_url( get_bloginfo( 'url' ) );
-	$selectedArgs           = [];
-	$selectedArgs['domain'] = $domain;
-	$selectedArgs['divId']  = 'wp_insert_vi_ad';
+	$domain                  = wp_insert_get_domain_name_from_url( get_bloginfo( 'url' ) );
+	$selected_args           = [];
+	$selected_args['domain'] = $domain;
+	$selected_args['divId']  = 'wp_insert_vi_ad';
 
 	if ( isset( $args ) && is_array( $args ) ) {
-		if ( isset( $args['ad_unit_type'] ) && ( $args['ad_unit_type'] !== '' ) && ( $args['ad_unit_type'] !== 'select' ) && ( $args['ad_unit_type'] !== 'undefined' ) ) {
-			$selectedArgs['adUnitType'] = $args['ad_unit_type'];
+		if ( isset( $args['ad_unit_type'] ) && ( '' !== $args['ad_unit_type'] ) && ( 'select' !== $args['ad_unit_type'] ) && ( 'undefined' !== $args['ad_unit_type'] ) ) {
+			$selected_args['adUnitType'] = $args['ad_unit_type'];
 		} else {
-			$selectedArgs['adUnitType'] = 'NATIVE_VIDEO_UNIT';
+			$selected_args['adUnitType'] = 'NATIVE_VIDEO_UNIT';
 		}
 
-		if ( isset( $args['language'] ) && ( $args['language'] !== '' ) && ( $args['language'] !== 'select' ) && ( $args['language'] !== 'undefined' ) ) {
-			$selectedArgs['language'] = $args['language'];
+		if ( isset( $args['language'] ) && ( '' !== $args['language'] ) && ( 'select' !== $args['language'] ) && ( 'undefined' !== $args['language'] ) ) {
+			$selected_args['language'] = $args['language'];
 		}
 
-		if ( isset( $args['iab_category_child'] ) && ( $args['iab_category_child'] !== '' ) && ( $args['iab_category_child'] !== 'select' ) && ( $args['iab_category_child'] !== 'undefined' ) ) {
-			$selectedArgs['iabCategory'] = $args['iab_category_child'];
+		if ( isset( $args['iab_category_child'] ) && ( '' !== $args['iab_category_child'] ) && ( 'select' !== $args['iab_category_child'] ) && ( 'undefined' !== $args['iab_category_child'] ) ) {
+			$selected_args['iabCategory'] = $args['iab_category_child'];
 		}
 
-		if ( isset( $args['font_family'] ) && ( $args['font_family'] !== '' ) && ( $args['font_family'] !== 'select' ) && ( $args['font_family'] !== 'undefined' ) ) {
-			$selectedArgs['font'] = $args['font_family'];
+		if ( isset( $args['font_family'] ) && ( '' !== $args['font_family'] ) && ( 'select' !== $args['font_family'] ) && ( 'undefined' !== $args['font_family'] ) ) {
+			$selected_args['font'] = $args['font_family'];
 		}
 
-		if ( isset( $args['font_size'] ) && ( $args['font_size'] !== '' ) && ( $args['font_size'] !== 'select' ) && ( $args['font_size'] !== 'undefined' ) ) {
-			$selectedArgs['fontSize'] = $args['font_size'];
+		if ( isset( $args['font_size'] ) && ( '' !== $args['font_size'] ) && ( 'select' !== $args['font_size'] ) && ( 'undefined' !== $args['font_size'] ) ) {
+			$selected_args['fontSize'] = $args['font_size'];
 		}
 
-		if ( isset( $args['keywords'] ) && ( $args['keywords'] !== '' ) && ( $args['keywords'] !== 'undefined' ) ) {
-			$selectedArgs['keywords'] = $args['keywords'];
+		if ( isset( $args['keywords'] ) && ( '' !== $args['keywords'] ) && ( 'undefined' !== $args['keywords'] ) ) {
+			$selected_args['keywords'] = $args['keywords'];
 		} else { //Send the keywords field even if it is empty
-			$selectedArgs['keywords'] = '';
+			$selected_args['keywords'] = '';
 		}
 
-		if ( isset( $args['native_text_color'] ) && ( $args['native_text_color'] !== '' ) && ( $args['native_text_color'] !== 'undefined' ) ) {
-			$selectedArgs['textColor'] = $args['native_text_color'];
+		if ( isset( $args['native_text_color'] ) && ( '' !== $args['native_text_color'] ) && ( 'undefined' !== $args['native_text_color'] ) ) {
+			$selected_args['textColor'] = $args['native_text_color'];
 		}
 
-		if ( isset( $args['native_bg_color'] ) && ( $args['native_bg_color'] !== '' ) && ( $args['native_bg_color'] !== 'undefined' ) ) {
-			$selectedArgs['backgroundColor'] = $args['native_bg_color'];
+		if ( isset( $args['native_bg_color'] ) && ( '' !== $args['native_bg_color'] ) && ( 'undefined' !== $args['native_bg_color'] ) ) {
+			$selected_args['backgroundColor'] = $args['native_bg_color'];
 		}
 	}
 
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		$viToken = wp_insert_vi_api_get_publisher_token();
-		if ( $viToken !== false ) {
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		$vi_token = wp_insert_vi_api_get_publisher_token();
+		if ( false !== $vi_token ) {
 			try {
 				$response = wp_remote_request(
-					$viSettings['jsTagAPI'],
+					$vi_settings['jsTagAPI'],
 					[
 						'method'  => 'POST',
 						'timeout' => 15,
 						'headers' => [
 							'Content-Type'  => 'application/json',
-							'Authorization' => $viToken,
+							'Authorization' => $vi_token,
 						],
-						'body'    => json_encode( $selectedArgs ),
+						'body'    => wp_json_encode( $selected_args ),
 					]
 				);
 				if ( ! is_wp_error( $response ) ) {
 					if ( 400 === wp_remote_retrieve_response_code( $response ) ) {
-						$responseBody = json_decode( $response['body'] );
-						if ( ( json_last_error() === JSON_ERROR_NONE ) && ( $responseBody->status === 'error' ) ) {
+						$response_body = json_decode( $response['body'] );
+						if ( ( JSON_ERROR_NONE === json_last_error() ) && ( 'error' === $response_body->status ) ) {
 							return [
 								'status'    => 'error',
 								'errorCode' => 'WIVI108',
-								'message'   => $responseBody->error->description,
+								'message'   => $response_body->error->description,
 							];
 						} else {
 							return [
@@ -377,11 +375,11 @@ function wp_insert_vi_api_set_vi_code( $args = null ) {
 							];
 						}
 					} elseif ( 201 === wp_remote_retrieve_response_code( $response ) ) {
-						$responseBody = json_decode( $response['body'] );
-						if ( ( json_last_error() === JSON_ERROR_NONE ) && ( $responseBody->status === 'ok' ) ) {
+						$response_body = json_decode( $response['body'] );
+						if ( ( JSON_ERROR_NONE === json_last_error() ) && ( 'ok' === $response_body->status ) ) {
 							delete_transient( 'wp_insert_vi_api_jstag' );
-							set_transient( 'wp_insert_vi_api_jstag', $responseBody->data, YEAR_IN_SECONDS );
-							return $responseBody->data;
+							set_transient( 'wp_insert_vi_api_jstag', $response_body->data, YEAR_IN_SECONDS );
+							return $response_body->data;
 						} else {
 							return [
 								'status'    => 'error',
@@ -420,43 +418,42 @@ function wp_insert_vi_api_set_vi_code( $args = null ) {
 	}
 }
 
-function wp_insert_vi_api_get_vi_code( $settingsKey = '' ) {
-	$jsTag = get_transient( 'wp_insert_vi_api_jstag' );
-	if ( ( $jsTag === false ) || ( $jsTag === '' ) || is_array( $jsTag ) ) {
-		if ( $settingsKey !== '' ) {
-			$vicodeSettings = get_option( $settingsKey );
-			$jsTag          = wp_insert_vi_api_set_vi_code( $vicodeSettings );
+function wp_insert_vi_api_get_vi_code( $settings_key = '' ) {
+	$js_tag = get_transient( 'wp_insert_vi_api_jstag' );
+	if ( ( false === $js_tag ) || ( '' === $js_tag ) || is_array( $js_tag ) ) {
+		if ( '' !== $settings_key ) {
+			$vicode_settings = get_option( $settings_key );
+			$js_tag          = wp_insert_vi_api_set_vi_code( $vicode_settings );
 		} else {
-			$jsTag = wp_insert_vi_api_set_vi_code();
+			$js_tag = wp_insert_vi_api_set_vi_code();
 		}
-		if ( ( $jsTag === false ) || ( $jsTag === '' ) || is_array( $jsTag ) ) {
+		if ( ( false === $js_tag ) || ( '' === $js_tag ) || is_array( $js_tag ) ) {
 			return false;
 		}
 	}
-	return '<script type="text/javascript">' . $jsTag . '</script>';
+	return '<script type="text/javascript">' . $js_tag . '</script>';
 }
 
 function wp_insert_vi_api_is_eu() {
-	$userIp = $_SERVER['REMOTE_ADDR'];
-	//$userIp = '185.216.33.82';
-	$isEU = get_transient( 'wp_insert_vi_api_is_eu_' . $userIp );
-	if ( $isEU === false ) {
+	$user_ip = $_SERVER['REMOTE_ADDR'];
+	$is_eu   = get_transient( 'wp_insert_vi_api_is_eu_' . $user_ip );
+	if ( false === $is_eu ) {
 		try {
 			$response = wp_remote_get(
-				'http://gdpr-check.net/gdpr/is-eu?ip=' . $userIp,
+				'http://gdpr-check.net/gdpr/is-eu?ip=' . $user_ip,
 				[ 'timeout' => 15 ]
 			);
 			if ( ! is_wp_error( $response ) ) {
 				if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
-					$responseBody = json_decode( $response['body'] );
-					if ( ( json_last_error() === JSON_ERROR_NONE ) ) {
-						if ( ( isset( $responseBody->is_eu ) ) && ( $responseBody->is_eu === '1' ) ) {
-							delete_transient( 'wp_insert_vi_api_is_eu_' . $userIp );
-							set_transient( 'wp_insert_vi_api_is_eu_' . $userIp, '1', WEEK_IN_SECONDS );
+					$response_body = json_decode( $response['body'] );
+					if ( ( JSON_ERROR_NONE === json_last_error() ) ) {
+						if ( ( isset( $response_body->is_eu ) ) && ( '1' === $response_body->is_eu ) ) {
+							delete_transient( 'wp_insert_vi_api_is_eu_' . $user_ip );
+							set_transient( 'wp_insert_vi_api_is_eu_' . $user_ip, '1', WEEK_IN_SECONDS );
 							return true;
 						} else {
-							delete_transient( 'wp_insert_vi_api_is_eu_' . $userIp );
-							set_transient( 'wp_insert_vi_api_is_eu_' . $userIp, '0', WEEK_IN_SECONDS );
+							delete_transient( 'wp_insert_vi_api_is_eu_' . $user_ip );
+							set_transient( 'wp_insert_vi_api_is_eu_' . $user_ip, '0', WEEK_IN_SECONDS );
 							return false;
 						}
 					} else {
@@ -469,7 +466,7 @@ function wp_insert_vi_api_is_eu() {
 		} catch ( Exception $ex ) {
 			return false;
 		}
-	} elseif ( $isEU === '1' ) {
+	} elseif ( '1' === $is_eu ) {
 			return true;
 	} else {
 		return false;
@@ -477,9 +474,9 @@ function wp_insert_vi_api_is_eu() {
 }
 
 function wp_insert_vi_api_get_vendor_list_version() {
-	$viSettings = wp_insert_vi_api_get_settings();
-	if ( ( $viSettings !== false ) && is_array( $viSettings ) ) {
-		return $viSettings['vendorListVersion'];
+	$vi_settings = wp_insert_vi_api_get_settings();
+	if ( ( false !== $vi_settings ) && is_array( $vi_settings ) ) {
+		return $vi_settings['vendorListVersion'];
 	}
 	return false;
 }

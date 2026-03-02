@@ -202,7 +202,7 @@ function wp_insert_vi_customize_adcode_form_get_content() {
 					'type'       => 'select',
 					'label'      => 'IAB Category*',
 					'optionName' => 'iab_category_parent',
-					'helpText'   => '</small><a class="textTip" target="_blank" href="' . wp_insert_vi_api_get_iabCategoriesURL() . '">See Complete List</a><small>',
+					'helpText'   => '</small><a class="textTip" target="_blank" href="' . wp_insert_vi_api_get_iab_categories_url() . '">See Complete List</a><small>',
 					'options'    => $IABParentCategories,
 				]
 			);
