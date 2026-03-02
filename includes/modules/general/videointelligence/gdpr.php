@@ -28,7 +28,7 @@ function wp_insert_vi_gdpr_popup_wp_footer() {
 	$vicodeSettings        = get_option( 'wp_insert_vi_code_settings' );
 	$labels                = [];
 	$viConsentPopupContent = wp_insert_vi_api_get_consent_popup_content();
-	if ( $viConsentPopupContent != false ) {
+	if ( $viConsentPopupContent !== false ) {
 		switch ( $vicodeSettings['language'] ) {
 			case 'de-de':
 				$labels['popupContent'] = $viConsentPopupContent->es;
@@ -88,7 +88,7 @@ function wp_insert_vi_gdpr_popup_wp_footer() {
 /* Begin Data Storage */
 add_action( 'init', 'wp_insert_vi_gdpr_data_init' );
 function wp_insert_vi_gdpr_data_init() {
-	if ( isset( $_GET['wp_insert_vi_consent'] ) && ( $_GET['wp_insert_vi_consent'] != '' ) ) {
+	if ( isset( $_GET['wp_insert_vi_consent'] ) && ( $_GET['wp_insert_vi_consent'] !== '' ) ) {
 		check_ajax_referer( 'wp_insert_vi_consent', 'wp_insert_vi_consent' );
 		wp_insert_post(
 			[

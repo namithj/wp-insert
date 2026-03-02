@@ -3,7 +3,7 @@
 add_action( 'init', 'wp_insert_upgrade_version', 0 );
 function wp_insert_upgrade_version() {
 	$databaseVersion = get_option( 'wp_insert_version' );
-	if ( $databaseVersion != WP_INSERT_VERSION ) {
+	if ( $databaseVersion !== WP_INSERT_VERSION ) {
 		do_action( 'wp_insert_upgrade_database' );
 		update_option( 'wp_insert_version', WP_INSERT_VERSION );
 	}

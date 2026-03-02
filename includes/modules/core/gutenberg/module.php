@@ -23,7 +23,7 @@ function wp_insert_gutenberg_get_ad_data() {
 		foreach ( $inpostads as $key => $inpostad ) {
 			/* Begin Workaround for migrating old users to new system (can be removed in a later version) */
 			$title = $key;
-			if ( ! isset( $inpostad['title'] ) || ( $inpostad['title'] == '' ) ) {
+			if ( ! isset( $inpostad['title'] ) || ( $inpostad['title'] === '' ) ) {
 				switch ( $key ) {
 					case 'above':
 						$title = 'Above Post Content';
@@ -57,7 +57,7 @@ function wp_insert_gutenberg_get_ad_data() {
 	if ( isset( $shortcodeads ) && is_array( $shortcodeads ) ) {
 		foreach ( $shortcodeads as $key => $shortcodead ) {
 			$title = $shortcodead['title'];
-			if ( ! isset( $shortcodead['title'] ) || ( $shortcodead['title'] == '' ) ) {
+			if ( ! isset( $shortcodead['title'] ) || ( $shortcodead['title'] === '' ) ) {
 				$title = $key;
 			}
 			$adData[] = [

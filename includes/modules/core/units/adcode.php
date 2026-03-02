@@ -11,7 +11,7 @@ function wp_insert_form_accordion_tabs_adcode( $control, $identifier, $location 
 				'optionName' => 'primary_ad_code',
 			]
 		);
-	if ( $location == 'inpostads' ) {
+	if ( $location === 'inpostads' ) {
 		$control->set_HTML( $control->HTML . '<p>Get more advertisers to bid on your ad inventory without compromising web vitals. Get access to 30+ partners with <a href="https://www.adpushup.com/lp/wp-insert/">AdPushup</a>.</p>' );
 	}
 		$control->create_section( 'Ad Code (Primary Network)' );
@@ -26,7 +26,7 @@ function wp_insert_form_accordion_tabs_adcode( $control, $identifier, $location 
 			]
 		);
 		$control->create_section( 'Ad Code (Secondary Network)' );
-	if ( $abtestingMode != '2' && $abtestingMode != '3' ) {
+	if ( $abtestingMode !== '2' && $abtestingMode !== '3' ) {
 		$control->set_HTML( '<div style="display: none;">' . $control->HTML . '</div>' );
 	}
 		echo $control->HTML;
@@ -40,7 +40,7 @@ function wp_insert_form_accordion_tabs_adcode( $control, $identifier, $location 
 			]
 		);
 		$control->create_section( 'Ad Code (Tertiary Network)' );
-	if ( $abtestingMode != '3' ) {
+	if ( $abtestingMode !== '3' ) {
 		$control->set_HTML( '<div style="display: none;">' . $control->HTML . '</div>' );
 	}
 		echo $control->HTML;

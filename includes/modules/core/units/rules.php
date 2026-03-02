@@ -10,7 +10,7 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 	}
 
 	echo '<h3>Rules</h3>';
-	if ( $location == 'inpostads' ) {
+	if ( $location === 'inpostads' ) {
 		echo '<div>';
 			$control->add_control(
 				[

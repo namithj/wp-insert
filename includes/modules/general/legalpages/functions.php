@@ -6,7 +6,7 @@ function wp_insert_legalpages_privacy_policy_form_get_content() {
 
 	$legalPages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['privacy_policy']['content'] ) && ( $legalPages['privacy_policy']['content'] != '' ) ) ) {
+	if ( ! ( isset( $legalPages['privacy_policy']['content'] ) && ( $legalPages['privacy_policy']['content'] !== '' ) ) ) {
 		$legalPages['privacy_policy']['content'] = wp_insert_legalpages_get_default_data( 'privacy_policy' );
 	}
 		$control = new smartlogixControls(
@@ -105,7 +105,7 @@ function wp_insert_legalpages_terms_conditions_form_get_content() {
 
 	$legalPages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['terms_conditions']['content'] ) && ( $legalPages['terms_conditions']['content'] != '' ) ) ) {
+	if ( ! ( isset( $legalPages['terms_conditions']['content'] ) && ( $legalPages['terms_conditions']['content'] !== '' ) ) ) {
 		$legalPages['terms_conditions']['content'] = wp_insert_legalpages_get_default_data( 'terms_conditions' );
 	}
 		$control = new smartlogixControls(
@@ -204,7 +204,7 @@ function wp_insert_legalpages_disclaimer_form_get_content() {
 
 	$legalPages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['disclaimer']['content'] ) && ( $legalPages['disclaimer']['content'] != '' ) ) ) {
+	if ( ! ( isset( $legalPages['disclaimer']['content'] ) && ( $legalPages['disclaimer']['content'] !== '' ) ) ) {
 		$legalPages['disclaimer']['content'] = wp_insert_legalpages_get_default_data( 'disclaimer' );
 	}
 		$control = new smartlogixControls(
@@ -303,7 +303,7 @@ function wp_insert_legalpages_copyright_form_get_content() {
 
 	$legalPages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['copyright']['content'] ) && ( $legalPages['copyright']['content'] != '' ) ) ) {
+	if ( ! ( isset( $legalPages['copyright']['content'] ) && ( $legalPages['copyright']['content'] !== '' ) ) ) {
 		$legalPages['copyright']['content'] = wp_insert_legalpages_get_default_data( 'copyright' );
 	}
 		$control = new smartlogixControls(
@@ -430,16 +430,16 @@ function wp_insert_legalpages_the_content( $content ) {
 	$legalPages = get_option( 'wp_insert_legalpages' );
 
 	if ( isset( $post ) && ( isset( $post->ID ) ) ) {
-		if ( isset( $legalPages['privacy_policy']['assigned_page'] ) && ( $legalPages['privacy_policy']['assigned_page'] != '' ) && ( $post->ID == $legalPages['privacy_policy']['assigned_page'] ) ) {
+		if ( isset( $legalPages['privacy_policy']['assigned_page'] ) && ( $legalPages['privacy_policy']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['privacy_policy']['assigned_page'] ) ) {
 			return do_shortcode( stripslashes( $legalPages['privacy_policy']['content'] ) );
 		}
-		if ( isset( $legalPages['terms_conditions']['assigned_page'] ) && ( $legalPages['terms_conditions']['assigned_page'] != '' ) && ( $post->ID == $legalPages['terms_conditions']['assigned_page'] ) ) {
+		if ( isset( $legalPages['terms_conditions']['assigned_page'] ) && ( $legalPages['terms_conditions']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['terms_conditions']['assigned_page'] ) ) {
 			return do_shortcode( stripslashes( $legalPages['terms_conditions']['content'] ) );
 		}
-		if ( isset( $legalPages['disclaimer']['assigned_page'] ) && ( $legalPages['disclaimer']['assigned_page'] != '' ) && ( $post->ID == $legalPages['disclaimer']['assigned_page'] ) ) {
+		if ( isset( $legalPages['disclaimer']['assigned_page'] ) && ( $legalPages['disclaimer']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['disclaimer']['assigned_page'] ) ) {
 			return do_shortcode( stripslashes( $legalPages['disclaimer']['content'] ) );
 		}
-		if ( isset( $legalPages['copyright']['assigned_page'] ) && ( $legalPages['copyright']['assigned_page'] != '' ) && ( $post->ID == $legalPages['copyright']['assigned_page'] ) ) {
+		if ( isset( $legalPages['copyright']['assigned_page'] ) && ( $legalPages['copyright']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['copyright']['assigned_page'] ) ) {
 			return do_shortcode( stripslashes( $legalPages['copyright']['content'] ) );
 		}
 	}

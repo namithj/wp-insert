@@ -4,7 +4,7 @@ function wp_insert_form_accordion_tabs_notes( $control, $identifier, $location )
 	echo '<div>';
 
 		$title = $identifier;
-	if ( ! isset( $control->values['title'] ) || ( $control->values['title'] == '' ) ) {
+	if ( ! isset( $control->values['title'] ) || ( $control->values['title'] === '' ) ) {
 		switch ( $identifier ) {
 			case 'above':
 				$title = 'Above Post Content';

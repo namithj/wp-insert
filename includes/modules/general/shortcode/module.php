@@ -37,7 +37,7 @@ add_shortcode( 'wpshortcodead', 'wp_insert_shortcodeads_shortcode' );
 add_shortcode( 'wpinsertshortcodead', 'wp_insert_shortcodeads_shortcode' );
 function wp_insert_shortcodeads_shortcode( $atts ) {
 	$atts = shortcode_atts( [ 'id' => '' ], $atts, 'wpinsertshortcodead' );
-	if ( isset( $atts['id'] ) && ( $atts['id'] != '' ) ) {
+	if ( isset( $atts['id'] ) && ( $atts['id'] !== '' ) ) {
 		$shortcodeads = get_option( 'wp_insert_shortcodeads' );
 		if ( isset( $shortcodeads[ $atts['id'] ] ) && is_array( $shortcodeads[ $atts['id'] ] ) && wp_insert_get_ad_status( $shortcodeads[ $atts['id'] ] ) ) {
 			return wp_insert_get_ad_unit( $shortcodeads[ $atts['id'] ] );

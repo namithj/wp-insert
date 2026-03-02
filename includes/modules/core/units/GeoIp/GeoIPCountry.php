@@ -212,7 +212,7 @@ class GeoIPCountry {
 		if ( $ip ) {
 			$this->resolve( $ip );
 		}
-		return ! $this->IsoCode or strcasecmp( $this->IsoCode, 'ZZ' ) == 0;
+		return ! $this->IsoCode or strcasecmp( $this->IsoCode, 'ZZ' ) === 0;
 	}
 	/**
 	 * @return $this
@@ -393,7 +393,7 @@ class GeoIPCountry {
 						$ExtractedFilename = pathinfo( $PackageFile, PATHINFO_FILENAME ) . '.csv';
 						$ExtractedFile     = realpath( $this->PackageLocation ) . self::DS . $ExtractedFilename;
 						switch ( $PackageExt ) :
-							case ( strcasecmp( $PackageExt, 'gz' ) == 0 ):
+							case ( strcasecmp( $PackageExt, 'gz' ) === 0 ):
 								$file    = gzopen( $PackageFile, 'rb' );
 								$Handler = fopen( $ExtractedFile, 'wb' );
 								while ( ! gzeof( $file ) ) {
@@ -402,12 +402,12 @@ class GeoIPCountry {
 								fclose( $Handler );
 								gzclose( $file );
 								break;
-							case ( strcasecmp( $PackageExt, 'zip' ) == 0 ):
+							case ( strcasecmp( $PackageExt, 'zip' ) === 0 ):
 								$zip = new ZipArchive();
 								if ( $zip->open( $PackageFile ) !== false ) {
 									for ( $i = 0; $i < $zip->numFiles; $i++ ) {
 										$filename = $zip->getNameIndex( $i );
-										if ( strcasecmp( pathinfo( $filename, PATHINFO_EXTENSION ), 'csv' ) == 0 ) {
+										if ( strcasecmp( pathinfo( $filename, PATHINFO_EXTENSION ), 'csv' ) === 0 ) {
 											copy( 'zip://' . $PackageFile . '#' . $filename, $ExtractedFile );
 										}
 									}

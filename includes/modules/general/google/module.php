@@ -84,7 +84,7 @@ function wp_insert_google_get_ad_units() {
 		echo '###SUCCESS###';
 		echo '<div id="wp_insert_google_active_ad_units">';
 		foreach ( $adUnits as $adUnit ) {
-			if ( $adUnit['status'] == 'ACTIVE' ) {
+			if ( $adUnit['status'] === 'ACTIVE' ) {
 				echo '<p>';
 					echo '<a class="wp_insert_ad_unit_title" title="Ad Unit" onclick="wp_insert_google_adunit_stats_handler(\'' . $adUnit['id'] . '\', \'' . $adUnit['name'] . '\', \'' . $adUnit['accountID'] . '\')" id="wp_insert_google_active_ad_' . $adUnit['id'] . '" href="javascript:;">' . $adUnit['name'] . '</a>';
 					//echo '<span class="dashicons dashicons-no wp_insert_delete_icon" title="Delete Ad Unit"></span>';
@@ -114,7 +114,7 @@ function wp_insert_google_get_chart() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 	$accessToken = wp_insert_google_api_get_access_token();
 	$accounts    = wp_insert_google_api_get_accounts( $accessToken );
-	if ( ( $accounts != false ) && is_array( $accounts ) && isset( $accounts[0]['id'] ) ) {
+	if ( ( $accounts !== false ) && is_array( $accounts ) && isset( $accounts[0]['id'] ) ) {
 		$revenueData = wp_insert_google_api_get_revenue_data( $accounts[0]['id'], date( 'Y-m-d', strtotime( '-1 month' ) ), date( 'Y-m-d' ), $accessToken );
 	}
 	if ( isset( $revenueData ) && is_array( $revenueData ) ) {

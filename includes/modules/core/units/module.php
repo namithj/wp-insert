@@ -32,7 +32,7 @@ function wp_insert_get_plugin_card( $title, $description, $type, $preTitle ) {
 		foreach ( $data as $key => $value ) {
 			/* Begin Workaround for migrating old users to new system (can be removed in a later version) */
 			$title = $key;
-			if ( ! isset( $value['title'] ) || ( $value['title'] == '' ) ) {
+			if ( ! isset( $value['title'] ) || ( $value['title'] === '' ) ) {
 				switch ( $key ) {
 					case 'above':
 						$title = 'Above Post Content';
@@ -80,7 +80,7 @@ function wp_insert_get_ad_form( $script = '' ) {
 		if ( strpos( $_POST['wp_insert_identifier'], '###DUPLICATE###' ) !== false ) {
 			$dataIdentifier                   = str_replace( '###DUPLICATE###', '', $_POST['wp_insert_identifier'] );
 			$data[ $dataIdentifier ]['title'] = $data[ $dataIdentifier ]['title'] . ' (Duplicate)';
-		} elseif ( $_POST['wp_insert_identifier'] != 'new' ) {
+		} elseif ( $_POST['wp_insert_identifier'] !== 'new' ) {
 			$identifier     = $_POST['wp_insert_identifier'];
 			$dataIdentifier = $identifier;
 		}
@@ -115,7 +115,7 @@ function wp_insert_get_ad_form( $script = '' ) {
 			echo '<script type="text/javascript">';
 				echo $control->JS;
 				echo 'jQuery("#wp_insert_' . $type . '_' . $identifier . '_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "auto" });';
-		if ( $script != '' ) {
+		if ( $script !== '' ) {
 			echo str_replace( '###IDENTIFIER###', $identifier, $script );
 		}
 			echo '</script>';
@@ -128,7 +128,7 @@ function wp_insert_get_ad_form( $script = '' ) {
 /* Begin Save Ad Data */
 function wp_insert_save_ad_data() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( ( isset( $_POST['wp_insert_identifier'] ) && ( $_POST['wp_insert_identifier'] != '' ) ) && ( isset( $_POST['wp_insert_type'] ) && ( $_POST['wp_insert_type'] != '' ) ) && ( isset( $_POST['wp_insert_parameters'] ) && ( is_array( $_POST['wp_insert_parameters'] ) ) ) ) {
+	if ( ( isset( $_POST['wp_insert_identifier'] ) && ( $_POST['wp_insert_identifier'] !== '' ) ) && ( isset( $_POST['wp_insert_type'] ) && ( $_POST['wp_insert_type'] !== '' ) ) && ( isset( $_POST['wp_insert_parameters'] ) && ( is_array( $_POST['wp_insert_parameters'] ) ) ) ) {
 		$type       = $_POST['wp_insert_type'];
 		$parameters = $_POST['wp_insert_parameters'];
 		$data       = get_option( 'wp_insert_' . $type );
@@ -152,7 +152,7 @@ function wp_insert_save_ad_data() {
 /* Begin Delete Ad Data */
 function wp_insert_delete_ad_data() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( ( isset( $_POST['wp_insert_identifier'] ) && ( $_POST['wp_insert_identifier'] != '' ) ) && ( isset( $_POST['wp_insert_type'] ) && ( $_POST['wp_insert_type'] != '' ) ) ) {
+	if ( ( isset( $_POST['wp_insert_identifier'] ) && ( $_POST['wp_insert_identifier'] !== '' ) ) && ( isset( $_POST['wp_insert_type'] ) && ( $_POST['wp_insert_type'] !== '' ) ) ) {
 		$type = $_POST['wp_insert_type'];
 		$data = get_option( 'wp_insert_' . $type );
 		unset( $data[ $_POST['wp_insert_identifier'] ] );

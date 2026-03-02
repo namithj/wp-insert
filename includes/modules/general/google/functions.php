@@ -9,7 +9,7 @@ function wp_insert_google_login_form_get_content() {
 			$control            = new smartlogixControls();
 
 			$clientId = '';
-	if ( isset( $authenticationData ) && is_array( $authenticationData ) && ( $authenticationData['clientId'] != '' ) ) {
+	if ( isset( $authenticationData ) && is_array( $authenticationData ) && ( $authenticationData['clientId'] !== '' ) ) {
 		$clientId = $authenticationData['clientId'];
 	}
 			$control->add_control(
@@ -27,7 +27,7 @@ function wp_insert_google_login_form_get_content() {
 			$control->clear_controls();
 
 			$clientSecret = '';
-	if ( isset( $authenticationData ) && is_array( $authenticationData ) && ( $authenticationData['clientSecret'] != '' ) ) {
+	if ( isset( $authenticationData ) && is_array( $authenticationData ) && ( $authenticationData['clientSecret'] !== '' ) ) {
 		$clientSecret = $authenticationData['clientSecret'];
 	}
 			$control->add_control(
@@ -113,9 +113,9 @@ function wp_insert_google_login_form_get_content() {
 add_action( 'wp_ajax_wp_insert_google_login_generate_auth_url', 'wp_insert_google_login_generate_auth_url' );
 function wp_insert_google_login_generate_auth_url() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( isset( $_POST['wp_insert_google_login_client_id'] ) && ( $_POST['wp_insert_google_login_client_id'] != '' ) ) {
+	if ( isset( $_POST['wp_insert_google_login_client_id'] ) && ( $_POST['wp_insert_google_login_client_id'] !== '' ) ) {
 		$wp_insert_google_api_get_auth_url = wp_insert_google_api_get_auth_url( $_POST['wp_insert_google_login_client_id'] );
-		if ( isset( $wp_insert_google_api_get_auth_url ) && ( $wp_insert_google_api_get_auth_url != '' ) ) {
+		if ( isset( $wp_insert_google_api_get_auth_url ) && ( $wp_insert_google_api_get_auth_url !== '' ) ) {
 			echo '###SUCCESS###';
 			echo $wp_insert_google_api_get_auth_url;
 		}
@@ -126,9 +126,9 @@ function wp_insert_google_login_generate_auth_url() {
 add_action( 'wp_ajax_wp_insert_google_login_form_save_action', 'wp_insert_google_login_form_save_action' );
 function wp_insert_google_login_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( isset( $_POST['wp_insert_google_login_client_id'] ) && ( $_POST['wp_insert_google_login_client_id'] != '' ) && isset( $_POST['wp_insert_google_login_client_secret'] ) && ( $_POST['wp_insert_google_login_client_secret'] != '' ) && isset( $_POST['wp_insert_google_login_auth_code'] ) && ( $_POST['wp_insert_google_login_auth_code'] != '' ) ) {
+	if ( isset( $_POST['wp_insert_google_login_client_id'] ) && ( $_POST['wp_insert_google_login_client_id'] !== '' ) && isset( $_POST['wp_insert_google_login_client_secret'] ) && ( $_POST['wp_insert_google_login_client_secret'] !== '' ) && isset( $_POST['wp_insert_google_login_auth_code'] ) && ( $_POST['wp_insert_google_login_auth_code'] !== '' ) ) {
 		$authenticationStatus = wp_insert_google_api_set_access_token( $_POST['wp_insert_google_login_client_id'], $_POST['wp_insert_google_login_client_secret'], $_POST['wp_insert_google_login_auth_code'] );
-		if ( isset( $authenticationStatus ) && ( $authenticationStatus == true ) ) {
+		if ( isset( $authenticationStatus ) && ( $authenticationStatus === true ) ) {
 			echo '###SUCCESS###';
 			wp_insert_google_plugin_card_content( true, true );
 		} else {
@@ -154,7 +154,7 @@ function wp_insert_google_logout_action() {
 add_action( 'wp_ajax_wp_insert_google_adunit_get_stats', 'wp_insert_google_adunit_get_stats' );
 function wp_insert_google_adunit_get_stats() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( isset( $_POST['wp_insert_google_account_id'] ) && ( $_POST['wp_insert_google_account_id'] != '' ) && isset( $_POST['wp_insert_google_adunit_id'] ) && ( $_POST['wp_insert_google_adunit_id'] != '' ) ) {
+	if ( isset( $_POST['wp_insert_google_account_id'] ) && ( $_POST['wp_insert_google_account_id'] !== '' ) && isset( $_POST['wp_insert_google_adunit_id'] ) && ( $_POST['wp_insert_google_adunit_id'] !== '' ) ) {
 		$wp_insert_google_account_id = $_POST['wp_insert_google_account_id'];
 		$wp_insert_google_adunit_id  = $_POST['wp_insert_google_adunit_id'];
 

@@ -17,7 +17,7 @@ add_action( 'admin_enqueue_scripts', 'wp_insert_admin_enqueue_scripts', 99999 );
 function wp_insert_admin_enqueue_scripts( $page ) {
 	wp_register_script( 'wp-insert-global-js', WP_INSERT_URL . 'includes/assets/js/wp-insert-global.js', [ 'jquery' ], WP_INSERT_VERSION );
 	wp_enqueue_script( 'wp-insert-global-js' );
-	if ( $page == 'toplevel_page_wp-insert' ) {
+	if ( $page === 'toplevel_page_wp-insert' ) {
 		wp_register_style( 'wp-insert-css', WP_INSERT_URL . 'includes/assets/css/wp-insert.css', [], WP_INSERT_VERSION . rand( 0, 9999 ) );
 		wp_enqueue_style( 'wp-insert-css' );
 		wp_register_style( 'wp-insert-jquery-ui', 'https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css', [], WP_INSERT_VERSION );

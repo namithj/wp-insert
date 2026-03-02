@@ -18,7 +18,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'label'      => 'Device Width (px)',
 				'optionName' => 'device_large_desktop_width',
 				'helpText'   => 'The width of the browser screen.',
-				'value'      => ( ( ! isset( $control->values['device_large_desktop_width'] ) || ( $control->values['device_large_desktop_width'] == '' ) ) ? '1200' : $control->values['device_large_desktop_width'] ),
+				'value'      => ( ( ! isset( $control->values['device_large_desktop_width'] ) || ( $control->values['device_large_desktop_width'] === '' ) ) ? '1200' : $control->values['device_large_desktop_width'] ),
 			]
 		);
 		$control->add_control(
@@ -58,7 +58,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'label'      => 'Device Width (px)',
 				'optionName' => 'device_medium_desktop_width',
 				'helpText'   => 'The width of the browser screen.',
-				'value'      => ( ( ! isset( $control->values['device_medium_desktop_width'] ) || ( $control->values['device_medium_desktop_width'] == '' ) ) ? '992' : $control->values['device_medium_desktop_width'] ),
+				'value'      => ( ( ! isset( $control->values['device_medium_desktop_width'] ) || ( $control->values['device_medium_desktop_width'] === '' ) ) ? '992' : $control->values['device_medium_desktop_width'] ),
 			]
 		);
 		$control->add_control(
@@ -98,7 +98,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'label'      => 'Device Width (px)',
 				'optionName' => 'device_tablet_width',
 				'helpText'   => 'The width of the browser screen.',
-				'value'      => ( ( ! isset( $control->values['device_tablet_width'] ) || ( $control->values['device_tablet_width'] == '' ) ) ? '768' : $control->values['device_tablet_width'] ),
+				'value'      => ( ( ! isset( $control->values['device_tablet_width'] ) || ( $control->values['device_tablet_width'] === '' ) ) ? '768' : $control->values['device_tablet_width'] ),
 			]
 		);
 		$control->add_control(
@@ -138,7 +138,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'label'      => 'Device Width (px)',
 				'optionName' => 'device_mobile_width',
 				'helpText'   => 'The width of the browser screen.',
-				'value'      => ( ( ! isset( $control->values['device_mobile_width'] ) || ( $control->values['device_mobile_width'] == '' ) ) ? '480' : $control->values['device_mobile_width'] ),
+				'value'      => ( ( ! isset( $control->values['device_mobile_width'] ) || ( $control->values['device_mobile_width'] === '' ) ) ? '480' : $control->values['device_mobile_width'] ),
 			]
 		);
 		$control->add_control(

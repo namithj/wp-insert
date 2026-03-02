@@ -39,7 +39,7 @@ function wp_insert_trackingcodes_google_analytics_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	$trackingCodes                        = get_option( 'wp_insert_trackingcodes' );
-	$trackingCodes['analytics']['status'] = ( ( isset( $_POST['wp_insert_trackingcodes_analytics_status'] ) && ( $_POST['wp_insert_trackingcodes_analytics_status'] == 'true' ) ) ? '1' : '' );
+	$trackingCodes['analytics']['status'] = ( ( isset( $_POST['wp_insert_trackingcodes_analytics_status'] ) && ( $_POST['wp_insert_trackingcodes_analytics_status'] === 'true' ) ) ? '1' : '' );
 	$trackingCodes['analytics']['code']   = ( ( isset( $_POST['wp_insert_trackingcodes_analytics_code'] ) ) ? $_POST['wp_insert_trackingcodes_analytics_code'] : '' );
 	update_option( 'wp_insert_trackingcodes', $trackingCodes );
 	die();
@@ -100,7 +100,7 @@ function wp_insert_trackingcodes_header_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	$trackingCodes                     = get_option( 'wp_insert_trackingcodes' );
-	$trackingCodes['header']['status'] = ( ( isset( $_POST['wp_insert_trackingcodes_header_status'] ) && ( $_POST['wp_insert_trackingcodes_header_status'] == 'true' ) ) ? '1' : '' );
+	$trackingCodes['header']['status'] = ( ( isset( $_POST['wp_insert_trackingcodes_header_status'] ) && ( $_POST['wp_insert_trackingcodes_header_status'] === 'true' ) ) ? '1' : '' );
 	$trackingCodes['header']['code']   = ( ( isset( $_POST['wp_insert_trackingcodes_header_code'] ) ) ? $_POST['wp_insert_trackingcodes_header_code'] : '' );
 	update_option( 'wp_insert_trackingcodes', $trackingCodes );
 
@@ -158,7 +158,7 @@ function wp_insert_trackingcodes_footer_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	$trackingCodes                     = get_option( 'wp_insert_trackingcodes' );
-	$trackingCodes['footer']['status'] = ( ( isset( $_POST['wp_insert_trackingcodes_footer_status'] ) && ( $_POST['wp_insert_trackingcodes_footer_status'] == 'true' ) ) ? '1' : '' );
+	$trackingCodes['footer']['status'] = ( ( isset( $_POST['wp_insert_trackingcodes_footer_status'] ) && ( $_POST['wp_insert_trackingcodes_footer_status'] === 'true' ) ) ? '1' : '' );
 	$trackingCodes['footer']['code']   = ( ( isset( $_POST['wp_insert_trackingcodes_footer_code'] ) ) ? $_POST['wp_insert_trackingcodes_footer_code'] : '' );
 	update_option( 'wp_insert_trackingcodes', $trackingCodes );
 

@@ -224,7 +224,7 @@ function wp_insert_inpostads_the_content( $content ) {
 				foreach ( $matches[2] as $key => $value ) {
 					if ( 'wpinsertinpostad' === $value ) {
 						$shortcodeAtts = shortcode_parse_atts( $matches[3][ $key ] );
-						if ( isset( $shortcodeAtts ) && isset( $shortcodeAtts['id'] ) && ( $shortcodeAtts['id'] != '' ) ) {
+						if ( isset( $shortcodeAtts ) && isset( $shortcodeAtts['id'] ) && ( $shortcodeAtts['id'] !== '' ) ) {
 							$shortcodeInsertions[] = $shortcodeAtts['id'];
 						}
 					}
@@ -264,13 +264,13 @@ function wp_insert_inpostads_the_content( $content ) {
 								break;
 							case 'middle':
 								if ( $paragraphCount > 1 ) {
-									if ( ( $inpostad['paragraph_buffer_count'] == 0 ) || ( $inpostad['paragraph_buffer_count'] == '' ) ) {
+									if ( ( $inpostad['paragraph_buffer_count'] === 0 ) || ( $inpostad['paragraph_buffer_count'] === '' ) ) {
 										$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, round( $paragraphCount / 2 ) );
 									} else {
 										$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, $inpostad['paragraph_buffer_count'] );
 									}
 									if ( $position ) {
-										if ( ( $inpostad['minimum_character_count'] == 0 ) || ( $inpostad['minimum_character_count'] == '' ) ) {
+										if ( ( $inpostad['minimum_character_count'] === 0 ) || ( $inpostad['minimum_character_count'] === '' ) ) {
 											$content = substr_replace( $content, '/p>' . wp_insert_get_ad_unit( $inpostad ), $position, 3 );
 										} elseif ( strlen( strip_tags( $content ) ) > $inpostad['minimum_character_count'] ) {
 												$content = substr_replace( $content, '/p>' . wp_insert_get_ad_unit( $inpostad ), $position, 3 );
@@ -331,7 +331,7 @@ function wp_insert_inpostads_get_paragraph_count( $content ) {
 function wp_insert_inpostads_get_insertion_position( $search, $string, $offset ) {
 	$arr = explode( $search, $string );
 	switch ( $offset ) {
-		case $offset == 0:
+		case $offset === 0:
 			return false;
 			break;
 		case $offset > max( array_keys( $arr ) ):
@@ -348,7 +348,7 @@ function wp_insert_inpostads_get_insertion_position( $search, $string, $offset )
 add_shortcode( 'wpinsertinpostad', 'wp_insert_inpostads_get_shortcode' );
 function wp_insert_inpostads_get_shortcode( $atts ) {
 	$atts = shortcode_atts( [ 'id' => '' ], $atts, 'wpinsertinpostad' );
-	if ( isset( $atts['id'] ) && ( $atts['id'] != '' ) ) {
+	if ( isset( $atts['id'] ) && ( $atts['id'] !== '' ) ) {
 		$adunit = get_option( 'wp_insert_inpostads' );
 		if ( isset( $adunit ) && isset( $adunit[ $atts['id'] ] ) && is_array( $adunit[ $atts['id'] ] ) && wp_insert_get_ad_status( $adunit[ $atts['id'] ] ) ) {
 			return wp_insert_get_ad_unit( $adunit[ $atts['id'] ] );

@@ -10,8 +10,8 @@ function wp_insert_get_ad_unit( $data, $additionalStyles = '' ) {
 	$adunitClass  = substr( str_shuffle( str_repeat( 'abcdefghijklmnopqrstuvwxyz', 5 ) ), 0, 5 ) . uniqid();
 	$adUnitStyles = wp_insert_get_ad_unit_styles( $data, $adunitClass );
 	$adUnitCode   = wp_insert_get_ad_unit_code( $data );
-	if ( $adUnitCode != '' ) {
-		return '<div class="' . $adunitClass . '" ' . ( ( $additionalStyles != '' ) ? 'style="' . $additionalStyles . '"' : '' ) . '>' . $adUnitCode . '</div>' . $adUnitStyles;
+	if ( $adUnitCode !== '' ) {
+		return '<div class="' . $adunitClass . '" ' . ( ( $additionalStyles !== '' ) ? 'style="' . $additionalStyles . '"' : '' ) . '>' . $adUnitCode . '</div>' . $adUnitStyles;
 	}
 	return '';
 }
@@ -20,13 +20,13 @@ function wp_insert_get_ad_unit( $data, $additionalStyles = '' ) {
 /* Begin Ad Unit Styles */
 function wp_insert_get_ad_unit_styles( $data, $adunitClass ) {
 	$adBreakpoints = [
-		'device_large_desktop_width'  => (int) ( ( ! isset( $data['device_large_desktop_width'] ) || ( $data['device_large_desktop_width'] == '' ) ) ? '1200' : $data['device_large_desktop_width'] ),
-		'device_medium_desktop_width' => (int) ( ( ! isset( $data['device_medium_desktop_width'] ) || ( $data['device_medium_desktop_width'] == '' ) ) ? '992' : $data['device_medium_desktop_width'] ),
-		'device_tablet_width'         => (int) ( ( ! isset( $data['device_tablet_width'] ) || ( $data['device_tablet_width'] == '' ) ) ? '768' : $data['device_tablet_width'] ),
-		'device_mobile_width'         => (int) ( ( ! isset( $data['device_mobile_width'] ) || ( $data['device_mobile_width'] == '' ) ) ? '480' : $data['device_mobile_width'] ),
+		'device_large_desktop_width'  => (int) ( ( ! isset( $data['device_large_desktop_width'] ) || ( $data['device_large_desktop_width'] === '' ) ) ? '1200' : $data['device_large_desktop_width'] ),
+		'device_medium_desktop_width' => (int) ( ( ! isset( $data['device_medium_desktop_width'] ) || ( $data['device_medium_desktop_width'] === '' ) ) ? '992' : $data['device_medium_desktop_width'] ),
+		'device_tablet_width'         => (int) ( ( ! isset( $data['device_tablet_width'] ) || ( $data['device_tablet_width'] === '' ) ) ? '768' : $data['device_tablet_width'] ),
+		'device_mobile_width'         => (int) ( ( ! isset( $data['device_mobile_width'] ) || ( $data['device_mobile_width'] === '' ) ) ? '480' : $data['device_mobile_width'] ),
 	];
 	$adUnitStyles  = '<style type="text/css">' . "\r\n";
-	if ( isset( $data['styles'] ) && ( $data['styles'] != '' ) ) {
+	if ( isset( $data['styles'] ) && ( $data['styles'] !== '' ) ) {
 		$adUnitStyles     .= '.' . $adunitClass . ' {' . "\r\n";
 			$adUnitStyles .= $data['styles'] . "\r\n";
 		$adUnitStyles     .= '}' . "\r\n";
@@ -37,10 +37,10 @@ function wp_insert_get_ad_unit_styles( $data, $adunitClass ) {
 		$adUnitStyles .= 'display: none;' . "\r\n";
 	} else {
 		$adUnitStyles .= 'display: block;' . "\r\n";
-		if ( isset( $data['device_large_desktop_adwidth'] ) && ( $data['device_large_desktop_adwidth'] != '' ) && ( $data['device_large_desktop_adwidth'] != '0' ) ) {
+		if ( isset( $data['device_large_desktop_adwidth'] ) && ( $data['device_large_desktop_adwidth'] !== '' ) && ( $data['device_large_desktop_adwidth'] !== '0' ) ) {
 			$adUnitStyles .= 'width: ' . $data['device_large_desktop_adwidth'] . 'px;' . "\r\n";
 		}
-		if ( isset( $data['device_large_desktop_styles'] ) && ( $data['device_large_desktop_styles'] != '' ) ) {
+		if ( isset( $data['device_large_desktop_styles'] ) && ( $data['device_large_desktop_styles'] !== '' ) ) {
 			$adUnitStyles .= $data['device_large_desktop_styles'] . "\r\n";
 		}
 	}
@@ -52,10 +52,10 @@ function wp_insert_get_ad_unit_styles( $data, $adunitClass ) {
 		$adUnitStyles .= 'display: none;' . "\r\n";
 	} else {
 		$adUnitStyles .= 'display: block;' . "\r\n";
-		if ( isset( $data['device_medium_desktop_adwidth'] ) && ( $data['device_medium_desktop_adwidth'] != '' ) && ( $data['device_medium_desktop_adwidth'] != '0' ) ) {
+		if ( isset( $data['device_medium_desktop_adwidth'] ) && ( $data['device_medium_desktop_adwidth'] !== '' ) && ( $data['device_medium_desktop_adwidth'] !== '0' ) ) {
 			$adUnitStyles .= 'width: ' . $data['device_medium_desktop_adwidth'] . 'px;' . "\r\n";
 		}
-		if ( isset( $data['device_medium_desktop_styles'] ) && ( $data['device_medium_desktop_styles'] != '' ) ) {
+		if ( isset( $data['device_medium_desktop_styles'] ) && ( $data['device_medium_desktop_styles'] !== '' ) ) {
 			$adUnitStyles .= $data['device_medium_desktop_styles'] . "\r\n";
 		}
 	}
@@ -67,10 +67,10 @@ function wp_insert_get_ad_unit_styles( $data, $adunitClass ) {
 		$adUnitStyles .= 'display: none;' . "\r\n";
 	} else {
 		$adUnitStyles .= 'display: block;' . "\r\n";
-		if ( isset( $data['device_tablet_adwidth'] ) && ( $data['device_tablet_adwidth'] != '' ) && ( $data['device_tablet_adwidth'] != '0' ) ) {
+		if ( isset( $data['device_tablet_adwidth'] ) && ( $data['device_tablet_adwidth'] !== '' ) && ( $data['device_tablet_adwidth'] !== '0' ) ) {
 			$adUnitStyles .= 'width: ' . $data['device_tablet_adwidth'] . 'px;' . "\r\n";
 		}
-		if ( isset( $data['device_tablet_styles'] ) && ( $data['device_tablet_styles'] != '' ) ) {
+		if ( isset( $data['device_tablet_styles'] ) && ( $data['device_tablet_styles'] !== '' ) ) {
 			$adUnitStyles .= $data['device_tablet_styles'] . "\r\n";
 		}
 	}
@@ -82,10 +82,10 @@ function wp_insert_get_ad_unit_styles( $data, $adunitClass ) {
 		$adUnitStyles .= 'display: none;' . "\r\n";
 	} else {
 		$adUnitStyles .= 'display: block;' . "\r\n";
-		if ( isset( $data['device_mobile_adwidth'] ) && ( $data['device_mobile_adwidth'] != '' ) && ( $data['device_mobile_adwidth'] != '0' ) ) {
+		if ( isset( $data['device_mobile_adwidth'] ) && ( $data['device_mobile_adwidth'] !== '' ) && ( $data['device_mobile_adwidth'] !== '0' ) ) {
 			$adUnitStyles .= 'width: ' . $data['device_mobile_adwidth'] . 'px;' . "\r\n";
 		}
-		if ( isset( $data['device_mobile_styles'] ) && ( $data['device_mobile_styles'] != '' ) ) {
+		if ( isset( $data['device_mobile_styles'] ) && ( $data['device_mobile_styles'] !== '' ) ) {
 			$adUnitStyles .= $data['device_mobile_styles'] . "\r\n";
 		}
 	}
@@ -97,10 +97,10 @@ function wp_insert_get_ad_unit_styles( $data, $adunitClass ) {
 		$adUnitStyles .= 'display: none;' . "\r\n";
 	} else {
 		$adUnitStyles .= 'display: block;' . "\r\n";
-		if ( isset( $data['device_small_mobile_adwidth'] ) && ( $data['device_small_mobile_adwidth'] != '' ) && ( $data['device_small_mobile_adwidth'] != '0' ) ) {
+		if ( isset( $data['device_small_mobile_adwidth'] ) && ( $data['device_small_mobile_adwidth'] !== '' ) && ( $data['device_small_mobile_adwidth'] !== '0' ) ) {
 			$adUnitStyles .= 'width: ' . $data['device_small_mobile_adwidth'] . 'px;' . "\r\n";
 		}
-		if ( isset( $data['device_small_mobile_styles'] ) && ( $data['device_small_mobile_styles'] != '' ) ) {
+		if ( isset( $data['device_small_mobile_styles'] ) && ( $data['device_small_mobile_styles'] !== '' ) ) {
 			$adUnitStyles .= $data['device_small_mobile_styles'] . "\r\n";
 		}
 	}
@@ -118,18 +118,18 @@ function wp_insert_get_ad_unit_code( $data ) {
 	global $wpInsertGeoLocation;
 
 	$adUnitCode = '';
-	if ( ( $wpInsertGeoLocation != false ) && ( $wpInsertGeoLocation != '' ) && ( ( is_array( $data['geo_group1_countries'] ) && ( count( $data['geo_group1_countries'] ) > 0 ) ) || ( is_array( $data['geo_group2_countries'] ) && ( count( $adOptions['geo_group1_countries'] ) > 0 ) ) ) ) {
-		if ( ( $data['geo_group1_adcode'] != '' ) && in_array( $wpInsertGeoLocation, $data['geo_group1_countries'] ) ) {
+	if ( ( $wpInsertGeoLocation !== false ) && ( $wpInsertGeoLocation !== '' ) && ( ( is_array( $data['geo_group1_countries'] ) && ( count( $data['geo_group1_countries'] ) > 0 ) ) || ( is_array( $data['geo_group2_countries'] ) && ( count( $adOptions['geo_group1_countries'] ) > 0 ) ) ) ) {
+		if ( ( $data['geo_group1_adcode'] !== '' ) && in_array( $wpInsertGeoLocation, $data['geo_group1_countries'] ) ) {
 			$adUnitCode = do_shortcode( stripslashes( $data['geo_group1_adcode'] ) );
 		}
-		if ( ( $data['geo_group2_adcode'] != '' ) && in_array( $wpInsertGeoLocation, $data['geo_group2_countries'] ) ) {
+		if ( ( $data['geo_group2_adcode'] !== '' ) && in_array( $wpInsertGeoLocation, $data['geo_group2_countries'] ) ) {
 			$adUnitCode = do_shortcode( stripslashes( $data['geo_group2_adcode'] ) );
 		}
 	}
-	if ( $adUnitCode == '' ) {
+	if ( $adUnitCode === '' ) {
 		switch ( $wpInsertABTestingMode ) {
 			case 1:
-				if ( isset( $data['primary_ad_code_type'] ) && ( $data['primary_ad_code_type'] == 'vicode' ) ) {
+				if ( isset( $data['primary_ad_code_type'] ) && ( $data['primary_ad_code_type'] === 'vicode' ) ) {
 					if ( $wpInsertVIAdDisplayed !== true ) {
 						$wpInsertVIAdDisplayed = true;
 						$adUnitCode            = '<div id="wp_insert_vi_ad">' . wp_insert_vi_api_get_vi_code( 'wp_insert_vi_code_settings' ) . '</div>';
@@ -159,7 +159,7 @@ add_action( 'the_content', 'wp_insert_track_post_instance', 1 );
 function wp_insert_track_post_instance( $content ) {
 	global $wpInsertPostInstance;
 	if ( is_main_query() ) {
-		if ( $wpInsertPostInstance == '' ) {
+		if ( $wpInsertPostInstance === '' ) {
 			$wpInsertPostInstance = 1;
 		} else {
 			++$wpInsertPostInstance;

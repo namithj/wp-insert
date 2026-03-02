@@ -4,7 +4,7 @@ add_action( 'wp_ajax_wp_insert_vi_signup_form_get_content', 'wp_insert_vi_signup
 function wp_insert_vi_signup_form_get_content() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 	$signupURL = wp_insert_vi_api_get_signupurl();
-	if ( ( $signupURL != false ) && ( $signupURL != '' ) ) {
+	if ( ( $signupURL !== false ) && ( $signupURL !== '' ) ) {
 		echo '<div class="wp_insert_popup_content_wrapper">';
 			echo '<iframe src="' . $signupURL . '?email=' . get_bloginfo( 'admin_email' ) . '&domain=' . wp_insert_get_domain_name_from_url( get_bloginfo( 'url' ) ) . '&aid=WP_insert" style="width: 100%; max-width: 870px; min-height: 554px;"></iframe>';
 			echo '<script type="text/javascript">';
@@ -41,11 +41,11 @@ function wp_insert_vi_login_form_get_content() {
 add_action( 'wp_ajax_wp_insert_vi_login_form_save_action', 'wp_insert_vi_login_form_save_action' );
 function wp_insert_vi_login_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( isset( $_POST['wp_insert_vi_login_username'] ) && ( $_POST['wp_insert_vi_login_username'] != '' ) && isset( $_POST['wp_insert_vi_login_password'] ) && ( $_POST['wp_insert_vi_login_password'] != '' ) ) {
+	if ( isset( $_POST['wp_insert_vi_login_username'] ) && ( $_POST['wp_insert_vi_login_username'] !== '' ) && isset( $_POST['wp_insert_vi_login_password'] ) && ( $_POST['wp_insert_vi_login_password'] !== '' ) ) {
 		$token = wp_insert_vi_api_login( $_POST['wp_insert_vi_login_username'], $_POST['wp_insert_vi_login_password'] );
-		if ( is_array( $token ) && ( isset( $token['status'] ) ) && ( $token['status'] == 'error' ) ) {
+		if ( is_array( $token ) && ( isset( $token['status'] ) ) && ( $token['status'] === 'error' ) ) {
 			wp_insert_vi_login_form_get_controls();
-			if ( $token['errorCode'] == 'WIVI008' ) {
+			if ( $token['errorCode'] === 'WIVI008' ) {
 				echo '<p class="wp_insert_vi_login_error">' . $token['message'] . '</p>';
 			} else {
 				echo '<p class="wp_insert_vi_login_error">Error Code: ' . $token['errorCode'] . '<br />Please contact support or try again later!' . '</p>';
@@ -223,7 +223,7 @@ function wp_insert_vi_customize_adcode_form_get_content() {
 					'value' => 'select',
 				],
 			];
-			if ( $languages != false ) {
+			if ( $languages !== false ) {
 				foreach ( $languages as $key => $value ) {
 					$languageOptions[] = [
 						'text'  => $value,
@@ -318,8 +318,8 @@ function wp_insert_vi_customize_adcode_form_save_action() {
 	$vicodeSettings['show_gdpr_authorization'] = ( ( isset( $_POST['wp_insert_vi_code_settings_show_gdpr_authorization'] ) ) ? $_POST['wp_insert_vi_code_settings_show_gdpr_authorization'] : '' );
 	update_option( 'wp_insert_vi_code_settings', $vicodeSettings );
 	$viCodeStatus = wp_insert_vi_api_set_vi_code( $vicodeSettings );
-	if ( is_array( $viCodeStatus ) && ( isset( $viCodeStatus['status'] ) ) && ( $viCodeStatus['status'] == 'error' ) ) {
-		if ( $viCodeStatus['errorCode'] == 'WIVI108' ) {
+	if ( is_array( $viCodeStatus ) && ( isset( $viCodeStatus['status'] ) ) && ( $viCodeStatus['status'] === 'error' ) ) {
+		if ( $viCodeStatus['errorCode'] === 'WIVI108' ) {
 			echo '###FAIL###';
 			echo '<p class="viError">' . $viCodeStatus['message'] . '</p>';
 		} else {
@@ -338,55 +338,55 @@ function wp_insert_vi_customize_adcode_get_settings() {
 	$output = '';
 	if ( isset( $vicodeSettings ) && is_array( $vicodeSettings ) ) {
 		$output .= '<p class="wp_insert_vi_code_data_wrapper">';
-		if ( isset( $vicodeSettings['ad_unit_type'] ) && ( $vicodeSettings['ad_unit_type'] != '' ) && ( $vicodeSettings['ad_unit_type'] != 'select' ) ) {
+		if ( isset( $vicodeSettings['ad_unit_type'] ) && ( $vicodeSettings['ad_unit_type'] !== '' ) && ( $vicodeSettings['ad_unit_type'] !== 'select' ) ) {
 			$output .= '<label>Ad Unit:</label><b>vi stories</b>';
 		}
 
-		if ( isset( $vicodeSettings['keywords'] ) && ( $vicodeSettings['keywords'] != '' ) ) {
+		if ( isset( $vicodeSettings['keywords'] ) && ( $vicodeSettings['keywords'] !== '' ) ) {
 			$output .= '<label>Keywords:</label><b>' . $vicodeSettings['keywords'] . '</b>';
 		}
 
-		if ( isset( $vicodeSettings['iab_category_child'] ) && ( $vicodeSettings['iab_category_child'] != '' ) && ( $vicodeSettings['iab_category_child'] != 'select' ) ) {
+		if ( isset( $vicodeSettings['iab_category_child'] ) && ( $vicodeSettings['iab_category_child'] !== '' ) && ( $vicodeSettings['iab_category_child'] !== 'select' ) ) {
 			$IABChildCategories = wp_insert_vi_get_constant_iab_child_categories();
 			foreach ( $IABChildCategories as $IABChildCategoryItem ) {
-				if ( $vicodeSettings['iab_category_child'] == $IABChildCategoryItem['value'] ) {
+				if ( $vicodeSettings['iab_category_child'] === $IABChildCategoryItem['value'] ) {
 					$output .= '<label>IAB Category:</label><b>' . $IABChildCategoryItem['text'] . '</b>';
 				}
 			}
 		}
 
 		$languages = wp_insert_vi_api_get_languages();
-		if ( isset( $vicodeSettings['language'] ) && ( $vicodeSettings['language'] != '' ) && ( $vicodeSettings['language'] != 'select' ) ) {
-			if ( $languages != false ) {
+		if ( isset( $vicodeSettings['language'] ) && ( $vicodeSettings['language'] !== '' ) && ( $vicodeSettings['language'] !== 'select' ) ) {
+			if ( $languages !== false ) {
 				foreach ( $languages as $key => $value ) {
-					if ( $vicodeSettings['language'] == $key ) {
+					if ( $vicodeSettings['language'] === $key ) {
 						$output .= '<label>Language:</label><b>' . $value . '</b>';
 					}
 				}
 			}
 		}
 
-		if ( isset( $vicodeSettings['native_bg_color'] ) && ( $vicodeSettings['native_bg_color'] != '' ) ) {
+		if ( isset( $vicodeSettings['native_bg_color'] ) && ( $vicodeSettings['native_bg_color'] !== '' ) ) {
 			$output .= '<label>Native Background color:</label><b>' . $vicodeSettings['native_bg_color'] . '</b>';
 		}
 
-		if ( isset( $vicodeSettings['native_text_color'] ) && ( $vicodeSettings['native_text_color'] != '' ) ) {
+		if ( isset( $vicodeSettings['native_text_color'] ) && ( $vicodeSettings['native_text_color'] !== '' ) ) {
 			$output .= '<label>Native Text color:</label><b>' . $vicodeSettings['native_text_color'] . '</b>';
 		}
 
-		if ( isset( $vicodeSettings['font_family'] ) && ( $vicodeSettings['font_family'] != '' ) && ( $vicodeSettings['font_family'] != 'select' ) ) {
+		if ( isset( $vicodeSettings['font_family'] ) && ( $vicodeSettings['font_family'] !== '' ) && ( $vicodeSettings['font_family'] !== 'select' ) ) {
 			$fontFamily = wp_insert_vi_get_constant_fonts();
 			foreach ( $fontFamily as $fontFamilyItem ) {
-				if ( $vicodeSettings['font_family'] == $fontFamilyItem['value'] ) {
+				if ( $vicodeSettings['font_family'] === $fontFamilyItem['value'] ) {
 					$output .= '<label>Native Text Font Family:</label><b>' . $fontFamilyItem['text'] . '</b>';
 				}
 			}
 		}
 
-		if ( isset( $vicodeSettings['font_size'] ) && ( $vicodeSettings['font_size'] != '' ) && ( $vicodeSettings['font_size'] != 'select' ) ) {
+		if ( isset( $vicodeSettings['font_size'] ) && ( $vicodeSettings['font_size'] !== '' ) && ( $vicodeSettings['font_size'] !== 'select' ) ) {
 			$fontSize = wp_insert_vi_get_constant_font_sizes();
 			foreach ( $fontSize as $fontSizeItem ) {
-				if ( $vicodeSettings['font_size'] == $fontSizeItem['value'] ) {
+				if ( $vicodeSettings['font_size'] === $fontSizeItem['value'] ) {
 					$output .= '<label>Native Text Font Size:</label><b>' . $fontSizeItem['text'] . '</b>';
 				}
 			}

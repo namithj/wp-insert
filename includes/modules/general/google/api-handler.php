@@ -5,7 +5,7 @@ function wp_insert_google_api_get_auth_url( $clientId ) {
 
 function wp_insert_google_api_get_authentication_data() {
 	$authenticationData = get_option( 'wp_insert_google_api_authentication_data', true );
-	if ( isset( $authenticationData ) && ( is_array( $authenticationData ) ) && isset( $authenticationData['clientId'] ) && ( $authenticationData['clientId'] != '' ) && isset( $authenticationData['clientSecret'] ) && ( $authenticationData['clientSecret'] != '' ) ) {
+	if ( isset( $authenticationData ) && ( is_array( $authenticationData ) ) && isset( $authenticationData['clientId'] ) && ( $authenticationData['clientId'] !== '' ) && isset( $authenticationData['clientSecret'] ) && ( $authenticationData['clientSecret'] !== '' ) ) {
 		return [
 			'clientId'     => $authenticationData['clientId'],
 			'clientSecret' => $authenticationData['clientSecret'],
@@ -33,9 +33,9 @@ function wp_insert_google_api_set_access_token( $clientId, $clientSecret, $authC
 			]
 		);
 		if ( ! is_wp_error( $response ) ) {
-			if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+			if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 				$responseBody = json_decode( $response['body'] );
-				if ( json_last_error() == JSON_ERROR_NONE ) {
+				if ( json_last_error() === JSON_ERROR_NONE ) {
 					$authenticationData = [
 						'clientId'     => $clientId,
 						'clientSecret' => $clientSecret,
@@ -59,9 +59,9 @@ function wp_insert_google_api_set_access_token( $clientId, $clientSecret, $authC
 
 function wp_insert_google_api_get_access_token() {
 	$accessToken = get_transient( 'wp_insert_google_api_access_token' );
-	if ( ( $accessToken === false ) || ( $accessToken == '' ) ) {
+	if ( ( $accessToken === false ) || ( $accessToken === '' ) ) {
 		$authenticationData = get_option( 'wp_insert_google_api_authentication_data', true );
-		if ( isset( $authenticationData ) && ( is_array( $authenticationData ) ) && isset( $authenticationData['clientId'] ) && ( $authenticationData['clientId'] != '' ) && isset( $authenticationData['clientSecret'] ) && ( $authenticationData['clientSecret'] != '' ) && isset( $authenticationData['refreshToken'] ) && ( $authenticationData['refreshToken'] != '' ) ) {
+		if ( isset( $authenticationData ) && ( is_array( $authenticationData ) ) && isset( $authenticationData['clientId'] ) && ( $authenticationData['clientId'] !== '' ) && isset( $authenticationData['clientSecret'] ) && ( $authenticationData['clientSecret'] !== '' ) && isset( $authenticationData['refreshToken'] ) && ( $authenticationData['refreshToken'] !== '' ) ) {
 			try {
 				$response = wp_remote_post(
 					'https://www.googleapis.com/oauth2/v4/token',
@@ -79,9 +79,9 @@ function wp_insert_google_api_get_access_token() {
 					]
 				);
 				if ( ! is_wp_error( $response ) ) {
-					if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+					if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 						$responseBody = json_decode( $response['body'] );
-						if ( json_last_error() == JSON_ERROR_NONE ) {
+						if ( json_last_error() === JSON_ERROR_NONE ) {
 							delete_transient( 'wp_insert_google_api_access_token' );
 							set_transient( 'wp_insert_vi_api_access_token', $responseBody->access_token, MINUTE_IN_SECONDS * 50 );
 							return $responseBody->access_token;
@@ -103,10 +103,10 @@ function wp_insert_google_api_get_access_token() {
 }
 
 function wp_insert_google_api_revoke_access_token( $accessToken = '' ) {
-	if ( $accessToken == '' ) {
+	if ( $accessToken === '' ) {
 		$accessToken = wp_insert_google_api_get_access_token();
 	}
-	if ( $accessToken != false ) {
+	if ( $accessToken !== false ) {
 		try {
 			$response = wp_remote_get(
 				'https://accounts.google.com/o/oauth2/revoke?token=' . $accessToken,
@@ -119,7 +119,7 @@ function wp_insert_google_api_revoke_access_token( $accessToken = '' ) {
 				]
 			);
 			if ( ! is_wp_error( $response ) ) {
-				if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+				if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 					delete_transient( 'wp_insert_google_api_access_token' );
 					$authenticationData                 = get_option( 'wp_insert_google_api_authentication_data', true );
 					$authenticationData['refreshToken'] = '';
@@ -137,10 +137,10 @@ function wp_insert_google_api_revoke_access_token( $accessToken = '' ) {
 }
 
 function wp_insert_google_api_get_accounts( $accessToken = '' ) {
-	if ( $accessToken == '' ) {
+	if ( $accessToken === '' ) {
 		$accessToken = wp_insert_google_api_get_access_token();
 	}
-	if ( $accessToken != false ) {
+	if ( $accessToken !== false ) {
 		try {
 			$response = wp_remote_get(
 				'https://www.googleapis.com/adsense/v1.4/accounts',
@@ -154,9 +154,9 @@ function wp_insert_google_api_get_accounts( $accessToken = '' ) {
 				]
 			);
 			if ( ! is_wp_error( $response ) ) {
-				if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+				if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 					$responseBody = json_decode( $response['body'] );
-					if ( json_last_error() == JSON_ERROR_NONE ) {
+					if ( json_last_error() === JSON_ERROR_NONE ) {
 						$accounts = [];
 						if ( isset( $responseBody->items ) && ( count( $responseBody->items ) > 0 ) ) {
 							foreach ( $responseBody->items as $account ) {
@@ -185,10 +185,10 @@ function wp_insert_google_api_get_accounts( $accessToken = '' ) {
 }
 
 function wp_insert_google_api_get_adclients( $accountID, $accessToken = '' ) {
-	if ( $accessToken == '' ) {
+	if ( $accessToken === '' ) {
 		$accessToken = wp_insert_google_api_get_access_token();
 	}
-	if ( $accessToken != false ) {
+	if ( $accessToken !== false ) {
 		try {
 			$response = wp_remote_get(
 				'https://www.googleapis.com/adsense/v1.4/accounts/' . $accountID . '/adclients',
@@ -202,9 +202,9 @@ function wp_insert_google_api_get_adclients( $accountID, $accessToken = '' ) {
 				]
 			);
 			if ( ! is_wp_error( $response ) ) {
-				if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+				if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 					$responseBody = json_decode( $response['body'] );
-					if ( json_last_error() == JSON_ERROR_NONE ) {
+					if ( json_last_error() === JSON_ERROR_NONE ) {
 						$adClients = [];
 						if ( isset( $responseBody->items ) && ( count( $responseBody->items ) > 0 ) ) {
 							foreach ( $responseBody->items as $adClient ) {
@@ -234,25 +234,25 @@ function wp_insert_google_api_get_adclients( $accountID, $accessToken = '' ) {
 
 function wp_insert_google_api_get_ad_units( $refresh = false, $accounts = '', $adClients = '', $accessToken = '' ) {
 	$adUnits = false;
-	if ( $refresh == false ) {
+	if ( $refresh === false ) {
 		$adUnits = get_transient( 'wp_insert_google_api_ad_units' );
 	}
-	if ( ( $adUnits === false ) || ( $adUnits == '' ) ) {
+	if ( ( $adUnits === false ) || ( $adUnits === '' ) ) {
 		$adUnits = [];
-		if ( $accessToken == '' ) {
+		if ( $accessToken === '' ) {
 			$accessToken = wp_insert_google_api_get_access_token();
 		}
-		if ( $accessToken != false ) {
-			if ( $accounts == '' ) {
+		if ( $accessToken !== false ) {
+			if ( $accounts === '' ) {
 				$accounts = wp_insert_google_api_get_accounts( $accessToken );
-				if ( $accounts == false || ( ! is_array( $accounts ) ) ) {
+				if ( $accounts === false || ( ! is_array( $accounts ) ) ) {
 					return false;
 				}
 			}
 			foreach ( $accounts as $account ) {
-				if ( $adClients == '' ) {
+				if ( $adClients === '' ) {
 					$adClients = wp_insert_google_api_get_adclients( $account['id'], $accessToken );
-					if ( ( $adClients == false ) || ( ! is_array( $adClients ) ) ) {
+					if ( ( $adClients === false ) || ( ! is_array( $adClients ) ) ) {
 						return false;
 					}
 				}
@@ -270,9 +270,9 @@ function wp_insert_google_api_get_ad_units( $refresh = false, $accounts = '', $a
 							]
 						);
 						if ( ! is_wp_error( $response ) ) {
-							if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+							if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 								$responseBody = json_decode( $response['body'] );
-								if ( json_last_error() == JSON_ERROR_NONE ) {
+								if ( json_last_error() === JSON_ERROR_NONE ) {
 									if ( isset( $responseBody->items ) && ( count( $responseBody->items ) > 0 ) ) {
 										foreach ( $responseBody->items as $adUnit ) {
 											$adUnits[] = [
@@ -307,10 +307,10 @@ function wp_insert_google_api_get_ad_units( $refresh = false, $accounts = '', $a
 }
 
 function wp_insert_google_api_get_revenue_data( $accountID, $startDate, $endDate, $accessToken = '' ) {
-	if ( $accessToken == '' ) {
+	if ( $accessToken === '' ) {
 		$accessToken = wp_insert_google_api_get_access_token();
 	}
-	if ( $accessToken != false ) {
+	if ( $accessToken !== false ) {
 		try {
 			$response = wp_remote_get(
 				'https://www.googleapis.com/adsense/v1.4/accounts/' . $accountID . '/reports?dimension=DATE&metric=EARNINGS&startDate=' . $startDate . '&endDate=' . $endDate,
@@ -324,9 +324,9 @@ function wp_insert_google_api_get_revenue_data( $accountID, $startDate, $endDate
 				]
 			);
 			if ( ! is_wp_error( $response ) ) {
-				if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+				if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 					$responseBody = json_decode( $response['body'] );
-					if ( json_last_error() == JSON_ERROR_NONE ) {
+					if ( json_last_error() === JSON_ERROR_NONE ) {
 						if ( isset( $responseBody->totals[1] ) && is_numeric( $responseBody->totals[1] ) && isset( $responseBody->headers ) && isset( $responseBody->headers[1]->currency ) && isset( $responseBody->rows ) && ( count( $responseBody->rows ) > 0 ) ) {
 							$report = [];
 							foreach ( $responseBody->rows as $row ) {
@@ -360,10 +360,10 @@ function wp_insert_google_api_get_revenue_data( $accountID, $startDate, $endDate
 }
 
 function wp_insert_google_api_get_adunit_revenue_data( $adUnitID, $accountID, $startDate, $endDate, $accessToken = '' ) {
-	if ( $accessToken == '' ) {
+	if ( $accessToken === '' ) {
 		$accessToken = wp_insert_google_api_get_access_token();
 	}
-	if ( $accessToken != false ) {
+	if ( $accessToken !== false ) {
 		try {
 			$response = wp_remote_get(
 				'https://www.googleapis.com/adsense/v1.4/accounts/' . $accountID . '/reports?dimension=AD_UNIT_ID&dimension=DATE&metric=EARNINGS&metric=IMPRESSIONS&metric=CLICKS&startDate=' . $startDate . '&endDate=' . $endDate,
@@ -377,13 +377,13 @@ function wp_insert_google_api_get_adunit_revenue_data( $adUnitID, $accountID, $s
 				]
 			);
 			if ( ! is_wp_error( $response ) ) {
-				if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
+				if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 					$responseBody = json_decode( $response['body'] );
-					if ( json_last_error() == JSON_ERROR_NONE ) {
+					if ( json_last_error() === JSON_ERROR_NONE ) {
 						if ( isset( $responseBody->headers ) && isset( $responseBody->headers[2]->currency ) && isset( $responseBody->rows ) && ( count( $responseBody->rows ) > 0 ) ) {
 							$report = [];
 							foreach ( $responseBody->rows as $row ) {
-								if ( $row[0] == $adUnitID ) {
+								if ( $row[0] === $adUnitID ) {
 									$report[] = [
 										'date'        => $row[1],
 										'earnings'    => floatval( $row[2] ),

@@ -1069,9 +1069,9 @@ add_action( 'init', 'wp_insert_ip_to_country' );
 function wp_insert_ip_to_country() {
 	global $wpInsertGeoLocation;
 	$userIp = ( ( isset( $_SERVER['REMOTE_ADDR'] ) ) ? $_SERVER['REMOTE_ADDR'] : '' );
-	if ( $wpInsertGeoLocation != false ) {
+	if ( $wpInsertGeoLocation !== false ) {
 		return $wpInsertGeoLocation;
-	} elseif ( $userIp != '' ) {
+	} elseif ( $userIp !== '' ) {
 			$countryCode = get_transient( 'wp_insert_ip_' . $userIp );
 		if ( $countryCode === false ) {
 			if ( wp_insert_is_geoip_enabled() ) {

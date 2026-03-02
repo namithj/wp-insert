@@ -18,7 +18,7 @@ function wp_insert_adstxt_adsense_admin_notice() {
 	if ( current_user_can( 'manage_options' ) ) {
 		if ( ! get_option( 'wp_insert_adstxt_adsense_admin_notice_dismissed' ) ) {
 			$adstxtNewAdsenseEntries = get_transient( 'wp_insert_adstxt_adsense_autocheck_content' );
-			if ( $adstxtNewAdsenseEntries == '###CHECKED###' ) {
+			if ( $adstxtNewAdsenseEntries === '###CHECKED###' ) {
 			} else {
 				if ( $adstxtNewAdsenseEntries === false ) {
 					$adstxtNewAdsenseEntries = wp_insert_adstxt_adsense_get_status();
@@ -29,7 +29,7 @@ function wp_insert_adstxt_adsense_admin_notice() {
 						echo '<p><b>Wp-Insert</b> had detected that your ads.txt file does not have all your Google Adsense Publisher IDs.<br />This will severely impact your adsense earnings and your immediate attention is required.</p>';
 						echo '<p>Your recommended google entries for ads.txt is as given below.<br />You can manually copy this to your ads.txt file or ';
 							$screen = get_current_screen();
-					if ( $screen->id != 'toplevel_page_wp-insert' ) {
+					if ( $screen->id !== 'toplevel_page_wp-insert' ) {
 						echo '<a href="' . esc_url( admin_url( '/admin.php?page=wp-insert#wp_insert_adstxt_adsense_auto_update' ) ) . '">CLICK HERE</a>';
 					} else {
 						echo '<a href="javascript:;" onclick="wp_insert_adstxt_adsense_auto_update()">CLICK HERE</a>';
@@ -94,7 +94,7 @@ function wp_insert_adstxt_adsense_get_status() {
 		}
 
 		$adstxtNewAdsenseEntries = [];
-		if ( count( $adstxtExistingAdsenseEntries ) == 0 ) {
+		if ( count( $adstxtExistingAdsenseEntries ) === 0 ) {
 			if ( is_array( $adsensePublisherIds ) && ( count( $adsensePublisherIds ) > 0 ) ) {
 				foreach ( $adsensePublisherIds as $adsensePublisherId ) {
 					$adstxtNewAdsenseEntries[] = 'google.com, ' . $adsensePublisherId . ', DIRECT, f08c47fec0942fa0';
@@ -108,7 +108,7 @@ function wp_insert_adstxt_adsense_get_status() {
 						$entryExists = true;
 					}
 				}
-				if ( $entryExists == false ) {
+				if ( $entryExists === false ) {
 					$adstxtNewAdsenseEntries[] = 'google.com, ' . $adsensePublisherId . ', DIRECT, f08c47fec0942fa0';
 				}
 			}
@@ -183,46 +183,46 @@ function wp_insert_adstxt_adsense_get_publisherids() {
 
 function wp_insert_adstxt_adsense_extract_publisherids( $adUnit ) {
 	$publisherIds = [];
-	if ( isset( $adUnit['primary_ad_code'] ) && ( $adUnit['primary_ad_code'] != '' ) ) {
+	if ( isset( $adUnit['primary_ad_code'] ) && ( $adUnit['primary_ad_code'] !== '' ) ) {
 		if ( preg_match( '/googlesyndication.com/', $adUnit['primary_ad_code'] ) ) {
 			if ( preg_match( '/data-ad-client=/', $adUnit['primary_ad_code'] ) ) { //ASYNS AD CODE
 				$adCodeParts = explode( 'data-ad-client', $adUnit['primary_ad_code'] );
 			} else {
 				$adCodeParts = explode( 'google_ad_client', $adUnit['primary_ad_code'] ); //ORDINARY AD CODE
 			}
-			if ( isset( $adCodeParts[1] ) && ( $adCodeParts[1] != '' ) ) {
+			if ( isset( $adCodeParts[1] ) && ( $adCodeParts[1] !== '' ) ) {
 				preg_match( '#"([a-zA-Z0-9-\s]+)"#', stripslashes( $adCodeParts[1] ), $matches );
-				if ( isset( $matches[1] ) && ( $matches[1] != '' ) ) {
+				if ( isset( $matches[1] ) && ( $matches[1] !== '' ) ) {
 					$publisherIds[] = str_replace( [ '"', ' ', 'ca-' ], [ '' ], $matches[1] );
 				}
 			}
 		}
 	}
-	if ( isset( $adUnit['secondary_ad_code'] ) && ( $adUnit['secondary_ad_code'] != '' ) ) {
+	if ( isset( $adUnit['secondary_ad_code'] ) && ( $adUnit['secondary_ad_code'] !== '' ) ) {
 		if ( preg_match( '/googlesyndication.com/', $adUnit['secondary_ad_code'] ) ) {
 			if ( preg_match( '/data-ad-client=/', $adUnit['secondary_ad_code'] ) ) { //ASYNS AD CODE
 				$adCodeParts = explode( 'data-ad-client', $adUnit['secondary_ad_code'] );
 			} else {
 				$adCodeParts = explode( 'google_ad_client', $adUnit['secondary_ad_code'] ); //ORDINARY AD CODE
 			}
-			if ( isset( $adCodeParts[1] ) && ( $adCodeParts[1] != '' ) ) {
+			if ( isset( $adCodeParts[1] ) && ( $adCodeParts[1] !== '' ) ) {
 				preg_match( '#"([a-zA-Z0-9-\s]+)"#', stripslashes( $adCodeParts[1] ), $matches );
-				if ( isset( $matches[1] ) && ( $matches[1] != '' ) ) {
+				if ( isset( $matches[1] ) && ( $matches[1] !== '' ) ) {
 					$publisherIds[] = str_replace( [ '"', ' ', 'ca-' ], [ '' ], $matches[1] );
 				}
 			}
 		}
 	}
-	if ( isset( $adUnit['tertiary_ad_code'] ) && ( $adUnit['tertiary_ad_code'] != '' ) ) {
+	if ( isset( $adUnit['tertiary_ad_code'] ) && ( $adUnit['tertiary_ad_code'] !== '' ) ) {
 		if ( preg_match( '/googlesyndication.com/', $adUnit['tertiary_ad_code'] ) ) {
 			if ( preg_match( '/data-ad-client=/', $adUnit['tertiary_ad_code'] ) ) { //ASYNS AD CODE
 				$adCodeParts = explode( 'data-ad-client', $adUnit['tertiary_ad_code'] );
 			} else {
 				$adCodeParts = explode( 'google_ad_client', $adUnit['tertiary_ad_code'] ); //ORDINARY AD CODE
 			}
-			if ( isset( $adCodeParts[1] ) && ( $adCodeParts[1] != '' ) ) {
+			if ( isset( $adCodeParts[1] ) && ( $adCodeParts[1] !== '' ) ) {
 				preg_match( '#"([a-zA-Z0-9-\s]+)"#', stripslashes( $adCodeParts[1] ), $matches );
-				if ( isset( $matches[1] ) && ( $matches[1] != '' ) ) {
+				if ( isset( $matches[1] ) && ( $matches[1] !== '' ) ) {
 					$publisherIds[] = str_replace( [ '"', ' ', 'ca-' ], [ '' ], $matches[1] );
 				}
 			}
