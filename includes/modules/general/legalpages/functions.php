@@ -4,15 +4,15 @@ add_action( 'wp_ajax_wp_insert_legalpages_privacy_policy_form_get_content', 'wp_
 function wp_insert_legalpages_privacy_policy_form_get_content() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
+	$legal_pages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['privacy_policy']['content'] ) && ( $legalPages['privacy_policy']['content'] !== '' ) ) ) {
-		$legalPages['privacy_policy']['content'] = wp_insert_legalpages_get_default_data( 'privacy_policy' );
+	if ( ! ( isset( $legal_pages['privacy_policy']['content'] ) && ( '' !== $legal_pages['privacy_policy']['content'] ) ) ) {
+		$legal_pages['privacy_policy']['content'] = wp_insert_legalpages_get_default_data( 'privacy_policy' );
 	}
 		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[privacy_policy]',
-				'values'           => $legalPages['privacy_policy'],
+				'values'           => $legal_pages['privacy_policy'],
 			]
 		);
 		echo '<div id="wp_insert_legalpages_privacy_policy_accordion">';
@@ -35,7 +35,7 @@ function wp_insert_legalpages_privacy_policy_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -47,15 +47,15 @@ function wp_insert_legalpages_privacy_policy_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				echo '<p class="wp_insert_OR">OR</p>';
 				$control->set_html( '<input type="button" id="wp_insert_legalpages_privacy_policy_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_privacy_policy\', \'Privacy Policy\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->js;
+			echo $control->js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo 'jQuery("#wp_insert_legalpages_privacy_policy_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
@@ -66,10 +66,10 @@ add_action( 'wp_ajax_wp_insert_legalpages_privacy_policy_form_save_action', 'wp_
 function wp_insert_legalpages_privacy_policy_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages                                    = get_option( 'wp_insert_legalpages' );
-	$legalPages['privacy_policy']['content']       = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_content'] ) ) ? $_POST['wp_insert_legalpages_privacy_policy_content'] : '' );
-	$legalPages['privacy_policy']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] : '' );
-	update_option( 'wp_insert_legalpages', $legalPages );
+	$legal_pages                                    = get_option( 'wp_insert_legalpages' );
+	$legal_pages['privacy_policy']['content']       = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_content'] ) ) ? $_POST['wp_insert_legalpages_privacy_policy_content'] : '' );
+	$legal_pages['privacy_policy']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] : '' );
+	update_option( 'wp_insert_legalpages', $legal_pages );
 	die();
 }
 
@@ -77,8 +77,8 @@ add_action( 'wp_ajax_wp_insert_legalpages_privacy_policy_form_generate_page_acti
 function wp_insert_legalpages_privacy_policy_form_generate_page_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
-	$postID     = wp_insert_post(
+	$legal_pages = get_option( 'wp_insert_legalpages' );
+	$post_id     = wp_insert_post(
 		[
 			'post_type'    => 'page',
 			'post_title'   => 'Privacy Policy',
@@ -87,10 +87,10 @@ function wp_insert_legalpages_privacy_policy_form_generate_page_action() {
 			'post_author'  => get_current_user_id(),
 		]
 	);
-	if ( ! is_wp_error( $postID ) ) {
-		echo $postID;
-		$legalPages['privacy_policy']['assigned_page'] = $postID;
-		update_option( 'wp_insert_legalpages', $legalPages );
+	if ( ! is_wp_error( $post_id ) ) {
+		echo absint( $post_id );
+		$legal_pages['privacy_policy']['assigned_page'] = $post_id;
+		update_option( 'wp_insert_legalpages', $legal_pages );
 	} else {
 		echo '0';
 	}
@@ -103,15 +103,15 @@ add_action( 'wp_ajax_wp_insert_legalpages_terms_conditions_form_get_content', 'w
 function wp_insert_legalpages_terms_conditions_form_get_content() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
+	$legal_pages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['terms_conditions']['content'] ) && ( $legalPages['terms_conditions']['content'] !== '' ) ) ) {
-		$legalPages['terms_conditions']['content'] = wp_insert_legalpages_get_default_data( 'terms_conditions' );
+	if ( ! ( isset( $legal_pages['terms_conditions']['content'] ) && ( '' !== $legal_pages['terms_conditions']['content'] ) ) ) {
+		$legal_pages['terms_conditions']['content'] = wp_insert_legalpages_get_default_data( 'terms_conditions' );
 	}
 		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[terms_conditions]',
-				'values'           => $legalPages['terms_conditions'],
+				'values'           => $legal_pages['terms_conditions'],
 			]
 		);
 		echo '<div id="wp_insert_legalpages_terms_conditions_accordion">';
@@ -134,7 +134,7 @@ function wp_insert_legalpages_terms_conditions_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -146,15 +146,15 @@ function wp_insert_legalpages_terms_conditions_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				echo '<p class="wp_insert_OR">OR</p>';
 				$control->set_html( '<input type="button" id="wp_insert_legalpages_terms_conditions_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_terms_conditions\', \'Terms and Conditions\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->js;
+			echo $control->js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo 'jQuery("#wp_insert_legalpages_terms_conditions_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
@@ -165,10 +165,10 @@ add_action( 'wp_ajax_wp_insert_legalpages_terms_conditions_form_save_action', 'w
 function wp_insert_legalpages_terms_conditions_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages                                      = get_option( 'wp_insert_legalpages' );
-	$legalPages['terms_conditions']['content']       = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_content'] ) ) ? $_POST['wp_insert_legalpages_terms_conditions_content'] : '' );
-	$legalPages['terms_conditions']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] : '' );
-	update_option( 'wp_insert_legalpages', $legalPages );
+	$legal_pages                                      = get_option( 'wp_insert_legalpages' );
+	$legal_pages['terms_conditions']['content']       = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_content'] ) ) ? $_POST['wp_insert_legalpages_terms_conditions_content'] : '' );
+	$legal_pages['terms_conditions']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] : '' );
+	update_option( 'wp_insert_legalpages', $legal_pages );
 	die();
 }
 
@@ -176,8 +176,8 @@ add_action( 'wp_ajax_wp_insert_legalpages_terms_conditions_form_generate_page_ac
 function wp_insert_legalpages_terms_conditions_form_generate_page_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
-	$postID     = wp_insert_post(
+	$legal_pages = get_option( 'wp_insert_legalpages' );
+	$post_id     = wp_insert_post(
 		[
 			'post_type'    => 'page',
 			'post_title'   => 'Terms and Conditions',
@@ -186,10 +186,10 @@ function wp_insert_legalpages_terms_conditions_form_generate_page_action() {
 			'post_author'  => get_current_user_id(),
 		]
 	);
-	if ( ! is_wp_error( $postID ) ) {
-		echo $postID;
-		$legalPages['terms_conditions']['assigned_page'] = $postID;
-		update_option( 'wp_insert_legalpages', $legalPages );
+	if ( ! is_wp_error( $post_id ) ) {
+		echo absint( $post_id );
+		$legal_pages['terms_conditions']['assigned_page'] = $post_id;
+		update_option( 'wp_insert_legalpages', $legal_pages );
 	} else {
 		echo '0';
 	}
@@ -202,15 +202,15 @@ add_action( 'wp_ajax_wp_insert_legalpages_disclaimer_form_get_content', 'wp_inse
 function wp_insert_legalpages_disclaimer_form_get_content() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
+	$legal_pages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['disclaimer']['content'] ) && ( $legalPages['disclaimer']['content'] !== '' ) ) ) {
-		$legalPages['disclaimer']['content'] = wp_insert_legalpages_get_default_data( 'disclaimer' );
+	if ( ! ( isset( $legal_pages['disclaimer']['content'] ) && ( '' !== $legal_pages['disclaimer']['content'] ) ) ) {
+		$legal_pages['disclaimer']['content'] = wp_insert_legalpages_get_default_data( 'disclaimer' );
 	}
 		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[disclaimer]',
-				'values'           => $legalPages['disclaimer'],
+				'values'           => $legal_pages['disclaimer'],
 			]
 		);
 		echo '<div id="wp_insert_legalpages_disclaimer_accordion">';
@@ -233,7 +233,7 @@ function wp_insert_legalpages_disclaimer_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -245,15 +245,15 @@ function wp_insert_legalpages_disclaimer_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				echo '<p class="wp_insert_OR">OR</p>';
 				$control->set_html( '<input type="button" id="wp_insert_legalpages_disclaimer_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_disclaimer\', \'Disclaimer\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->js;
+			echo $control->js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo 'jQuery("#wp_insert_legalpages_disclaimer_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
@@ -264,10 +264,10 @@ add_action( 'wp_ajax_wp_insert_legalpages_disclaimer_form_save_action', 'wp_inse
 function wp_insert_legalpages_disclaimer_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages                                = get_option( 'wp_insert_legalpages' );
-	$legalPages['disclaimer']['content']       = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_content'] ) ) ? $_POST['wp_insert_legalpages_disclaimer_content'] : '' );
-	$legalPages['disclaimer']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_disclaimer_assigned_page'] : '' );
-	update_option( 'wp_insert_legalpages', $legalPages );
+	$legal_pages                                = get_option( 'wp_insert_legalpages' );
+	$legal_pages['disclaimer']['content']       = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_content'] ) ) ? $_POST['wp_insert_legalpages_disclaimer_content'] : '' );
+	$legal_pages['disclaimer']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_disclaimer_assigned_page'] : '' );
+	update_option( 'wp_insert_legalpages', $legal_pages );
 	die();
 }
 
@@ -275,8 +275,8 @@ add_action( 'wp_ajax_wp_insert_legalpages_disclaimer_form_generate_page_action',
 function wp_insert_legalpages_disclaimer_form_generate_page_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
-	$postID     = wp_insert_post(
+	$legal_pages = get_option( 'wp_insert_legalpages' );
+	$post_id     = wp_insert_post(
 		[
 			'post_type'    => 'page',
 			'post_title'   => 'Disclaimer',
@@ -285,10 +285,10 @@ function wp_insert_legalpages_disclaimer_form_generate_page_action() {
 			'post_author'  => get_current_user_id(),
 		]
 	);
-	if ( ! is_wp_error( $postID ) ) {
-		echo $postID;
-		$legalPages['disclaimer']['assigned_page'] = $postID;
-		update_option( 'wp_insert_legalpages', $legalPages );
+	if ( ! is_wp_error( $post_id ) ) {
+		echo absint( $post_id );
+		$legal_pages['disclaimer']['assigned_page'] = $post_id;
+		update_option( 'wp_insert_legalpages', $legal_pages );
 	} else {
 		echo '0';
 	}
@@ -301,15 +301,15 @@ add_action( 'wp_ajax_wp_insert_legalpages_copyright_form_get_content', 'wp_inser
 function wp_insert_legalpages_copyright_form_get_content() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
+	$legal_pages = get_option( 'wp_insert_legalpages' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-	if ( ! ( isset( $legalPages['copyright']['content'] ) && ( $legalPages['copyright']['content'] !== '' ) ) ) {
-		$legalPages['copyright']['content'] = wp_insert_legalpages_get_default_data( 'copyright' );
+	if ( ! ( isset( $legal_pages['copyright']['content'] ) && ( '' !== $legal_pages['copyright']['content'] ) ) ) {
+		$legal_pages['copyright']['content'] = wp_insert_legalpages_get_default_data( 'copyright' );
 	}
 		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[copyright]',
-				'values'           => $legalPages['copyright'],
+				'values'           => $legal_pages['copyright'],
 			]
 		);
 		echo '<div id="wp_insert_legalpages_copyright_accordion">';
@@ -332,7 +332,7 @@ function wp_insert_legalpages_copyright_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -344,15 +344,15 @@ function wp_insert_legalpages_copyright_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 				echo '<p class="wp_insert_OR">OR</p>';
 				$control->set_html( '<input type="button" id="wp_insert_legalpages_copyright_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_copyright\', \'Copyright Notice\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->html;
+				echo wp_kses_post( $control->html );
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->js;
+			echo $control->js; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo 'jQuery("#wp_insert_legalpages_copyright_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
@@ -363,10 +363,10 @@ add_action( 'wp_ajax_wp_insert_legalpages_copyright_form_save_action', 'wp_inser
 function wp_insert_legalpages_copyright_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages                               = get_option( 'wp_insert_legalpages' );
-	$legalPages['copyright']['content']       = ( ( isset( $_POST['wp_insert_legalpages_copyright_content'] ) ) ? $_POST['wp_insert_legalpages_copyright_content'] : '' );
-	$legalPages['copyright']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_copyright_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_copyright_assigned_page'] : '' );
-	update_option( 'wp_insert_legalpages', $legalPages );
+	$legal_pages                               = get_option( 'wp_insert_legalpages' );
+	$legal_pages['copyright']['content']       = ( ( isset( $_POST['wp_insert_legalpages_copyright_content'] ) ) ? $_POST['wp_insert_legalpages_copyright_content'] : '' );
+	$legal_pages['copyright']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_copyright_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_copyright_assigned_page'] : '' );
+	update_option( 'wp_insert_legalpages', $legal_pages );
 	die();
 }
 
@@ -374,8 +374,8 @@ add_action( 'wp_ajax_wp_insert_legalpages_copyright_form_generate_page_action', 
 function wp_insert_legalpages_copyright_form_generate_page_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$legalPages = get_option( 'wp_insert_legalpages' );
-	$postID     = wp_insert_post(
+	$legal_pages = get_option( 'wp_insert_legalpages' );
+	$post_id     = wp_insert_post(
 		[
 			'post_type'    => 'page',
 			'post_title'   => 'Copyright Notice',
@@ -384,10 +384,10 @@ function wp_insert_legalpages_copyright_form_generate_page_action() {
 			'post_author'  => get_current_user_id(),
 		]
 	);
-	if ( ! is_wp_error( $postID ) ) {
-		echo $postID;
-		$legalPages['copyright']['assigned_page'] = $postID;
-		update_option( 'wp_insert_legalpages', $legalPages );
+	if ( ! is_wp_error( $post_id ) ) {
+		echo absint( $post_id );
+		$legal_pages['copyright']['assigned_page'] = $post_id;
+		update_option( 'wp_insert_legalpages', $legal_pages );
 	} else {
 		echo '0';
 	}
@@ -399,26 +399,26 @@ function wp_insert_legalpages_copyright_form_generate_page_action() {
 add_action( 'wp_insert_upgrade_database', 'wp_insert_legalpages_upgrade_database' );
 function wp_insert_legalpages_upgrade_database() {
 	if ( ! get_option( 'wp_insert_legalpages' ) ) {
-		$oldValues = get_option( 'wp_insert_legal_options' );
-		$newValues = [
+		$old_values = get_option( 'wp_insert_legal_options' );
+		$new_values = [
 			'privacy_policy'   => [
-				'content'       => ( ( isset( $oldValues['privacy-policy']['content'] ) ) ? $oldValues['privacy-policy']['content'] : '' ),
-				'assigned_page' => ( ( isset( $oldValues['privacy-policy']['pages'] ) ) ? $oldValues['privacy-policy']['pages'] : '' ),
+				'content'       => ( ( isset( $old_values['privacy-policy']['content'] ) ) ? $old_values['privacy-policy']['content'] : '' ),
+				'assigned_page' => ( ( isset( $old_values['privacy-policy']['pages'] ) ) ? $old_values['privacy-policy']['pages'] : '' ),
 			],
 			'terms_conditions' => [
-				'content'       => ( ( isset( $oldValues['terms-and-conditions']['content'] ) ) ? $oldValues['terms-and-conditions']['content'] : '' ),
-				'assigned_page' => ( ( isset( $oldValues['terms-and-conditions']['pages'] ) ) ? $oldValues['terms-and-conditions']['pages'] : '' ),
+				'content'       => ( ( isset( $old_values['terms-and-conditions']['content'] ) ) ? $old_values['terms-and-conditions']['content'] : '' ),
+				'assigned_page' => ( ( isset( $old_values['terms-and-conditions']['pages'] ) ) ? $old_values['terms-and-conditions']['pages'] : '' ),
 			],
 			'disclaimer'       => [
-				'content'       => ( ( isset( $oldValues['disclaimer']['content'] ) ) ? $oldValues['disclaimer']['content'] : '' ),
-				'assigned_page' => ( ( isset( $oldValues['disclaimer']['pages'] ) ) ? $oldValues['disclaimer']['pages'] : '' ),
+				'content'       => ( ( isset( $old_values['disclaimer']['content'] ) ) ? $old_values['disclaimer']['content'] : '' ),
+				'assigned_page' => ( ( isset( $old_values['disclaimer']['pages'] ) ) ? $old_values['disclaimer']['pages'] : '' ),
 			],
 			'copyright'        => [
-				'content'       => ( ( isset( $oldValues['copyright-notice']['content'] ) ) ? $oldValues['copyright-notice']['content'] : '' ),
-				'assigned_page' => ( ( isset( $oldValues['copyright-notice']['pages'] ) ) ? $oldValues['copyright-notice']['pages'] : '' ),
+				'content'       => ( ( isset( $old_values['copyright-notice']['content'] ) ) ? $old_values['copyright-notice']['content'] : '' ),
+				'assigned_page' => ( ( isset( $old_values['copyright-notice']['pages'] ) ) ? $old_values['copyright-notice']['pages'] : '' ),
 			],
 		];
-		update_option( 'wp_insert_legalpages', $newValues );
+		update_option( 'wp_insert_legalpages', $new_values );
 	}
 }
 /* End Database Upgrade */
@@ -427,20 +427,20 @@ function wp_insert_legalpages_upgrade_database() {
 add_filter( 'the_content', 'wp_insert_legalpages_the_content' );
 function wp_insert_legalpages_the_content( $content ) {
 	global $post;
-	$legalPages = get_option( 'wp_insert_legalpages' );
+	$legal_pages = get_option( 'wp_insert_legalpages' );
 
 	if ( isset( $post ) && ( isset( $post->ID ) ) ) {
-		if ( isset( $legalPages['privacy_policy']['assigned_page'] ) && ( $legalPages['privacy_policy']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['privacy_policy']['assigned_page'] ) ) {
-			return do_shortcode( stripslashes( $legalPages['privacy_policy']['content'] ) );
+		if ( isset( $legal_pages['privacy_policy']['assigned_page'] ) && ( '' !== $legal_pages['privacy_policy']['assigned_page'] ) && ( $post->ID === $legal_pages['privacy_policy']['assigned_page'] ) ) {
+			return do_shortcode( stripslashes( $legal_pages['privacy_policy']['content'] ) );
 		}
-		if ( isset( $legalPages['terms_conditions']['assigned_page'] ) && ( $legalPages['terms_conditions']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['terms_conditions']['assigned_page'] ) ) {
-			return do_shortcode( stripslashes( $legalPages['terms_conditions']['content'] ) );
+		if ( isset( $legal_pages['terms_conditions']['assigned_page'] ) && ( '' !== $legal_pages['terms_conditions']['assigned_page'] ) && ( $post->ID === $legal_pages['terms_conditions']['assigned_page'] ) ) {
+			return do_shortcode( stripslashes( $legal_pages['terms_conditions']['content'] ) );
 		}
-		if ( isset( $legalPages['disclaimer']['assigned_page'] ) && ( $legalPages['disclaimer']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['disclaimer']['assigned_page'] ) ) {
-			return do_shortcode( stripslashes( $legalPages['disclaimer']['content'] ) );
+		if ( isset( $legal_pages['disclaimer']['assigned_page'] ) && ( '' !== $legal_pages['disclaimer']['assigned_page'] ) && ( $post->ID === $legal_pages['disclaimer']['assigned_page'] ) ) {
+			return do_shortcode( stripslashes( $legal_pages['disclaimer']['content'] ) );
 		}
-		if ( isset( $legalPages['copyright']['assigned_page'] ) && ( $legalPages['copyright']['assigned_page'] !== '' ) && ( $post->ID === $legalPages['copyright']['assigned_page'] ) ) {
-			return do_shortcode( stripslashes( $legalPages['copyright']['content'] ) );
+		if ( isset( $legal_pages['copyright']['assigned_page'] ) && ( '' !== $legal_pages['copyright']['assigned_page'] ) && ( $post->ID === $legal_pages['copyright']['assigned_page'] ) ) {
+			return do_shortcode( stripslashes( $legal_pages['copyright']['content'] ) );
 		}
 	}
 
@@ -448,13 +448,13 @@ function wp_insert_legalpages_the_content( $content ) {
 }
 
 add_shortcode( 'sitename', 'wp_insert_legalpages_sitename_shortcode' );
-function wp_insert_legalpages_sitename_shortcode( $atts ) {
+function wp_insert_legalpages_sitename_shortcode( $atts ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 	return '<i>' . get_bloginfo( 'name' ) . '</i>';
 }
 
-function wp_insert_legalpages_get_default_data( $pageType ) {
+function wp_insert_legalpages_get_default_data( $page_type ) {
 	$output = '';
-	switch ( $pageType ) {
+	switch ( $page_type ) {
 		case 'privacy_policy':
 			$output  = '<p>At [sitename], the privacy of our visitors is of extreme importance to us. This privacy policy document outlines the types of personal information is received and collected by [sitename] and how it is used.</p>';
 			$output .= '<p><b>Log Files</b></p><p>Like many other Web sites, [sitename] makes use of log files. The information inside the log files includes internet protocol (IP) addresses, type of browser, Internet Service Provider (ISP), date/time stamp, referring/exit pages, and number of clicks to analyze trends, administer the site, track user\'s movement around the site, and gather demographic information. IP addresses, and other such information are not linked to any information that is personally identifiable.</p>';
@@ -486,7 +486,7 @@ function wp_insert_legalpages_get_default_data( $pageType ) {
 			$output .= '<p>Every effort is made to keep the website up and running smoothly. However, [sitename] takes no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>';
 			break;
 		case 'copyright':
-			$output      = '<p>This website and its content is copyright of [sitename] - &copy; [sitename] ' . date( 'Y' ) . '. All rights reserved.</p>';
+			$output      = '<p>This website and its content is copyright of [sitename] - &copy; [sitename] ' . gmdate( 'Y' ) . '. All rights reserved.</p>';
 			$output     .= '</p>Any redistribution or reproduction of part or all of the contents in any form is prohibited other than the following:</p>';
 			$output     .= '<ul>';
 				$output .= '<li>you may print or download to a local hard disk extracts for your personal and non-commercial use only</li>';
