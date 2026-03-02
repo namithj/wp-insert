@@ -81,7 +81,7 @@ function wp_insert_inpostads_form_accordion_tabs_location( $control, $identifier
 				'options'      => $paragraphPositioningOptions,
 			]
 		);
-		$nthParagraphTopControl = $control->HTML;
+		$nthParagraphTopControl = $control->html;
 		$control->clear_controls();
 		$control->add_control(
 			[
@@ -93,7 +93,7 @@ function wp_insert_inpostads_form_accordion_tabs_location( $control, $identifier
 				'options'      => $paragraphPositioningOptions,
 			]
 		);
-		$nthParagraphBottomControl = $control->HTML;
+		$nthParagraphBottomControl = $control->html;
 		$control->clear_controls();
 
 		$location = '';
@@ -161,7 +161,7 @@ function wp_insert_inpostads_form_accordion_tabs_location( $control, $identifier
 			]
 		);
 		$control->create_section( 'Location' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 		echo '</div>';
 		return $control;
@@ -177,9 +177,9 @@ add_filter( 'wp_insert_inpostads_form_accordion_tabs', 'wp_insert_inpostads_form
 function wp_insert_inpostads_form_accordion_tabs_manual_override( $control, $identifier, $location ) {
 	echo '<h3 class="wp_insert_inpostads_location_manual_override_panel">Manual Override</h3>';
 	echo '<div>';
-		$control->set_HTML( '<p class="codeSnippet"><code>[wpinsertinpostad id="' . $identifier . '"]</code></p><p>For those extreme cases when auto positioning just doesnt work out the way you want, use the shortcode above to precisely position your ad unit inside your post content.<br>Gutenberg users can utilize "Wp-Insert" blocks for manual positioning within post content.</p>' );
+		$control->set_html( '<p class="codeSnippet"><code>[wpinsertinpostad id="' . $identifier . '"]</code></p><p>For those extreme cases when auto positioning just doesnt work out the way you want, use the shortcode above to precisely position your ad unit inside your post content.<br>Gutenberg users can utilize "Wp-Insert" blocks for manual positioning within post content.</p>' );
 		$control->create_section( 'Code to add to your post/page content' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 	echo '</div>';
 	return $control;
@@ -205,7 +205,7 @@ function wp_insert_inpostads_form_accordion_tabs_positioning( $control, $identif
 			]
 		);
 		$control->create_section( 'Positioning' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 	echo '</div>';
 	return $control;

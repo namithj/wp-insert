@@ -28,7 +28,7 @@ function wp_insert_admin_enqueue_scripts( $page ) {
 		wp_enqueue_script( 'chart-js' );
 		do_action( 'wp_insert_modules_css' );
 		do_action( 'wp_insert_modules_js' );
-		smartlogixControls::enqueue_assets( WP_INSERT_URL . 'includes/modules/core/controls', WP_INSERT_VERSION );
+		SmartlogixControls::enqueue_assets( WP_INSERT_URL . 'includes/modules/core/controls', WP_INSERT_VERSION );
 		wp_enqueue_script( 'editor' );
 		wp_enqueue_script( 'quicktags' );
 		wp_enqueue_style( 'buttons' );

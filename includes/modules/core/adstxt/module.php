@@ -35,7 +35,7 @@ function wp_insert_adstxt_generate_form_get_content() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
 		echo '<div id="wp_insert_adstxt_accordion">';
-			$control = new smartlogixControls();
+			$control = new SmartlogixControls();
 			echo '<h3>ads.txt Content</h3>';
 			echo '<div>';
 				$control->add_control(
@@ -49,7 +49,7 @@ function wp_insert_adstxt_generate_form_get_content() {
 					]
 				);
 				$control->create_section( 'ads.txt Content' );
-				echo $control->HTML;
+				echo $control->html;
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Entry Generator</h3>';
@@ -104,13 +104,13 @@ function wp_insert_adstxt_generate_form_get_content() {
 						'helpText' => 'Contact your service provider for values.',
 					]
 				);
-				$control->HTML .= '<p><input id="wp_insert_adstxt_add_entry" onclick="wp_insert_adstxt_add_entry()" type="button" value="Add Entry" class="button button-primary" /></p>';
+				$control->html .= '<p><input id="wp_insert_adstxt_add_entry" onclick="wp_insert_adstxt_add_entry()" type="button" value="Add Entry" class="button button-primary" /></p>';
 				$control->create_section( 'Entry Generator' );
-				echo $control->HTML;
+				echo $control->html;
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		echo $control->js;
 		echo 'jQuery("#wp_insert_adstxt_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		//echo 'jQuery(".ui-dialog-buttonset").find("button").first().remove();';
 		echo '</script>';

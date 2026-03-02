@@ -9,7 +9,7 @@ function wp_insert_legalpages_privacy_policy_form_get_content() {
 	if ( ! ( isset( $legalPages['privacy_policy']['content'] ) && ( $legalPages['privacy_policy']['content'] !== '' ) ) ) {
 		$legalPages['privacy_policy']['content'] = wp_insert_legalpages_get_default_data( 'privacy_policy' );
 	}
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[privacy_policy]',
 				'values'           => $legalPages['privacy_policy'],
@@ -35,7 +35,7 @@ function wp_insert_legalpages_privacy_policy_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->HTML;
+				echo $control->html;
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -47,15 +47,15 @@ function wp_insert_legalpages_privacy_policy_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->HTML;
+				echo $control->html;
 				echo '<p class="wp_insert_OR">OR</p>';
-				$control->set_HTML( '<input type="button" id="wp_insert_legalpages_privacy_policy_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_privacy_policy\', \'Privacy Policy\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
+				$control->set_html( '<input type="button" id="wp_insert_legalpages_privacy_policy_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_privacy_policy\', \'Privacy Policy\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->HTML;
+				echo $control->html;
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->JS;
+			echo $control->js;
 			echo 'jQuery("#wp_insert_legalpages_privacy_policy_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
@@ -108,7 +108,7 @@ function wp_insert_legalpages_terms_conditions_form_get_content() {
 	if ( ! ( isset( $legalPages['terms_conditions']['content'] ) && ( $legalPages['terms_conditions']['content'] !== '' ) ) ) {
 		$legalPages['terms_conditions']['content'] = wp_insert_legalpages_get_default_data( 'terms_conditions' );
 	}
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[terms_conditions]',
 				'values'           => $legalPages['terms_conditions'],
@@ -134,7 +134,7 @@ function wp_insert_legalpages_terms_conditions_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->HTML;
+				echo $control->html;
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -146,15 +146,15 @@ function wp_insert_legalpages_terms_conditions_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->HTML;
+				echo $control->html;
 				echo '<p class="wp_insert_OR">OR</p>';
-				$control->set_HTML( '<input type="button" id="wp_insert_legalpages_terms_conditions_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_terms_conditions\', \'Terms and Conditions\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
+				$control->set_html( '<input type="button" id="wp_insert_legalpages_terms_conditions_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_terms_conditions\', \'Terms and Conditions\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->HTML;
+				echo $control->html;
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->JS;
+			echo $control->js;
 			echo 'jQuery("#wp_insert_legalpages_terms_conditions_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
@@ -207,7 +207,7 @@ function wp_insert_legalpages_disclaimer_form_get_content() {
 	if ( ! ( isset( $legalPages['disclaimer']['content'] ) && ( $legalPages['disclaimer']['content'] !== '' ) ) ) {
 		$legalPages['disclaimer']['content'] = wp_insert_legalpages_get_default_data( 'disclaimer' );
 	}
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[disclaimer]',
 				'values'           => $legalPages['disclaimer'],
@@ -233,7 +233,7 @@ function wp_insert_legalpages_disclaimer_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->HTML;
+				echo $control->html;
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -245,15 +245,15 @@ function wp_insert_legalpages_disclaimer_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->HTML;
+				echo $control->html;
 				echo '<p class="wp_insert_OR">OR</p>';
-				$control->set_HTML( '<input type="button" id="wp_insert_legalpages_disclaimer_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_disclaimer\', \'Disclaimer\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
+				$control->set_html( '<input type="button" id="wp_insert_legalpages_disclaimer_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_disclaimer\', \'Disclaimer\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->HTML;
+				echo $control->html;
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->JS;
+			echo $control->js;
 			echo 'jQuery("#wp_insert_legalpages_disclaimer_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
@@ -306,7 +306,7 @@ function wp_insert_legalpages_copyright_form_get_content() {
 	if ( ! ( isset( $legalPages['copyright']['content'] ) && ( $legalPages['copyright']['content'] !== '' ) ) ) {
 		$legalPages['copyright']['content'] = wp_insert_legalpages_get_default_data( 'copyright' );
 	}
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_legalpages[copyright]',
 				'values'           => $legalPages['copyright'],
@@ -332,7 +332,7 @@ function wp_insert_legalpages_copyright_form_get_content() {
 						'optionName' => 'content',
 					]
 				);
-				echo $control->HTML;
+				echo $control->html;
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Assign Pages(s)</h3>';
@@ -344,15 +344,15 @@ function wp_insert_legalpages_copyright_form_get_content() {
 					]
 				);
 				$control->create_section( 'Assign a Page' );
-				echo $control->HTML;
+				echo $control->html;
 				echo '<p class="wp_insert_OR">OR</p>';
-				$control->set_HTML( '<input type="button" id="wp_insert_legalpages_copyright_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_copyright\', \'Copyright Notice\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
+				$control->set_html( '<input type="button" id="wp_insert_legalpages_copyright_generate_page" value="Click to Generate" class="input button-secondary wp_insert_generate_page_button" onclick="wp_insert_legalpages_generate_page(\'wp_insert_legalpages_copyright\', \'Copyright Notice\')" /><div class="wp_insert_ajaxloader_flat" style="display: none;"></div>' );
 				$control->create_section( 'Generate New Page' );
-				echo $control->HTML;
+				echo $control->html;
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->JS;
+			echo $control->js;
 			echo 'jQuery("#wp_insert_legalpages_copyright_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';

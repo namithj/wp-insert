@@ -6,7 +6,7 @@ function wp_insert_google_login_form_get_content() {
 	echo '<div class="wp_insert_popup_content_wrapper">';
 		echo '<div class="wp_insert_google_loginform_wrapper_step_1">';
 			$authenticationData = get_option( 'wp_insert_google_api_authentication_data', true );
-			$control            = new smartlogixControls();
+			$control            = new SmartlogixControls();
 
 			$clientId = '';
 	if ( isset( $authenticationData ) && is_array( $authenticationData ) && ( $authenticationData['clientId'] !== '' ) ) {
@@ -23,7 +23,7 @@ function wp_insert_google_login_form_get_content() {
 				]
 			);
 			$control->create_section( 'Client ID : xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com' );
-			$controlClientID = $control->HTML;
+			$controlClientID = $control->html;
 			$control->clear_controls();
 
 			$clientSecret = '';
@@ -41,14 +41,14 @@ function wp_insert_google_login_form_get_content() {
 				]
 			);
 			$control->create_section( 'Client Secret : xxxxxxxxxxxxxxxxxxxxxxxx' );
-			$controlClientSecret = $control->HTML;
+			$controlClientSecret = $control->html;
 			$control->clear_controls();
 
-			$control->HTML     .= '<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" onclick="wp_insert_google_login_get_auth_code()">';
-				$control->HTML .= '<span class="ui-button-text">Get Authorization Code</span>';
-			$control->HTML     .= '</button>';
+			$control->html     .= '<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" onclick="wp_insert_google_login_get_auth_code()">';
+				$control->html .= '<span class="ui-button-text">Get Authorization Code</span>';
+			$control->html     .= '</button>';
 			$control->create_section( 'Get Authorization Code' );
-			$controlAuthButton = $control->HTML;
+			$controlAuthButton = $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -62,47 +62,47 @@ function wp_insert_google_login_form_get_content() {
 				]
 			);
 			$control->create_section( 'Auth Code : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' );
-			$controlAuthCode = $control->HTML;
+			$controlAuthCode = $control->html;
 			$control->clear_controls();
 
-			$control->HTML         .= '<ol>';
-				$control->HTML     .= '<li>Go to the Google Developers Console at <a href="https://console.developers.google.com">https://console.developers.google.com.</a></li>';
-				$control->HTML     .= '<li>If you have not created a project yet, choose <b>Select a project</b> from the menu bar, and then choose <b>Create</b> a project.<br /><small>(Returning users can go straight to step 14)</small></li>';
-				$control->HTML     .= '<li>Enter <b>Wp-Insert</b> as the project name and click on the <b>Create</b> button</li>';
-				$control->HTML     .= '<li>Wait for the project to be created and select <b>Wp-Insert</b> as the current project</li>';
-				$control->HTML     .= '<li>Click on <b>ENABLE APIS AND SERVICES</b></li>';
-				$control->HTML     .= '<li>Search for <b>adsense</b> and click on / select <b>AdSense Management API</b> and then click on <b>Enable</b></li>';
-				$control->HTML     .= '<li>Click on <b>Create credentials</b></li>';
-				$control->HTML     .= '<li>Under <b>Where will you be calling the API from?</b>; Select <b>Other UI (e.g. Windows, CLI tool)</b></li>';
-				$control->HTML     .= '<li>Under <b>What data will you be accessing?</b>; Select <b>User data</b></li>';
-				$control->HTML     .= '<li>Click on <b>What credentials do I need?</b></li>';
-				$control->HTML     .= '<li>Under <b>Create an OAuth 2.0 client ID</b> Enter the name as <b>Wp-Insert</b></li>';
-				$control->HTML     .= '<li>Under <b>Set up the OAuth 2.0 consent screen</b> select your email address and enter the <b>Product name shown to users</b> as <b>Wp-Insert</b></li>';
-				$control->HTML     .= '<li>Click on <b>I will do this later</b> or <b>Done</b></li>';
-				$control->HTML     .= '<li>In the new screen under <b>OAuth 2.0 client IDs</b> click on <b>Wp-Insert</b></li>';
-				$control->HTML     .= '<li>';
-					$control->HTML .= 'Copy <b>Client ID</b> and paste it below';
-					$control->HTML .= $controlClientID;
-				$control->HTML     .= '</li>';
-				$control->HTML     .= '<li>';
-					$control->HTML .= 'Copy <b>Client Secret</b> and paste it below';
-					$control->HTML .= $controlClientSecret;
-				$control->HTML     .= '</li>';
-				$control->HTML     .= '<li>You can now close Google Developers Console</li>';
-				$control->HTML     .= '<li>';
-					$control->HTML .= 'Click <b>Get Authorization Code</b> button below<br />';
-					$control->HTML .= $controlAuthButton;
-				$control->HTML     .= '</li>';
-				$control->HTML     .= '<li>';
-					$control->HTML .= 'Copy <b>Authorization Code</b> and paste it below';
-					$control->HTML .= $controlAuthCode;
-				$control->HTML     .= '</li>';
-			$control->HTML         .= '</ol>';
+			$control->html         .= '<ol>';
+				$control->html     .= '<li>Go to the Google Developers Console at <a href="https://console.developers.google.com">https://console.developers.google.com.</a></li>';
+				$control->html     .= '<li>If you have not created a project yet, choose <b>Select a project</b> from the menu bar, and then choose <b>Create</b> a project.<br /><small>(Returning users can go straight to step 14)</small></li>';
+				$control->html     .= '<li>Enter <b>Wp-Insert</b> as the project name and click on the <b>Create</b> button</li>';
+				$control->html     .= '<li>Wait for the project to be created and select <b>Wp-Insert</b> as the current project</li>';
+				$control->html     .= '<li>Click on <b>ENABLE APIS AND SERVICES</b></li>';
+				$control->html     .= '<li>Search for <b>adsense</b> and click on / select <b>AdSense Management API</b> and then click on <b>Enable</b></li>';
+				$control->html     .= '<li>Click on <b>Create credentials</b></li>';
+				$control->html     .= '<li>Under <b>Where will you be calling the API from?</b>; Select <b>Other UI (e.g. Windows, CLI tool)</b></li>';
+				$control->html     .= '<li>Under <b>What data will you be accessing?</b>; Select <b>User data</b></li>';
+				$control->html     .= '<li>Click on <b>What credentials do I need?</b></li>';
+				$control->html     .= '<li>Under <b>Create an OAuth 2.0 client ID</b> Enter the name as <b>Wp-Insert</b></li>';
+				$control->html     .= '<li>Under <b>Set up the OAuth 2.0 consent screen</b> select your email address and enter the <b>Product name shown to users</b> as <b>Wp-Insert</b></li>';
+				$control->html     .= '<li>Click on <b>I will do this later</b> or <b>Done</b></li>';
+				$control->html     .= '<li>In the new screen under <b>OAuth 2.0 client IDs</b> click on <b>Wp-Insert</b></li>';
+				$control->html     .= '<li>';
+					$control->html .= 'Copy <b>Client ID</b> and paste it below';
+					$control->html .= $controlClientID;
+				$control->html     .= '</li>';
+				$control->html     .= '<li>';
+					$control->html .= 'Copy <b>Client Secret</b> and paste it below';
+					$control->html .= $controlClientSecret;
+				$control->html     .= '</li>';
+				$control->html     .= '<li>You can now close Google Developers Console</li>';
+				$control->html     .= '<li>';
+					$control->html .= 'Click <b>Get Authorization Code</b> button below<br />';
+					$control->html .= $controlAuthButton;
+				$control->html     .= '</li>';
+				$control->html     .= '<li>';
+					$control->html .= 'Copy <b>Authorization Code</b> and paste it below';
+					$control->html .= $controlAuthCode;
+				$control->html     .= '</li>';
+			$control->html         .= '</ol>';
 			$control->create_section( 'Please follow the steps below to connect your Adsense account.' );
-			echo $control->HTML;
+			echo $control->html;
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			echo $control->JS;
+			echo $control->js;
 			echo 'jQuery(".ui-dialog-buttonset").find("button").first().find("span:nth-child(2)").hide().after("<span class=\'ui-button-text\'>Login / Authorize</span>");';
 			echo 'jQuery(".ui-dialog-buttonset").find("button").first().find("span:nth-child(1)").attr("class", "ui-button-icon-primary ui-icon ui-icon-key");';
 		echo '</script>';

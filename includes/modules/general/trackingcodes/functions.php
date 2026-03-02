@@ -6,7 +6,7 @@ function wp_insert_trackingcodes_google_analytics_form_get_content() {
 
 	$trackingCodes = get_option( 'wp_insert_trackingcodes' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_trackingcodes[analytics]',
 				'values'           => $trackingCodes['analytics'],
@@ -26,9 +26,9 @@ function wp_insert_trackingcodes_google_analytics_form_get_content() {
 				'helpText'   => 'Your Google Analytics Tracker ID (XX-XXXXX-X)',
 			]
 		);
-		echo $control->HTML;
+		echo $control->html;
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		echo $control->js;
 		echo '</script>';
 	echo '</div>';
 	die();
@@ -68,7 +68,7 @@ function wp_insert_trackingcodes_header_form_get_content() {
 
 	$trackingCodes = get_option( 'wp_insert_trackingcodes' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_trackingcodes[header]',
 				'values'           => $trackingCodes['header'],
@@ -87,9 +87,9 @@ function wp_insert_trackingcodes_header_form_get_content() {
 				'label'      => 'Embed Code',
 			]
 		);
-		echo $control->HTML;
+		echo $control->html;
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		echo $control->js;
 		echo '</script>';
 	echo '</div>';
 	die();
@@ -126,7 +126,7 @@ function wp_insert_trackingcodes_footer_form_get_content() {
 
 	$trackingCodes = get_option( 'wp_insert_trackingcodes' );
 	echo '<div class="wp_insert_popup_content_wrapper">';
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'optionIdentifier' => 'wp_insert_trackingcodes[footer]',
 				'values'           => $trackingCodes['footer'],
@@ -145,9 +145,9 @@ function wp_insert_trackingcodes_footer_form_get_content() {
 				'label'      => 'Embed Code',
 			]
 		);
-		echo $control->HTML;
+		echo $control->html;
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		echo $control->js;
 		echo '</script>';
 	echo '</div>';
 	die();

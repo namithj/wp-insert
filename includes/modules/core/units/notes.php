@@ -37,7 +37,7 @@ function wp_insert_form_accordion_tabs_notes( $control, $identifier, $location )
 			]
 		);
 		$control->create_section( 'Title' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 
 		$control->add_control(
@@ -48,7 +48,7 @@ function wp_insert_form_accordion_tabs_notes( $control, $identifier, $location )
 			]
 		);
 		$control->create_section( 'Notes' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 	echo '</div>';
 	return $control;

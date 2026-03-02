@@ -86,7 +86,7 @@ function wp_insert_get_ad_form( $script = '' ) {
 		}
 
 		echo '<div class="wp_insert_popup_content_wrapper">';
-			$control = new smartlogixControls(
+			$control = new SmartlogixControls(
 				[
 					'optionIdentifier' => 'wp_insert_' . $type . '[' . $identifier . ']',
 					'values'           => $data[ $dataIdentifier ],
@@ -107,13 +107,13 @@ function wp_insert_get_ad_form( $script = '' ) {
 					'value'      => $identifier,
 				]
 			);
-			echo $control->HTML;
+			echo $control->html;
 			$control->clear_controls();
 			echo '<div id="wp_insert_' . $type . '_' . $identifier . '_accordion">';
 				$control = apply_filters( 'wp_insert_' . $type . '_form_accordion_tabs', $control, $identifier, $type );
 			echo '</div>';
 			echo '<script type="text/javascript">';
-				echo $control->JS;
+				echo $control->js;
 				echo 'jQuery("#wp_insert_' . $type . '_' . $identifier . '_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "auto" });';
 		if ( $script !== '' ) {
 			echo str_replace( '###IDENTIFIER###', $identifier, $script );

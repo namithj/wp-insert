@@ -18,9 +18,9 @@ add_filter( 'wp_insert_inthemeads_form_accordion_tabs', 'wp_insert_inthemeads_fo
 function wp_insert_inthemeads_form_accordion_tabs_code_snippet( $control, $identifier, $location ) {
 	echo '<h3>Code Snippet</h3>';
 	echo '<div>';
-		$control->set_HTML( '<p class="codeSnippet"><code>&lt;?php if(function_exists("wp_intheme_ad")) { wp_intheme_ad("' . $identifier . '"); } ?&gt;</code></p>' );
+		$control->set_html( '<p class="codeSnippet"><code>&lt;?php if(function_exists("wp_intheme_ad")) { wp_intheme_ad("' . $identifier . '"); } ?&gt;</code></p>' );
 		$control->create_section( 'Code to add to your theme files' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 	echo '</div>';
 	return $control;

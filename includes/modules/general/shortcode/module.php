@@ -18,9 +18,9 @@ add_filter( 'wp_insert_shortcodeads_form_accordion_tabs', 'wp_insert_shortcodead
 function wp_insert_shortcodeads_form_accordion_tabs_shortcode( $control, $identifier, $location ) {
 	echo '<h3>Shortcode</h3>';
 	echo '<div>';
-		$control->set_HTML( '<p class="codeSnippet"><code>[wpinsertshortcodead id="' . $identifier . '"]</code></p>' );
+		$control->set_html( '<p class="codeSnippet"><code>[wpinsertshortcodead id="' . $identifier . '"]</code></p>' );
 		$control->create_section( 'Code to add to your post/page content' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 	echo '</div>';
 	return $control;

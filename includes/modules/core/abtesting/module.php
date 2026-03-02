@@ -38,7 +38,7 @@ function wp_insert_abtesting_configuration_form_get_content() {
 		],
 	];
 	echo '<div class="wp_insert_popup_content_wrapper">';
-		$control = new smartlogixControls(
+		$control = new SmartlogixControls(
 			[
 				'type'    => 'radio-group',
 				'id'      => 'wp_insert_abtesting_mode',
@@ -49,7 +49,7 @@ function wp_insert_abtesting_configuration_form_get_content() {
 			]
 		);
 		$control->add_control();
-		echo $control->HTML;
+		echo $control->html;
 		echo '<p>';
 			echo '<b>Recommended Ad Networks</b><br /><br />';
 			echo '<a href="http://google.com/adsense" target="_blank"><img src="' . WP_INSERT_URL . '/includes/assets/images/adsense-logo.png" /></a>';

@@ -22,8 +22,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Logged in Users' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -36,8 +36,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Mobile Devices' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -50,8 +50,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( '404 Pages' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -72,8 +72,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Home' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -94,8 +94,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Archives' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -116,8 +116,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Search Results' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -137,8 +137,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Single Pages' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -165,8 +165,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Single Posts' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -194,8 +194,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Category Archives' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 		echo '</div>';
 	} else {
@@ -210,8 +210,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Logged in Users' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -224,8 +224,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Mobile Devices' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -238,8 +238,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( '404 Pages' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -252,8 +252,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Home' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -266,8 +266,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Archives' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -280,8 +280,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Search Results' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -301,8 +301,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Single Pages' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -322,8 +322,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Category Archives' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 
 			$control->add_control(
@@ -350,8 +350,8 @@ function wp_insert_form_accordion_tabs_rules( $control, $identifier, $location )
 				]
 			);
 			$control->create_section( 'Single Posts' );
-			$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-			echo $control->HTML;
+			$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+			echo $control->html;
 			$control->clear_controls();
 		echo '</div>';
 	}

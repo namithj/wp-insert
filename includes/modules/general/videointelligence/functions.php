@@ -30,7 +30,7 @@ function wp_insert_vi_login_form_get_content() {
 			wp_insert_vi_login_form_get_controls();
 		echo '</div>';
 		echo '<script type="text/javascript">';
-			//echo $control->JS;
+			//echo $control->js;
 			echo 'jQuery(".ui-dialog-buttonset").find("button").first().find("span:nth-child(2)").hide().after("<span class=\'ui-button-text\'>Login</span>");';
 			echo 'jQuery(".ui-dialog-buttonset").find("button").first().find("span:nth-child(1)").attr("class", "ui-button-icon-primary ui-icon ui-icon-key");';
 		echo '</script>';
@@ -63,8 +63,8 @@ function wp_insert_vi_login_form_save_action() {
 }
 
 function wp_insert_vi_login_form_get_controls() {
-	$control        = new smartlogixControls();
-	$control->HTML .= '<p>Please log in with the received credentials to complete the integration:</p>';
+	$control        = new SmartlogixControls();
+	$control->html .= '<p>Please log in with the received credentials to complete the integration:</p>';
 	$control->add_control(
 		[
 			'type'  => 'text',
@@ -84,7 +84,7 @@ function wp_insert_vi_login_form_get_controls() {
 		]
 	);
 	$control->create_section( 'Login' );
-	echo $control->HTML;
+	echo $control->html;
 }
 
 add_action( 'wp_ajax_wp_insert_vi_update_adstxt', 'wp_insert_vi_update_adstxt' );
@@ -156,21 +156,21 @@ add_action( 'wp_ajax_wp_insert_vi_customize_adcode_form_get_content', 'wp_insert
 function wp_insert_vi_customize_adcode_form_get_content() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 	$vicodeSettings         = get_option( 'wp_insert_vi_code_settings' );
-	$control                = new smartlogixControls(
+	$control                = new SmartlogixControls(
 		[
 			'optionIdentifier' => 'wp_insert_vi_code_settings',
 			'values'           => $vicodeSettings,
 		]
 	);
-	$control->HTML          = '<div class="wp_insert_popup_content_wrapper">';
-		$control->HTML     .= '<p>Use this form to customize the look of the video unit. Use the same parameters as your WordPress theme for a natural look on your site.<br />You can use <b>vi stories</b> for <i>In-Post Ads: Ad - Above Post Content</i> and <i>In-Post Ads: Ad - Middle of Post Content</i></p>';
-		$control->HTML     .= '<div class="wp_insert_vi_popup_right_column">';
-			$control->HTML .= '<img style="margin: 0 auto; display: block;" src="' . WP_INSERT_URL . 'includes/assets/images/advertisement-preview.png?' . WP_INSERT_VERSION . '" />';
-		$control->HTML     .= '</div>';
-		$control->HTML     .= '<div class="wp_insert_vi_popup_left_column">';
-			$control->HTML .= '<p id="wp_insert_vi_customize_adcode_keywords_required_error" style="display: none;" class="viError">Keywords contains invalid characters, Some required fields are missing</p>';
-			$control->HTML .= '<p id="wp_insert_vi_customize_adcode_keywords_error" style="display: none;" class="viError">Keywords contains invalid characters</p>';
-			$control->HTML .= '<p id="wp_insert_vi_customize_adcode_required_error" style="display: none;" class="viError">Some required fields are missing</p>';
+	$control->html          = '<div class="wp_insert_popup_content_wrapper">';
+		$control->html     .= '<p>Use this form to customize the look of the video unit. Use the same parameters as your WordPress theme for a natural look on your site.<br />You can use <b>vi stories</b> for <i>In-Post Ads: Ad - Above Post Content</i> and <i>In-Post Ads: Ad - Middle of Post Content</i></p>';
+		$control->html     .= '<div class="wp_insert_vi_popup_right_column">';
+			$control->html .= '<img style="margin: 0 auto; display: block;" src="' . WP_INSERT_URL . 'includes/assets/images/advertisement-preview.png?' . WP_INSERT_VERSION . '" />';
+		$control->html     .= '</div>';
+		$control->html     .= '<div class="wp_insert_vi_popup_left_column">';
+			$control->html .= '<p id="wp_insert_vi_customize_adcode_keywords_required_error" style="display: none;" class="viError">Keywords contains invalid characters, Some required fields are missing</p>';
+			$control->html .= '<p id="wp_insert_vi_customize_adcode_keywords_error" style="display: none;" class="viError">Keywords contains invalid characters</p>';
+			$control->html .= '<p id="wp_insert_vi_customize_adcode_required_error" style="display: none;" class="viError">Some required fields are missing</p>';
 			$adUnitOptions  = [
 				/*array('text' => 'Select Ad Unit', 'value' => 'select'),*/
 				[
@@ -274,15 +274,15 @@ function wp_insert_vi_customize_adcode_form_get_content() {
 					'options'    => wp_insert_vi_get_constant_font_sizes(),
 				]
 			);
-			$control->HTML .= '<p class="wp_insert_vi_delay_notice">vi Ad Changes might take some time to take into effect</p>';
-			$control->HTML .= '</div>';
-			$control->HTML .= '<div class="clear"></div>';
-			$control->HTML .= '</div>';
+			$control->html .= '<p class="wp_insert_vi_delay_notice">vi Ad Changes might take some time to take into effect</p>';
+			$control->html .= '</div>';
+			$control->html .= '<div class="clear"></div>';
+			$control->html .= '</div>';
 			$control->create_section( ' vi stories: customize your video player ' );
-			echo $control->HTML;
+			echo $control->html;
 			$control->clear_controls();
 
-			$control->HTML .= '<p>Enable GDPR Compliance confirmation notice on your site for visitors from EU.<br />If you disable this option make sure you are using a data usage authorization system on your website to remain GDPR complaint.</p>';
+			$control->html .= '<p>Enable GDPR Compliance confirmation notice on your site for visitors from EU.<br />If you disable this option make sure you are using a data usage authorization system on your website to remain GDPR complaint.</p>';
 			$control->add_control(
 				[
 					'type'           => 'checkbox-button',
@@ -293,9 +293,9 @@ function wp_insert_vi_customize_adcode_form_get_content() {
 				]
 			);
 			$control->create_section( ' vi stories: GDPR Compliance ' );
-			echo $control->HTML;
+			echo $control->html;
 			echo '<script type="text/javascript">';
-			echo $control->JS;
+			echo $control->js;
 			echo 'wp_insert_vi_code_iab_category_parent_change();';
 			echo '</script>';
 			die();

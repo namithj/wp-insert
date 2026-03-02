@@ -11,7 +11,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'optionName'     => 'device_exclude_large_desktop',
 			]
 		);
-		$control->HTML .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are greater than the Device Width set below</small></p>';
+		$control->html .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are greater than the Device Width set below</small></p>';
 		$control->add_control(
 			[
 				'type'       => 'number',
@@ -38,8 +38,8 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 			]
 		);
 		$control->create_section( 'Device - Large Desktop' );
-		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-		echo $control->HTML;
+		$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+		echo $control->html;
 		$control->clear_controls();
 
 		$control->add_control(
@@ -51,7 +51,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'optionName'     => 'device_exclude_medium_desktop',
 			]
 		);
-		$control->HTML .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are greater than the Device Width set below but smaller than Device Width set for Large Desktop</small></p>';
+		$control->html .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are greater than the Device Width set below but smaller than Device Width set for Large Desktop</small></p>';
 		$control->add_control(
 			[
 				'type'       => 'number',
@@ -78,8 +78,8 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 			]
 		);
 		$control->create_section( 'Devices - Medium Desktop' );
-		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-		echo $control->HTML;
+		$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+		echo $control->html;
 		$control->clear_controls();
 
 		$control->add_control(
@@ -91,7 +91,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'optionName'     => 'device_exclude_tablet',
 			]
 		);
-		$control->HTML .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are greater than the Device Width set below but smaller than Device Width set for Medium Desktop</small></p>';
+		$control->html .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are greater than the Device Width set below but smaller than Device Width set for Medium Desktop</small></p>';
 		$control->add_control(
 			[
 				'type'       => 'number',
@@ -118,8 +118,8 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 			]
 		);
 		$control->create_section( 'Devices - Tablet' );
-		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-		echo $control->HTML;
+		$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div>' );
+		echo $control->html;
 		$control->clear_controls();
 
 		$control->add_control(
@@ -131,7 +131,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'optionName'     => 'device_exclude_mobile',
 			]
 		);
-		$control->HTML .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are smaller than the Device Width set for Tablets</small></p>';
+		$control->html .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are smaller than the Device Width set for Tablets</small></p>';
 		$control->add_control(
 			[
 				'type'       => 'number',
@@ -158,8 +158,8 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 			]
 		);
 		$control->create_section( 'Devices - Mobile (Normal)' );
-		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-		echo $control->HTML;
+		$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+		echo $control->html;
 		$control->clear_controls();
 
 		$control->add_control(
@@ -171,7 +171,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 				'optionName'     => 'device_exclude_small_mobile',
 			]
 		);
-		$control->HTML .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are smaller than the Device Width set for Mobile (Normal)</small></p>';
+		$control->html .= '<p style="text-align: center; min-height: 40px;"><small>This setting will apply to all devices which are smaller than the Device Width set for Mobile (Normal)</small></p>';
 		$control->add_control(
 			[
 				'type'       => 'number',
@@ -189,8 +189,8 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 			]
 		);
 		$control->create_section( 'Devices - Mobile (Small)' );
-		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-		echo $control->HTML;
+		$control->set_html( '<div class="wp_insert_rule_block">' . $control->html . '</div><div style="clear: both;"></div>' );
+		echo $control->html;
 		$control->clear_controls();
 
 		$control->add_control(
@@ -202,7 +202,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 			]
 		);
 		$control->create_section( 'Styles (Common)' );
-		echo $control->HTML;
+		echo $control->html;
 		$control->clear_controls();
 	echo '</div>';
 	return $control;
