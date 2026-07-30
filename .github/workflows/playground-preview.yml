@@ -52,7 +52,7 @@ jobs:
           echo "Built preview URL for ${HEAD_REPO}@${HEAD_REF}"
 
       - name: Comment preview link on the pull request
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
