@@ -15,23 +15,27 @@
  */
 
 /**
- * Read an environment variable, falling back to a default when it is unset or empty.
+ * Read an environment variable, falling back when it is unset or empty.
  *
- * @param string $name    Variable name.
- * @param string $default Value to use when the variable is not provided.
+ * @param string $name     Variable name.
+ * @param string $fallback Value to use when the variable is not provided.
  * @return string
  */
-function wp_insert_tests_env( $name, $default ) {
+function wp_insert_tests_env( $name, $fallback ) {
 	$value = getenv( $name );
-	return ( false === $value || '' === $value ) ? $default : $value;
+	return ( false === $value || '' === $value ) ? $fallback : $value;
 }
 
 $wp_insert_tests_abspath = wp_insert_tests_env( 'WP_TESTS_ABSPATH', '/var/www/html/public' );
 define( 'ABSPATH', rtrim( $wp_insert_tests_abspath, '/\\' ) . '/' );
 
 if ( ! file_exists( ABSPATH . 'wp-settings.php' ) ) {
-	echo 'No WordPress core found at ' . ABSPATH . PHP_EOL
-		. 'Set WP_TESTS_ABSPATH to a WordPress checkout (see bin/install-wp-core.sh).' . PHP_EOL;
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- CLI diagnostic; WordPress (and WP_Filesystem) is not loaded at this point.
+	fwrite(
+		STDERR,
+		'No WordPress core found at ' . ABSPATH . PHP_EOL
+			. 'Set WP_TESTS_ABSPATH to a WordPress checkout (see bin/install-wp-core.sh).' . PHP_EOL
+	);
 	exit( 1 );
 }
 
