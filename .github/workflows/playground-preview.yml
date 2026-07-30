@@ -27,7 +27,7 @@ jobs:
     steps:
       # Checks out the base repository (trusted), not the pull request head.
       - name: Checkout base repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
         uses: actions/setup-node@v4
