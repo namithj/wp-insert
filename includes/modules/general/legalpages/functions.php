@@ -59,7 +59,7 @@ function wp_insert_legalpages_privacy_policy_form_get_content() {
 			echo 'jQuery("#wp_insert_legalpages_privacy_policy_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_privacy_policy_form_save_action', 'wp_insert_legalpages_privacy_policy_form_save_action' );
@@ -67,10 +67,10 @@ function wp_insert_legalpages_privacy_policy_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	$legalPages                                    = get_option( 'wp_insert_legalpages' );
-	$legalPages['privacy_policy']['content']       = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_content'] ) ) ? $_POST['wp_insert_legalpages_privacy_policy_content'] : '' );
-	$legalPages['privacy_policy']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] : '' );
+	$legalPages['privacy_policy']['content']       = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_content'] ) ) ? wp_slash( wp_kses_post( wp_unslash( $_POST['wp_insert_legalpages_privacy_policy_content'] ) ) ) : '' );
+	$legalPages['privacy_policy']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wp_insert_legalpages_privacy_policy_assigned_page'] ) ) : '' );
 	update_option( 'wp_insert_legalpages', $legalPages );
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_privacy_policy_form_generate_page_action', 'wp_insert_legalpages_privacy_policy_form_generate_page_action' );
@@ -94,7 +94,7 @@ function wp_insert_legalpages_privacy_policy_form_generate_page_action() {
 	} else {
 		echo '0';
 	}
-	die();
+	wp_die();
 }
 /* End Privacy Policy */
 
@@ -158,7 +158,7 @@ function wp_insert_legalpages_terms_conditions_form_get_content() {
 			echo 'jQuery("#wp_insert_legalpages_terms_conditions_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_terms_conditions_form_save_action', 'wp_insert_legalpages_terms_conditions_form_save_action' );
@@ -166,10 +166,10 @@ function wp_insert_legalpages_terms_conditions_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	$legalPages                                      = get_option( 'wp_insert_legalpages' );
-	$legalPages['terms_conditions']['content']       = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_content'] ) ) ? $_POST['wp_insert_legalpages_terms_conditions_content'] : '' );
-	$legalPages['terms_conditions']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] : '' );
+	$legalPages['terms_conditions']['content']       = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_content'] ) ) ? wp_slash( wp_kses_post( wp_unslash( $_POST['wp_insert_legalpages_terms_conditions_content'] ) ) ) : '' );
+	$legalPages['terms_conditions']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wp_insert_legalpages_terms_conditions_assigned_page'] ) ) : '' );
 	update_option( 'wp_insert_legalpages', $legalPages );
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_terms_conditions_form_generate_page_action', 'wp_insert_legalpages_terms_conditions_form_generate_page_action' );
@@ -193,7 +193,7 @@ function wp_insert_legalpages_terms_conditions_form_generate_page_action() {
 	} else {
 		echo '0';
 	}
-	die();
+	wp_die();
 }
 /* End Terms and Conditions */
 
@@ -257,7 +257,7 @@ function wp_insert_legalpages_disclaimer_form_get_content() {
 			echo 'jQuery("#wp_insert_legalpages_disclaimer_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_disclaimer_form_save_action', 'wp_insert_legalpages_disclaimer_form_save_action' );
@@ -265,10 +265,10 @@ function wp_insert_legalpages_disclaimer_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	$legalPages                                = get_option( 'wp_insert_legalpages' );
-	$legalPages['disclaimer']['content']       = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_content'] ) ) ? $_POST['wp_insert_legalpages_disclaimer_content'] : '' );
-	$legalPages['disclaimer']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_disclaimer_assigned_page'] : '' );
+	$legalPages['disclaimer']['content']       = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_content'] ) ) ? wp_slash( wp_kses_post( wp_unslash( $_POST['wp_insert_legalpages_disclaimer_content'] ) ) ) : '' );
+	$legalPages['disclaimer']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_disclaimer_assigned_page'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wp_insert_legalpages_disclaimer_assigned_page'] ) ) : '' );
 	update_option( 'wp_insert_legalpages', $legalPages );
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_disclaimer_form_generate_page_action', 'wp_insert_legalpages_disclaimer_form_generate_page_action' );
@@ -292,7 +292,7 @@ function wp_insert_legalpages_disclaimer_form_generate_page_action() {
 	} else {
 		echo '0';
 	}
-	die();
+	wp_die();
 }
 /* End Disclaimer */
 
@@ -356,7 +356,7 @@ function wp_insert_legalpages_copyright_form_get_content() {
 			echo 'jQuery("#wp_insert_legalpages_copyright_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
 		echo '</script>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_copyright_form_save_action', 'wp_insert_legalpages_copyright_form_save_action' );
@@ -364,10 +364,10 @@ function wp_insert_legalpages_copyright_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	$legalPages                               = get_option( 'wp_insert_legalpages' );
-	$legalPages['copyright']['content']       = ( ( isset( $_POST['wp_insert_legalpages_copyright_content'] ) ) ? $_POST['wp_insert_legalpages_copyright_content'] : '' );
-	$legalPages['copyright']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_copyright_assigned_page'] ) ) ? $_POST['wp_insert_legalpages_copyright_assigned_page'] : '' );
+	$legalPages['copyright']['content']       = ( ( isset( $_POST['wp_insert_legalpages_copyright_content'] ) ) ? wp_slash( wp_kses_post( wp_unslash( $_POST['wp_insert_legalpages_copyright_content'] ) ) ) : '' );
+	$legalPages['copyright']['assigned_page'] = ( ( isset( $_POST['wp_insert_legalpages_copyright_assigned_page'] ) ) ? sanitize_text_field( wp_unslash( $_POST['wp_insert_legalpages_copyright_assigned_page'] ) ) : '' );
 	update_option( 'wp_insert_legalpages', $legalPages );
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_legalpages_copyright_form_generate_page_action', 'wp_insert_legalpages_copyright_form_generate_page_action' );
@@ -391,7 +391,7 @@ function wp_insert_legalpages_copyright_form_generate_page_action() {
 	} else {
 		echo '0';
 	}
-	die();
+	wp_die();
 }
 /* End Copyright Notice */
 

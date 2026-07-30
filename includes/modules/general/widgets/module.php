@@ -38,7 +38,7 @@ class wpInsertAdWidget extends WP_Widget {
 		extract( $args );
 		$title     = apply_filters( 'widget_title', ( isset( $instance['title'] ) ? $instance['title'] : '' ) );
 		$adwidgets = get_option( 'wp_insert_adwidgets' );
-		if ( isset( $adwidgets[ $instance['instance'] ] ) && is_array( $adwidgets[ $instance['instance'] ] ) ) {
+		if ( isset( $instance['instance'], $adwidgets[ $instance['instance'] ] ) && is_array( $adwidgets[ $instance['instance'] ] ) ) {
 			if ( wp_insert_get_ad_status( $adwidgets[ $instance['instance'] ] ) ) {
 				echo $before_widget;
 				if ( ! empty( $title ) ) {

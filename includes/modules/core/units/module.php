@@ -53,7 +53,7 @@ function wp_insert_get_plugin_card( $title, $description, $type, $preTitle ) {
 			} else {
 				$title = $value['title'];
 			}
-			$title = esc_html( sanitize_text_field( $value['title'] ) );
+			$title = esc_html( sanitize_text_field( $title ) );
 			/* End Workaround for migrating old users to new system (can be removed in a later version) */
 			echo '<p>';
 				echo '<a class="wp_insert_ad_unit_title" title="Edit Ad Unit" id="wp_insert_' . $type . '_ad_' . $key . '" href="javascript:;" data-pre-title="' . $preTitle . '" onclick="wp_insert_ads_click_handler(\'' . $type . '\', \'' . $key . '\', \'' . $title . '\', false)">' . $preTitle . ' : ' . $title . '</a>';
@@ -71,17 +71,26 @@ function wp_insert_get_plugin_card( $title, $description, $type, $preTitle ) {
 /* Begin Get Ad Form */
 function wp_insert_get_ad_form( $script = '' ) {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( -1, 403 );
+	}
 	if ( isset( $_POST['wp_insert_identifier'] ) && isset( $_POST['wp_insert_type'] ) ) {
-		$type = $_POST['wp_insert_type'];
-		$data = get_option( 'wp_insert_' . $type );
+		$type = sanitize_key( wp_unslash( $_POST['wp_insert_type'] ) );
+		if ( ! in_array( $type, wp_insert_get_ad_unit_types(), true ) ) {
+			wp_die( -1, 400 );
+		}
+		$requestIdentifier = sanitize_text_field( wp_unslash( $_POST['wp_insert_identifier'] ) );
+		$data              = get_option( 'wp_insert_' . $type );
 
 		$identifier     = substr( str_shuffle( str_repeat( 'abcdefghijklmnopqrstuvwxyz', 5 ) ), 0, 5 ) . uniqid();
 		$dataIdentifier = $identifier;
-		if ( strpos( $_POST['wp_insert_identifier'], '###DUPLICATE###' ) !== false ) {
-			$dataIdentifier                   = str_replace( '###DUPLICATE###', '', $_POST['wp_insert_identifier'] );
-			$data[ $dataIdentifier ]['title'] = $data[ $dataIdentifier ]['title'] . ' (Duplicate)';
-		} elseif ( $_POST['wp_insert_identifier'] != 'new' ) {
-			$identifier     = $_POST['wp_insert_identifier'];
+		if ( strpos( $requestIdentifier, '###DUPLICATE###' ) !== false ) {
+			$dataIdentifier = sanitize_key( str_replace( '###DUPLICATE###', '', $requestIdentifier ) );
+			if ( isset( $data[ $dataIdentifier ] ) ) {
+				$data[ $dataIdentifier ]['title'] = ( $data[ $dataIdentifier ]['title'] ?? '' ) . ' (Duplicate)';
+			}
+		} elseif ( $requestIdentifier != 'new' ) {
+			$identifier     = sanitize_key( $requestIdentifier );
 			$dataIdentifier = $identifier;
 		}
 
@@ -89,7 +98,7 @@ function wp_insert_get_ad_form( $script = '' ) {
 			$control = new smartlogixControls(
 				[
 					'optionIdentifier' => 'wp_insert_' . $type . '[' . $identifier . ']',
-					'values'           => $data[ $dataIdentifier ],
+					'values'           => ( ( isset( $data[ $dataIdentifier ] ) && is_array( $data[ $dataIdentifier ] ) ) ? $data[ $dataIdentifier ] : [] ),
 				]
 			);
 			$control->add_control(
@@ -121,47 +130,58 @@ function wp_insert_get_ad_form( $script = '' ) {
 			echo '</script>';
 		echo '</div>';
 	}
-	die();
+	wp_die();
 }
 /* End Get Ad Form */
 
 /* Begin Save Ad Data */
 function wp_insert_save_ad_data() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( ( isset( $_POST['wp_insert_identifier'] ) && ( $_POST['wp_insert_identifier'] != '' ) ) && ( isset( $_POST['wp_insert_type'] ) && ( $_POST['wp_insert_type'] != '' ) ) && ( isset( $_POST['wp_insert_parameters'] ) && ( is_array( $_POST['wp_insert_parameters'] ) ) ) ) {
-		$type       = $_POST['wp_insert_type'];
-		$parameters = $_POST['wp_insert_parameters'];
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( -1, 403 );
+	}
+	$type       = ( isset( $_POST['wp_insert_type'] ) ? sanitize_key( wp_unslash( $_POST['wp_insert_type'] ) ) : '' );
+	$identifier = ( isset( $_POST['wp_insert_identifier'] ) ? sanitize_key( wp_unslash( $_POST['wp_insert_identifier'] ) ) : '' );
+	if ( ( $identifier != '' ) && in_array( $type, wp_insert_get_ad_unit_types(), true ) && ( isset( $_POST['wp_insert_parameters'] ) && is_array( $_POST['wp_insert_parameters'] ) ) ) {
+		$parameters = array_map( 'sanitize_key', wp_unslash( $_POST['wp_insert_parameters'] ) );
 		$data       = get_option( 'wp_insert_' . $type );
-		foreach ( $parameters as $parameter ) {
-			$data[ $_POST['wp_insert_identifier'] ][ str_replace( [ 'wp_insert_', $type . '_', $_POST['wp_insert_identifier'] . '_' ], '', $parameter ) ] = ( ( isset( $_POST[ $parameter ] ) ) ? $_POST[ $parameter ] : '' );
+		if ( ! is_array( $data ) ) {
+			$data = [];
 		}
-		echo '<pre>';
-		print_r( $data );
-		echo '</pre>';
-
+		foreach ( $parameters as $parameter ) {
+			$field = str_replace( [ 'wp_insert_', $type . '_', $identifier . '_' ], '', $parameter );
+			// Ad code must reach the option table unmodified for unfiltered_html
+			// users; wp_insert_sanitize_ad_field() handles the per-field rules.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			$data[ $identifier ][ $field ] = wp_insert_sanitize_ad_field( $field, ( ( isset( $_POST[ $parameter ] ) ) ? $_POST[ $parameter ] : '' ) );
+		}
 		update_option( 'wp_insert_' . $type, $data );
 
 		if ( function_exists( 'wp_insert_adstxt_adsense_admin_notice_reset' ) ) {
 			wp_insert_adstxt_adsense_admin_notice_reset();
 		}
 	}
-	die();
+	wp_die();
 }
 /* End Save Ad Data */
 
 /* Begin Delete Ad Data */
 function wp_insert_delete_ad_data() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	if ( ( isset( $_POST['wp_insert_identifier'] ) && ( $_POST['wp_insert_identifier'] != '' ) ) && ( isset( $_POST['wp_insert_type'] ) && ( $_POST['wp_insert_type'] != '' ) ) ) {
-		$type = $_POST['wp_insert_type'];
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( -1, 403 );
+	}
+	$type       = ( isset( $_POST['wp_insert_type'] ) ? sanitize_key( wp_unslash( $_POST['wp_insert_type'] ) ) : '' );
+	$identifier = ( isset( $_POST['wp_insert_identifier'] ) ? sanitize_key( wp_unslash( $_POST['wp_insert_identifier'] ) ) : '' );
+	if ( ( $identifier != '' ) && in_array( $type, wp_insert_get_ad_unit_types(), true ) ) {
 		$data = get_option( 'wp_insert_' . $type );
-		unset( $data[ $_POST['wp_insert_identifier'] ] );
+		unset( $data[ $identifier ] );
 		update_option( 'wp_insert_' . $type, $data );
 
 		if ( function_exists( 'wp_insert_adstxt_adsense_admin_notice_reset' ) ) {
 			wp_insert_adstxt_adsense_admin_notice_reset();
 		}
 	}
-	die();
+	wp_die();
 }
 /* End Delete Ad Data */

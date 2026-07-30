@@ -56,7 +56,7 @@ function wp_insert_abtesting_configuration_form_get_content() {
 			echo '<a href="https://www.vi.ai/publisher-video-monetization/" style="margin-left: 10px;" target="_blank"><img src="' . WP_INSERT_URL . '/includes/assets/images/vi-logo-square.png" /></a>';
 		echo '</p>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_abtesting_configuration_form_save_action', 'wp_insert_abtesting_configuration_form_save_action' );
@@ -64,8 +64,11 @@ function wp_insert_abtesting_configuration_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
 	if ( isset( $_POST['wp_insert_abtesting_mode'] ) ) {
-		update_option( 'wp_insert_abtesting_mode', $_POST['wp_insert_abtesting_mode'] );
+		$abtestingMode = sanitize_key( wp_unslash( $_POST['wp_insert_abtesting_mode'] ) );
+		if ( in_array( $abtestingMode, [ '1', '2', '3' ], true ) ) {
+			update_option( 'wp_insert_abtesting_mode', $abtestingMode );
+		}
 	}
-	die();
+	wp_die();
 }
 /* End AB Testing Content */
