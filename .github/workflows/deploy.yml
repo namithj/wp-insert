@@ -1,0 +1,68 @@
+name: Deploy to WordPress.org
+
+# Publishes the current tag to the WordPress.org SVN repository.
+#
+# Manual by design: WordPress.org treats SVN as a release repository, so pushes
+# should be deliberate. Runs as a dry run unless explicitly told otherwise.
+#
+# Requires repository secrets SVN_USERNAME and SVN_PASSWORD.
+#
+# Wp-Insert has no build step (no package.json), so the checkout is deployed
+# as-is; .distignore / .gitattributes decide what is excluded.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry run (skip actual SVN commit)'
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Publish to WordPress.org
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      # Never ship a release that fails its own standards or compatibility gate.
+      - name: Verify coding standards
+        run: composer lint:release
+
+      - name: Verify header and readme versions agree
+        shell: bash
+        run: |
+          HEADER_VERSION="$(grep -oP '^\s*\*\s*Version:\s*\K[0-9.]+' wp-insert.php)"
+          README_VERSION="$(grep -oP '^Stable tag:\s*\K[0-9.]+' readme.txt)"
+          echo "Plugin header: ${HEADER_VERSION}; readme Stable tag: ${README_VERSION}"
+          if [[ "${HEADER_VERSION}" != "${README_VERSION}" ]]; then
+            echo "Version mismatch — WordPress.org would serve the wrong release." >&2
+            exit 1
+          fi
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: wp-insert
+        with:
+          dry-run: ${{ inputs.dry-run }}

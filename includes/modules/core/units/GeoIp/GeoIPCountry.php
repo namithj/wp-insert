@@ -75,7 +75,7 @@ class GeoIPCountry {
 					}
 				}
 			} catch ( \Exception $e ) {
-				trigger_error( $e->getMessage() );
+				trigger_error( esc_html( $e->getMessage() ) );
 			}
 		}
 		return $this;
@@ -114,7 +114,7 @@ class GeoIPCountry {
 			$DBfile    = current( explode( $delimiter, $ip ) ) . '.php';
 			return $DBfile;
 		} catch ( \Exception $e ) {
-			trigger_error( $e->getMessage() );
+			trigger_error( esc_html( $e->getMessage() ) );
 		}
 		return null;
 	}
@@ -130,7 +130,7 @@ class GeoIPCountry {
 				throw new \Exception( sprintf( 'The required destination path is not writable: %s', $tmp ) );
 			}
 		} catch ( \Exception $e ) {
-			trigger_error( $e->getMessage(), E_USER_ERROR );
+			trigger_error( esc_html( $e->getMessage() ), E_USER_ERROR );
 		}
 		$tmp .= self::DS . ( $isArchive ? 'GeoIPCountry' : 'GeoIPDatas' );
 		if ( ! is_dir( $tmp ) ) {
@@ -169,7 +169,7 @@ class GeoIPCountry {
 					break;
 			endswitch;
 		} catch ( \Exception $e ) {
-			trigger_error( $e->getMessage(), E_USER_ERROR );
+			trigger_error( esc_html( $e->getMessage() ), E_USER_ERROR );
 		}
 		return $decimal;
 	}
@@ -263,7 +263,7 @@ class GeoIPCountry {
 				}
 			endforeach;
 		} catch ( \Exception $e ) {
-			trigger_error( $e->getMessage() );
+			trigger_error( esc_html( $e->getMessage() ) );
 		}
 		return $this->IsoCode;
 	}
@@ -424,7 +424,7 @@ class GeoIPCountry {
 					endforeach;
 				}
 			} catch ( \Exception $e ) {
-				trigger_error( $e->getMessage(), E_USER_ERROR );
+				trigger_error( esc_html( $e->getMessage() ), E_USER_ERROR );
 			}
 		}
 		return $this;

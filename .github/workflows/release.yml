@@ -1,0 +1,148 @@
+name: Release
+
+# Builds the distributable zip from a tag or a published release, verifies it,
+# and attaches a one-click WordPress Playground demo to the release notes.
+#
+# The zip is produced by bin/build-release.sh, which uses `git archive` so the
+# .gitattributes export-ignore rules decide what ships. That script also refuses
+# to build when the plugin header and readme Stable tag disagree.
+
+on:
+  push:
+    tags: ['v*']
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    env:
+      SLUG: wp-insert
+
+    steps:
+      - name: Checkout release ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Sync version from tag
+        shell: bash
+        env:
+          TAG_REF: ${{ github.event.release.tag_name || github.ref_name }}
+        run: |
+          VERSION="${TAG_REF#v}"
+          bash bin/set-version.sh "${VERSION}"
+          if ! git diff --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -am "chore: sync version to ${VERSION}"
+            echo "Committed version sync to ${VERSION}; release zip will be built from the corrected tree."
+          else
+            echo "Version already matches ${VERSION}; nothing to sync."
+          fi
+
+      # A broken release is worse than a late one: run the suite that guarantees
+      # existing users' ad code still renders before publishing anything.
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      - name: Verify coding standards
+        run: composer lint:release
+
+      - name: Build release zip
+        shell: bash
+        run: |
+          bash bin/build-release.sh "${RUNNER_TEMP}/dist"
+          ZIP="$(find "${RUNNER_TEMP}/dist" -name "${SLUG}-*.zip" | head -n 1)"
+          # Release assets use a stable, version-less name so blueprint URLs and
+          # download links stay predictable across releases.
+          cp "${ZIP}" "${RUNNER_TEMP}/${SLUG}.zip"
+          echo "Release asset: ${RUNNER_TEMP}/${SLUG}.zip"
+
+      - name: Build Playground bundle
+        run: bash bin/build-playground-bundle.sh "${RUNNER_TEMP}/${SLUG}.zip" "${RUNNER_TEMP}/${SLUG}-playground.zip"
+
+      - name: Smoke test Playground bundle
+        run: node scripts/test-playground.mjs "${RUNNER_TEMP}/${SLUG}-playground.zip"
+
+      - name: Upload manual-run artifacts
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-insert-release-preview
+          path: |
+            ${{ runner.temp }}/wp-insert.zip
+            ${{ runner.temp }}/wp-insert-playground.zip
+
+      - name: Create or update GitHub Release
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ runner.temp }}/wp-insert.zip
+            ${{ runner.temp }}/wp-insert-playground.zip
+          generate_release_notes: true
+
+      - name: Generate release Playground URL
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        shell: bash
+        env:
+          TAG_REF: ${{ github.event.release.tag_name || github.ref_name }}
+        run: |
+          PLAYGROUND_URL="$(node scripts/playground-blueprint.mjs release-url \
+            "${GITHUB_REPOSITORY}" \
+            "${TAG_REF}")"
+          echo "PLAYGROUND_URL=${PLAYGROUND_URL}" >> "${GITHUB_ENV}"
+
+      - name: Add Playground link to release description
+        if: ${{ github.event_name == 'release' }}
+        uses: actions/github-script@v7
+        env:
+          RELEASE_ID: ${{ github.event.release.id }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const startMarker = '<!-- wp-insert-playground:start -->';
+            const endMarker = '<!-- wp-insert-playground:end -->';
+            const section = [
+              startMarker,
+              '## Live demo',
+              '',
+              `[Try this release in WordPress Playground](${process.env.PLAYGROUND_URL})`,
+              '',
+              'The demo boots WordPress with Wp-Insert active and sample ad units already',
+              'configured for every placement type.',
+              endMarker,
+            ].join('\n');
+            const markerPattern = new RegExp(
+              `\\n?${startMarker}[\\s\\S]*?${endMarker}\\n?`,
+              'g',
+            );
+            const originalBody = context.payload.release.body || '';
+            const preservedBody = originalBody.replace(markerPattern, '').trimEnd();
+            const body = preservedBody ? `${preservedBody}\n\n${section}` : section;
+
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: Number(process.env.RELEASE_ID),
+              body,
+            });

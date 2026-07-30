@@ -1,0 +1,26 @@
+# Paths excluded from the WordPress.org SVN deployment.
+#
+# Kept in step with the export-ignore rules in .gitattributes, which control the
+# GitHub release zip. The 10up deploy action prefers this file when it exists.
+
+.git
+.github
+.vscode
+.cache
+.distignore
+.gitattributes
+.gitignore
+.editorconfig
+bin
+build
+composer.json
+composer.lock
+node_modules
+phpcs.xml
+phpcs.xml.dist
+.phpcs.xml
+phpunit.xml
+phpunit.xml.dist
+scripts
+tests
+vendor
