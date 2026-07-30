@@ -14,7 +14,7 @@ Audited against the 18 detailed plugin guidelines. Status as of 2026-07-31.
 | 8 | No remotely loaded executable code | **FIXED** | Was: jQuery UI stylesheet loaded from `code.jquery.com`. Now bundled at `includes/assets/css/jquery-ui/`. No remaining external asset loads, no `eval`, no self-update mechanism. |
 | 9 | No illegal/dishonest behaviour | PASS | Nothing deceptive. Removing the inaccurate privacy claim (G7) also resolves an honesty concern. |
 | 10 | No forced external links | PASS | No credit links, "powered by" markup, or backlinks in frontend output. Vendor links appear only inside the plugin's own admin screens. |
-| 11 | No admin dashboard hijacking | PASS | Admin UI is a native WP page (no iframes). The ads.txt AdSense notice is dismissible and capability-gated. See "Watch items" below re: the AdPushup link. |
+| 11 | No admin dashboard hijacking | PASS | Admin UI is a native WP page (no iframes). The ads.txt AdSense notice is dismissible and capability-gated. The third-party AdPushup promo that previously appeared in the in-post ad form has been removed, so no advertising remains in the admin. |
 | 12 | No readme spam | **FIXED** | Was: 9 tags including "best adsense plugin". Now 5 relevant tags, no competitor terms, no affiliate links. |
 | 13 | Use WordPress-bundled libraries | PASS | jQuery, jQuery UI core/accordion/dialog, editor and quicktags all loaded via core handles. Bundled Chart.js and the jQuery UI *theme CSS* are not shipped by core, so bundling is correct. |
 | 14 | SVN is a release repository | ACTION | Development happens in git; commit to SVN only at release. |
@@ -34,16 +34,17 @@ Audited against the 18 detailed plugin guidelines. Status as of 2026-07-31.
 
 ## Watch items (not violations, worth a decision before release)
 
-1. **AdPushup promotional link** — `includes/modules/core/units/adcode.php:15`
-   renders "Get access to 30+ partners with AdPushup" inside the in-post ad form.
-   It is non-blocking, scoped to the plugin's own screen, and does not gate any
-   feature, so it does not violate Guideline 11. If it is an affiliate or paid
-   placement, disclose it (Guideline 12 expects affiliate relationships to be
-   declared) or remove it.
-2. **No `uninstall.php`** — deleting the plugin leaves ad units and settings in
+1. **No `uninstall.php`** — deleting the plugin leaves ad units and settings in
    the options table. This is deliberate: wiping stored ad code on uninstall
    would destroy user data on a delete/reinstall cycle. Not a guideline
    requirement. If cleanup is ever added, it must be opt-in.
-3. **Screenshots** — the readme lists nine screenshots; confirm the matching
+2. **Screenshots** — the readme lists nine screenshots; confirm the matching
    `assets/screenshot-N.png` files exist in the SVN `assets/` directory (they are
    not part of the plugin package).
+
+## Resolved watch items
+
+- **AdPushup promotional link** (was in `includes/modules/core/units/adcode.php`):
+  removed entirely in 2.6.0. The plugin no longer promotes any third-party ad
+  network in the admin, which removes the affiliate-disclosure question under
+  Guideline 12 as well.

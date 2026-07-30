@@ -127,6 +127,8 @@ your control.
   resolved from a local database.
 * Removed unused video intelligence and Google API modules that were shipped but
   never loaded.
+* Removed the third-party ad network promotion from the ad code screen. The
+  plugin no longer advertises any external service in the admin.
 * The full codebase now passes the WordPress Coding Standards with no errors or
   warnings.
 
