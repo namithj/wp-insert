@@ -42,6 +42,9 @@
 	<!-- Directories and third party library exclusions. -->
 	<exclude-pattern>/vendor/*</exclude-pattern>
 
+	<!-- Bundled third-party library (iriven/GeoIPCountry) — not held to WPCS. -->
+	<exclude-pattern>/includes/modules/core/units/GeoIp/*</exclude-pattern>
+
 	<!-- Translation files. -->
 	<exclude-pattern>/languages/*</exclude-pattern>
 
@@ -54,10 +57,54 @@
 	<!-- Allow short syntax arrays. -->
 	<rule ref="WordPress-Extra">
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+
+		<!--
+		Deliberate legacy-compatibility exclusions.
+
+		The plugin's stored data (ad units saved by users since 1.x) mixes value
+		types (string/int IDs, '1'/''/true flags). Loose comparisons and loose
+		in_array() checks are load-bearing for that data; converting them to
+		strict comparisons would silently break existing installs. Verified by
+		the characterization test suite in tests/phpunit/.
+		-->
+		<exclude name="Universal.Operators.StrictComparisons"/>
+		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict"/>
+
+		<!--
+		Historic code style kept to minimize diff/regression risk during the
+		2.5.x modernization: camelCase locals and non-class-prefixed filenames
+		predate WPCS adoption. New code should still follow WPCS naming.
+		-->
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="PEAR.NamingConventions.ValidClassName.StartWithCapital"/>
+		<exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
+
+		<!--
+		The accordion-tab builders are all `wp_insert_{type}_form_accordion_tabs`
+		filter callbacks and must keep the full ( $control, $identifier, $location )
+		signature even when an individual panel does not read every argument.
+		-->
+		<exclude name="Generic.CodeAnalysis.UnusedFunctionParameter"/>
 	</rule>
 
 	<!-- Enforce short syntax arrays. -->
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+	<!--
+	Plugin output helpers with a documented escaping contract.
+	See includes/modules/core/misc/module.php for what each guarantees.
+	-->
+	<rule ref="WordPress.Security.EscapeOutput">
+		<properties>
+			<property name="customEscapingFunctions" type="array">
+				<element value="wp_insert_echo_html"/>
+				<element value="wp_insert_echo_ad_code"/>
+			</property>
+		</properties>
+	</rule>
   
 	<!-- Exclude test classes from naming conventions. -->
 	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
@@ -70,5 +117,10 @@
 	<!-- Exclude test files from overriding globals sniff. -->
 	<rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
 		<exclude-pattern>/tests/phpunit/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Test fixtures contain ad-code sample strings, not real enqueues. -->
+	<rule ref="WordPress.WP.EnqueuedResources">
+		<exclude-pattern>/tests/phpunit/*</exclude-pattern>
 	</rule>
 </ruleset>

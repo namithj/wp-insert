@@ -12,6 +12,39 @@ function wp_insert_ajax_capability_guard( $handlerAction ) {
 }
 /* End AJAX Capability Guard */
 
+/* Begin Output Helpers */
+/**
+ * Echo markup built by smartlogixControls (or other plugin-internal builders).
+ *
+ * The builder escapes every user-supplied value as it assembles each control
+ * (see smartlogixControls::get_control()), so the assembled string is already
+ * safe; escaping it again here would corrupt the form markup. This helper marks
+ * those call sites explicitly instead of scattering phpcs ignores.
+ *
+ * Never pass unvalidated request data to this function.
+ *
+ * @param string $html Pre-escaped markup.
+ */
+function wp_insert_echo_html( $html ) {
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Documented contract: caller passes builder-escaped markup.
+}
+
+/**
+ * Echo advertisement / embed code exactly as the site administrator stored it.
+ *
+ * Ad code is raw third-party HTML, JavaScript and iframes by definition — the
+ * plugin's entire purpose is to emit it verbatim, so it cannot be escaped.
+ * Storage is restricted to users with `manage_options`, and users without
+ * `unfiltered_html` have their input filtered through wp_kses_post() on save
+ * (see wp_insert_sanitize_ad_field()).
+ *
+ * @param string $adCode Ad code to output.
+ */
+function wp_insert_echo_ad_code( $adCode ) {
+	echo $adCode; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Ad code is intentionally raw; capability-gated and kses-filtered on save.
+}
+/* End Output Helpers */
+
 /* Begin Ad Unit Types */
 function wp_insert_get_ad_unit_types() {
 	return [ 'inpostads', 'adwidgets', 'shortcodeads', 'inthemeads', 'pagelevelads' ];
@@ -77,7 +110,7 @@ function wp_insert_add_ordinal_number_suffix( $num ) {
 }
 
 function wp_insert_get_domain_name_from_url( $url ) {
-	$pieces = parse_url( $url );
+	$pieces = wp_parse_url( $url );
 	$domain = isset( $pieces['host'] ) ? $pieces['host'] : '';
 	if ( preg_match( '/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs ) ) {
 		return $regs['domain'];

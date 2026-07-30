@@ -15,7 +15,7 @@ function wp_insert_form_accordion_tabs_adcode( $control, $identifier, $location 
 		$control->set_HTML( $control->HTML . '<p>Get more advertisers to bid on your ad inventory without compromising web vitals. Get access to 30+ partners with <a href="https://www.adpushup.com/lp/wp-insert/">AdPushup</a>.</p>' );
 	}
 		$control->create_section( 'Ad Code (Primary Network)' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -29,7 +29,7 @@ function wp_insert_form_accordion_tabs_adcode( $control, $identifier, $location 
 	if ( $abtestingMode != '2' && $abtestingMode != '3' ) {
 		$control->set_HTML( '<div style="display: none;">' . $control->HTML . '</div>' );
 	}
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -43,7 +43,7 @@ function wp_insert_form_accordion_tabs_adcode( $control, $identifier, $location 
 	if ( $abtestingMode != '3' ) {
 		$control->set_HTML( '<div style="display: none;">' . $control->HTML . '</div>' );
 	}
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 	echo '</div>';
 	return $control;

@@ -22,59 +22,12 @@ add_filter( 'wp_insert_adwidgets_form_accordion_tabs', 'wp_insert_form_accordion
 /* End UI Functions */
 
 /* Begin Ad Widget Insertion */
+require_once __DIR__ . '/class-wpinsertadwidget.php';
+
 add_action(
 	'widgets_init',
 	function () {
 		return register_widget( 'wpInsertAdWidget' );
 	}
 );
-
-class wpInsertAdWidget extends WP_Widget {
-	public function __construct() {
-		parent::__construct( 'wp_insert_ad_widget', 'Wp-Insert Ad Widget', [ 'description' => 'Wp-Insert Ad Widget' ] );
-	}
-
-	public function widget( $args, $instance ) {
-		extract( $args );
-		$title     = apply_filters( 'widget_title', ( isset( $instance['title'] ) ? $instance['title'] : '' ) );
-		$adwidgets = get_option( 'wp_insert_adwidgets' );
-		if ( isset( $instance['instance'], $adwidgets[ $instance['instance'] ] ) && is_array( $adwidgets[ $instance['instance'] ] ) ) {
-			if ( wp_insert_get_ad_status( $adwidgets[ $instance['instance'] ] ) ) {
-				echo $before_widget;
-				if ( ! empty( $title ) ) {
-					echo $before_title . $title . $after_title; }
-					echo wp_insert_get_ad_unit( $adwidgets[ $instance['instance'] ] );
-				echo $after_widget;
-			}
-		}
-	}
-
-	public function update( $new_opts, $old_opts ) {
-		$opts             = [];
-		$opts['title']    = $new_opts['title'];
-		$opts['instance'] = $new_opts['instance'];
-		return $opts;
-	}
-
-	public function form( $instance ) {
-		$adwidgets = get_option( 'wp_insert_adwidgets' );
-		echo '<p>';
-			echo '<label for="' . $this->get_field_id( 'title' ) . '">Title:</label>';
-			echo '<input class="widefat" id="' . $this->get_field_id( 'title' ) . '" name="' . $this->get_field_name( 'title' ) . '" type="text" value="' . ( ( isset( $instance['title'] ) ) ? $instance['title'] : '' ) . '" />';
-		echo '</p>';
-		echo '<p>';
-		if ( is_array( $adwidgets ) && ( count( $adwidgets ) > 0 ) ) {
-			echo '<label for="' . $this->get_field_id( 'instance' ) . '">Select Ad-Widget:</label>';
-			echo '<select class="widefat" id="' . $this->get_field_id( 'instance' ) . '" name="' . $this->get_field_name( 'instance' ) . '">';
-			foreach ( $adwidgets as $identifier => $adwidget ) {
-				echo '<option value="' . $identifier . '" ' . selected( $identifier, ( ( isset( $instance['instance'] ) ) ? $instance['instance'] : '' ), false ) . '>Ad Widget : ' . ( ( isset( $adwidget['title'] ) ) ? $adwidget['title'] : '' ) . '</option>';
-			}
-				echo '</select>';
-		} else {
-			echo 'Please <a href="' . admin_url( 'admin.php?page=wp-insert' ) . '">Configure an Ad-Widget</a> to Proceed.';
-			echo '<input class="widefat" id="' . $this->get_field_id( 'instance' ) . '" name="' . $this->get_field_name( 'instance' ) . '" type="hidden" value="" />';
-		}
-		echo '</p>';
-	}
-}
 /* End Ad Widget Insertion */

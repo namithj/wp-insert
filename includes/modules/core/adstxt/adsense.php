@@ -2,11 +2,19 @@
 /* Begin Admin Notice */
 add_action( 'init', 'wp_insert_adstxt_adsense_admin_notice_reactivate' );
 function wp_insert_adstxt_adsense_admin_notice_reactivate() {
-	if ( isset( $_GET['wp_insert_adstxt_adsense_reset'] ) && current_user_can( 'manage_options' ) ) {
-		wp_insert_adstxt_adsense_admin_notice_reset();
-		wp_safe_redirect( admin_url( '/admin.php?page=wp-insert' ) );
-		exit;
+	if ( ! isset( $_GET['wp_insert_adstxt_adsense_reset'] ) ) {
+		return;
 	}
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'wp_insert_adstxt_adsense_reset' ) ) {
+		return;
+	}
+	wp_insert_adstxt_adsense_admin_notice_reset();
+	wp_safe_redirect( admin_url( '/admin.php?page=wp-insert' ) );
+	exit;
 }
 
 function wp_insert_adstxt_adsense_admin_notice_reset() {
@@ -19,8 +27,7 @@ function wp_insert_adstxt_adsense_admin_notice() {
 	if ( current_user_can( 'manage_options' ) ) {
 		if ( ! get_option( 'wp_insert_adstxt_adsense_admin_notice_dismissed' ) ) {
 			$adstxtNewAdsenseEntries = get_transient( 'wp_insert_adstxt_adsense_autocheck_content' );
-			if ( $adstxtNewAdsenseEntries == '###CHECKED###' ) {
-			} else {
+			if ( $adstxtNewAdsenseEntries != '###CHECKED###' ) {
 				if ( $adstxtNewAdsenseEntries === false ) {
 					$adstxtNewAdsenseEntries = wp_insert_adstxt_adsense_get_status();
 				}
@@ -36,11 +43,11 @@ function wp_insert_adstxt_adsense_admin_notice() {
 						echo '<a href="javascript:;" onclick="wp_insert_adstxt_adsense_auto_update()">CLICK HERE</a>';
 					}
 						echo ' to instruct Wp-Insert to try and add the entries automatically.</p>';
-						echo '<p><code style="display: block; padding: 2px 10px;">' . implode( '<br />', $adstxtNewAdsenseEntries ) . '</code></p>';
+						echo '<p><code style="display: block; padding: 2px 10px;">' . implode( '<br />', array_map( 'esc_html', $adstxtNewAdsenseEntries ) ) . '</code></p>';
 						echo '<p><small><i><b>We recommend you not to dismiss this notice for continued daily ads.txt monitoring.  This notice will stop appearing automatically once Wp-Insert detects correct entries in ads.txt (rechecked daily).</b></i></small></p>';
 						echo '<div class="clear"></div>';
-						echo '<input type="hidden" id="wp_insert_adstxt_adsense_admin_notice_nonce" name="wp_insert_adstxt_adsense_admin_notice_nonce" value="' . wp_create_nonce( 'wp-insert-adstxt-adsense-admin-notice' ) . '" />';
-						echo '<input type="hidden" id="wp_insert_adstxt_adsense_admin_notice_ajax" name="wp_insert_adstxt_adsense_admin_notice_ajax" value="' . admin_url( 'admin-ajax.php' ) . '" />';
+						echo '<input type="hidden" id="wp_insert_adstxt_adsense_admin_notice_nonce" name="wp_insert_adstxt_adsense_admin_notice_nonce" value="' . esc_attr( wp_create_nonce( 'wp-insert-adstxt-adsense-admin-notice' ) ) . '" />';
+						echo '<input type="hidden" id="wp_insert_adstxt_adsense_admin_notice_ajax" name="wp_insert_adstxt_adsense_admin_notice_ajax" value="' . esc_url( admin_url( 'admin-ajax.php' ) ) . '" />';
 					echo '</div>';
 				} else {
 					set_transient( 'wp_insert_adstxt_adsense_autocheck_content', '###CHECKED###', DAY_IN_SECONDS );
@@ -74,7 +81,7 @@ function wp_insert_adstxt_adsense_auto_update() {
 		if ( wp_insert_adstxt_update_content( $adstxtUpdatedContent ) ) {
 			echo '###SUCCESS###';
 		} else {
-			echo wp_insert_adstxt_updation_failed_message( $adstxtUpdatedContent );
+			wp_insert_echo_html( wp_insert_adstxt_updation_failed_message( $adstxtUpdatedContent ) );
 		}
 	}
 	wp_die();

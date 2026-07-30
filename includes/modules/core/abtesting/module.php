@@ -49,11 +49,10 @@ function wp_insert_abtesting_configuration_form_get_content() {
 			]
 		);
 		$control->add_control();
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		echo '<p>';
 			echo '<b>Recommended Ad Networks</b><br /><br />';
-			echo '<a href="http://google.com/adsense" target="_blank"><img src="' . WP_INSERT_URL . '/includes/assets/images/adsense-logo.png" /></a>';
-			echo '<a href="https://www.vi.ai/publisher-video-monetization/" style="margin-left: 10px;" target="_blank"><img src="' . WP_INSERT_URL . '/includes/assets/images/vi-logo-square.png" /></a>';
+			echo '<a href="http://google.com/adsense" target="_blank"><img src="' . esc_url( WP_INSERT_URL . '/includes/assets/images/adsense-logo.png' ) . '" alt="Google AdSense" /></a>';
 		echo '</p>';
 	echo '</div>';
 	wp_die();

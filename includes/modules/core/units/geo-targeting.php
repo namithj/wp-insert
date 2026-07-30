@@ -26,7 +26,7 @@ function wp_insert_form_accordion_tabs_geo_targeting( $control, $identifier, $lo
 		);
 		$control->create_section( 'Group 1' );
 		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -47,7 +47,7 @@ function wp_insert_form_accordion_tabs_geo_targeting( $control, $identifier, $lo
 		);
 		$control->create_section( 'Group 2' );
 		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 		echo '<p>';
 			echo 'This feature uses the Free Geo ip service from <a href="http://freegeoip.net/">freegeoip.net</a>, if you find this feature useful please consider donating to the project at <a href="http://freegeoip.net/">freegeoip.net</a>';

@@ -117,9 +117,9 @@ function wp_insert_get_ad_unit_code( $data ) {
 	global $wpInsertVIAdDisplayed;
 	global $wpInsertGeoLocation;
 
-	$adUnitCode          = '';
-	$geoGroup1Countries  = ( isset( $data['geo_group1_countries'] ) && is_array( $data['geo_group1_countries'] ) ) ? $data['geo_group1_countries'] : [];
-	$geoGroup2Countries  = ( isset( $data['geo_group2_countries'] ) && is_array( $data['geo_group2_countries'] ) ) ? $data['geo_group2_countries'] : [];
+	$adUnitCode         = '';
+	$geoGroup1Countries = ( isset( $data['geo_group1_countries'] ) && is_array( $data['geo_group1_countries'] ) ) ? $data['geo_group1_countries'] : [];
+	$geoGroup2Countries = ( isset( $data['geo_group2_countries'] ) && is_array( $data['geo_group2_countries'] ) ) ? $data['geo_group2_countries'] : [];
 	if ( ( $wpInsertGeoLocation != false ) && ( $wpInsertGeoLocation != '' ) && ( ( count( $geoGroup1Countries ) > 0 ) || ( count( $geoGroup2Countries ) > 0 ) ) ) {
 		if ( ( ( $data['geo_group1_adcode'] ?? '' ) != '' ) && in_array( $wpInsertGeoLocation, $geoGroup1Countries ) ) {
 			$adUnitCode = do_shortcode( stripslashes( $data['geo_group1_adcode'] ) );
@@ -176,7 +176,7 @@ add_action( 'wp', 'wp_insert_track_ad_instance', 1 );
 function wp_insert_track_ad_instance() {
 	global $wpInsertABTestingMode;
 	$abtestingMode         = get_option( 'wp_insert_abtesting_mode' );
-	$wpInsertABTestingMode = rand( 1, max( 1, (int) $abtestingMode ) );
+	$wpInsertABTestingMode = wp_rand( 1, max( 1, (int) $abtestingMode ) );
 }
 /* End Assign AB Testing Mode */
 

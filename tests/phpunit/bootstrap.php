@@ -8,6 +8,7 @@
 require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 
 if ( false === getenv( 'WP_PHPUNIT__TESTS_CONFIG' ) ) {
+	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv -- wp-phpunit reads its config path from the environment.
 	putenv( 'WP_PHPUNIT__TESTS_CONFIG=' . __DIR__ . '/wp-tests-config.php' );
 }
 

@@ -25,7 +25,7 @@ class smartlogixControls {
 	public $HTML;
 	public $JS;
 
-	function __construct( $args = null ) {
+	public function __construct( $args = null ) {
 		$this->HTML = '';
 		$this->JS   = '';
 
@@ -655,7 +655,7 @@ class smartlogixControls {
 	public static function enqueue_assets( $path, $version = '1' ) {
 		wp_register_style( 'smartlogix-controls-css', $path . '/css/controls.css', [], $version );
 		wp_enqueue_style( 'smartlogix-controls-css' );
-		wp_register_script( 'smartlogix-controls-js', $path . '/js/controls.js', [ 'jquery', 'jquery-ui-core' ], $version );
+		wp_register_script( 'smartlogix-controls-js', $path . '/js/controls.js', [ 'jquery', 'jquery-ui-core' ], $version, true );
 		wp_enqueue_script( 'smartlogix-controls-js' );
 	}
 }

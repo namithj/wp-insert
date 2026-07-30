@@ -20,7 +20,7 @@ function wp_insert_shortcodeads_form_accordion_tabs_shortcode( $control, $identi
 	echo '<div>';
 		$control->set_HTML( '<p class="codeSnippet"><code>[wpinsertshortcodead id="' . $identifier . '"]</code></p>' );
 		$control->create_section( 'Code to add to your post/page content' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 	echo '</div>';
 	return $control;

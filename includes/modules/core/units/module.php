@@ -14,7 +14,7 @@ require_once __DIR__ . '/rules.php';
 /* Begin Add Assets */
 add_action( 'wp_insert_modules_js', 'wp_insert_module_adform_js', 0 );
 function wp_insert_module_adform_js() {
-	wp_register_script( 'wp-insert-module-adform-js', WP_INSERT_URL . 'includes/modules/core/units/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? rand( 0, 9999 ) : '' ) );
+	wp_register_script( 'wp-insert-module-adform-js', WP_INSERT_URL . 'includes/modules/core/units/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? wp_rand( 0, 9999 ) : '' ), true );
 	wp_enqueue_script( 'wp-insert-module-adform-js' );
 }
 /* End Add Assets */
@@ -23,8 +23,8 @@ function wp_insert_module_adform_js() {
 function wp_insert_get_plugin_card( $title, $description, $type, $preTitle ) {
 	echo '<div class="plugin-card">';
 		echo '<div class="plugin-card-top">';
-			echo '<h4>' . $title . '</h4>';
-			echo $description;
+			echo '<h4>' . esc_html( $title ) . '</h4>';
+			echo wp_kses_post( $description );
 		echo '</div>';
 		echo '<div class="plugin-card-bottom">';
 			$data = get_option( 'wp_insert_' . $type );
@@ -53,16 +53,21 @@ function wp_insert_get_plugin_card( $title, $description, $type, $preTitle ) {
 			} else {
 				$title = $value['title'];
 			}
-			$title = esc_html( sanitize_text_field( $title ) );
+			$title = sanitize_text_field( $title );
 			/* End Workaround for migrating old users to new system (can be removed in a later version) */
+			// Titles and keys are interpolated into inline JS handler arguments,
+			// so they are escaped for a JS string context, not just for HTML.
+			$jsTitle = esc_js( $title );
+			$jsKey   = esc_js( $key );
+			$jsType  = esc_js( $type );
 			echo '<p>';
-				echo '<a class="wp_insert_ad_unit_title" title="Edit Ad Unit" id="wp_insert_' . $type . '_ad_' . $key . '" href="javascript:;" data-pre-title="' . $preTitle . '" onclick="wp_insert_ads_click_handler(\'' . $type . '\', \'' . $key . '\', \'' . $title . '\', false)">' . $preTitle . ' : ' . $title . '</a>';
-				echo '<span class="dashicons dashicons-no wp_insert_delete_icon" title="Delete Ad Unit" onclick="wp_insert_ad_delete_handler(\'' . $type . '\', \'' . $key . '\')"></span>';
-				echo '<span class="dashicons dashicons-format-gallery wp_insert_duplicate_icon" title="Duplicate Ad Unit" onclick="wp_insert_ads_click_handler(\'' . $type . '\', \'###DUPLICATE###' . $key . '\', \'' . $title . ' Duplicate\', true)"></span>';
+				echo '<a class="wp_insert_ad_unit_title" title="Edit Ad Unit" id="wp_insert_' . esc_attr( $type . '_ad_' . $key ) . '" href="javascript:;" data-pre-title="' . esc_attr( $preTitle ) . '" onclick="wp_insert_ads_click_handler(\'' . esc_attr( $jsType ) . '\', \'' . esc_attr( $jsKey ) . '\', \'' . esc_attr( $jsTitle ) . '\', false)">' . esc_html( $preTitle . ' : ' . $title ) . '</a>';
+				echo '<span class="dashicons dashicons-no wp_insert_delete_icon" title="Delete Ad Unit" onclick="wp_insert_ad_delete_handler(\'' . esc_attr( $jsType ) . '\', \'' . esc_attr( $jsKey ) . '\')"></span>';
+				echo '<span class="dashicons dashicons-format-gallery wp_insert_duplicate_icon" title="Duplicate Ad Unit" onclick="wp_insert_ads_click_handler(\'' . esc_attr( $jsType ) . '\', \'###DUPLICATE###' . esc_attr( $jsKey ) . '\', \'' . esc_attr( $jsTitle ) . ' Duplicate\', true)"></span>';
 			echo '</p>';
 		}
 	}
-			echo '<p style="text-align: center; padding: 20px 0 10px;"><a id="wp_insert_' . $type . '_ad_new" data-pre-title="' . $preTitle . '" href="#" class="button-secondary" onclick="wp_insert_ads_click_handler(\'' . $type . '\', \'new\', \'Add New\', true)">Add New</a></p>';
+			echo '<p style="text-align: center; padding: 20px 0 10px;"><a id="wp_insert_' . esc_attr( $type ) . '_ad_new" data-pre-title="' . esc_attr( $preTitle ) . '" href="#" class="button-secondary" onclick="wp_insert_ads_click_handler(\'' . esc_attr( esc_js( $type ) ) . '\', \'new\', \'Add New\', true)">Add New</a></p>';
 		echo '</div>';
 	echo '</div>';
 }
@@ -116,16 +121,18 @@ function wp_insert_get_ad_form( $script = '' ) {
 					'value'      => $identifier,
 				]
 			);
-			echo $control->HTML;
+			wp_insert_echo_html( $control->HTML );
 			$control->clear_controls();
-			echo '<div id="wp_insert_' . $type . '_' . $identifier . '_accordion">';
+			echo '<div id="wp_insert_' . esc_attr( $type . '_' . $identifier ) . '_accordion">';
 				$control = apply_filters( 'wp_insert_' . $type . '_form_accordion_tabs', $control, $identifier, $type );
 			echo '</div>';
 			echo '<script type="text/javascript">';
-				echo $control->JS;
-				echo 'jQuery("#wp_insert_' . $type . '_' . $identifier . '_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "auto" });';
+				wp_insert_echo_html( $control->JS );
+				echo 'jQuery("#wp_insert_' . esc_js( $type . '_' . $identifier ) . '_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "auto" });';
 		if ( $script != '' ) {
-			echo str_replace( '###IDENTIFIER###', $identifier, $script );
+			// $script is a plugin-authored JS snippet (module.php literals only);
+			// the identifier substituted into it is sanitize_key()'d above.
+			wp_insert_echo_html( str_replace( '###IDENTIFIER###', $identifier, $script ) );
 		}
 			echo '</script>';
 		echo '</div>';

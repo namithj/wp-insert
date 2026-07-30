@@ -2,7 +2,7 @@
 add_action( 'init', 'wp_insert_gutenberg_block_init' );
 function wp_insert_gutenberg_block_init() {
 	if ( function_exists( 'register_block_type' ) ) {
-		wp_register_script( 'wp_insert_gutenberg', WP_INSERT_URL . 'includes/modules/core/gutenberg/js/gutenberg.js', [ 'wp-blocks', 'wp-editor', 'wp-element' ], WP_INSERT_VERSION . rand( 0, 9999 ) );
+		wp_register_script( 'wp_insert_gutenberg', WP_INSERT_URL . 'includes/modules/core/gutenberg/js/gutenberg.js', [ 'wp-blocks', 'wp-editor', 'wp-element' ], WP_INSERT_VERSION . wp_rand( 0, 9999 ), true );
 		register_block_type( 'wp-insert/wp-insert-gutenberg', [ 'editor_script' => 'wp_insert_gutenberg' ] );
 	}
 }
@@ -10,8 +10,8 @@ function wp_insert_gutenberg_block_init() {
 add_action( 'admin_footer-post-new.php', 'wp_insert_gutenberg_admin_footer' );
 add_action( 'admin_footer-post.php', 'wp_insert_gutenberg_admin_footer' );
 function wp_insert_gutenberg_admin_footer() {
-	echo '<input type="hidden" id="wp_insert_gutenberg_admin_ajax" name="wp_insert_admin_ajax" value="' . admin_url( 'admin-ajax.php' ) . '" />';
-	echo '<input type="hidden" id="wp_insert_gutenberg_nonce" name="wp_insert_nonce" value="' . wp_create_nonce( 'wp-insert-gutenberg' ) . '" />';
+	echo '<input type="hidden" id="wp_insert_gutenberg_admin_ajax" name="wp_insert_admin_ajax" value="' . esc_url( admin_url( 'admin-ajax.php' ) ) . '" />';
+	echo '<input type="hidden" id="wp_insert_gutenberg_nonce" name="wp_insert_nonce" value="' . esc_attr( wp_create_nonce( 'wp-insert-gutenberg' ) ) . '" />';
 }
 
 add_action( 'wp_ajax_wp_insert_gutenberg_get_ad_data', 'wp_insert_gutenberg_get_ad_data' );
@@ -68,6 +68,6 @@ function wp_insert_gutenberg_get_ad_data() {
 		}
 	}
 	echo '###SUCCESS###';
-	echo json_encode( $adData );
+	echo wp_json_encode( $adData );
 	wp_die();
 }

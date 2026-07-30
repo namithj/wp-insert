@@ -4,7 +4,7 @@ require_once __DIR__ . '/adsense.php';
 /* Begin Add Assets */
 add_action( 'wp_insert_modules_js', 'wp_insert_module_adstxt_js', 0 );
 function wp_insert_module_adstxt_js() {
-	wp_register_script( 'wp-insert-module-adstxt-js', WP_INSERT_URL . 'includes/modules/core/adstxt/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? rand( 0, 9999 ) : '' ) );
+	wp_register_script( 'wp-insert-module-adstxt-js', WP_INSERT_URL . 'includes/modules/core/adstxt/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? wp_rand( 0, 9999 ) : '' ), true );
 	wp_enqueue_script( 'wp-insert-module-adstxt-js' );
 }
 /* End Add Assets */
@@ -49,7 +49,7 @@ function wp_insert_adstxt_generate_form_get_content() {
 					]
 				);
 				$control->create_section( 'ads.txt Content' );
-				echo $control->HTML;
+				wp_insert_echo_html( $control->HTML );
 				$control->clear_controls();
 			echo '</div>';
 			echo '<h3>Entry Generator</h3>';
@@ -106,13 +106,12 @@ function wp_insert_adstxt_generate_form_get_content() {
 				);
 				$control->HTML .= '<p><input id="wp_insert_adstxt_add_entry" onclick="wp_insert_adstxt_add_entry()" type="button" value="Add Entry" class="button button-primary" /></p>';
 				$control->create_section( 'Entry Generator' );
-				echo $control->HTML;
+				wp_insert_echo_html( $control->HTML );
 			echo '</div>';
 		echo '</div>';
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		wp_insert_echo_html( $control->JS );
 		echo 'jQuery("#wp_insert_adstxt_accordion").accordion({ icons: { header: "ui-icon-circle-arrow-e", activeHeader: "ui-icon-circle-arrow-s" }, heightStyle: "fill" });';
-		//echo 'jQuery(".ui-dialog-buttonset").find("button").first().remove();';
 		echo '</script>';
 	echo '</div>';
 	wp_die();
@@ -132,7 +131,7 @@ function wp_insert_adstxt_generate_form_save_action() {
 	if ( wp_insert_adstxt_update_content( $content ) ) {
 		echo '###SUCCESS###';
 	} else {
-		echo $output;
+		wp_insert_echo_html( $output );
 	}
 	wp_die();
 }
@@ -148,7 +147,13 @@ function wp_insert_adstxt_file_exists() {
 
 function wp_insert_adstxt_get_content() {
 	if ( wp_insert_adstxt_file_exists() ) {
-		return @file_get_contents( trailingslashit( get_home_path() ) . 'ads.txt' );
+		global $wp_filesystem;
+		if ( ! $wp_filesystem ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+		$contents = $wp_filesystem->get_contents( trailingslashit( get_home_path() ) . 'ads.txt' );
+		return ( false === $contents ) ? '' : $contents;
 	}
 	return '';
 }
