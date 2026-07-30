@@ -2,6 +2,52 @@
 
 Newest entries first. Update after every meaningful step.
 
+## 2026-07-31 — 2.6.0 ready for release
+
+**P6/P7/P8 complete. All phases done.**
+
+- **phpcs: 0 errors, 0 warnings** (baseline was 2,324 / 632). Ruleset documents
+  every deliberate exclusion — loose comparisons and loose `in_array()` are
+  load-bearing for mixed-type stored data and would break existing installs if
+  made strict; camelCase locals are kept to minimize regression risk.
+- Introduced `wp_insert_echo_html()` / `wp_insert_echo_ad_code()` with documented
+  escaping contracts, registered as `customEscapingFunctions` in phpcs.xml.dist,
+  so raw ad output is explicit rather than an unexplained ignore comment.
+- Real escaping bugs fixed along the way: Google Analytics tracker ID was
+  interpolated unescaped into an inline `<script>`; ad-unit titles/keys were
+  interpolated unescaped into inline JS handler arguments; the ads.txt AdSense
+  reset was a state-changing GET with no nonce.
+- Widget rewritten: `extract()` removed, `update()` sanitizes, form escaped and
+  i18n'd, class moved to `class-wpinsertadwidget.php`.
+- Rewrote `wp_insert_inpostads_get_insertion_position()` — the old `switch` only
+  worked by accident of loose bool comparison. Behavior pinned by tests.
+- Bundled the jQuery UI smoothness theme locally (was a `code.jquery.com` CDN
+  load — a Guideline 8 violation).
+- Removed unshipped `videointelligence` and `google` modules plus vi image assets.
+- **Verified the privacy claim rather than trusting the old readme**: read
+  `GeoIPCountry::resolve()` and confirmed it reads only bundled `GeoIPDatas/`
+  files; the downloader requires `Admin()`, which the plugin never calls. The
+  readme previously told users their visitors' IPs were sent to freegeoip.net /
+  ipstack. Corrected in both the readme and the geo-targeting admin help text.
+- readme.txt rewritten: 2.6.0, Tested up to 7.0, tags 9 → 5, added Changelog,
+  Upgrade Notice and External Services sections.
+- Version bumped to 2.6.0 in header, `WP_INSERT_VERSION` and Stable tag.
+- Added `bin/build-release.sh` (git-archive based, refuses to build on a
+  header/readme version mismatch). Verified output zip has **zero** dev files.
+- **Live-site verification** beyond unit tests: seeded legacy 2.5.1-shaped data
+  (`above`/`middle` keys, no `location` field) into the real dev site and fetched
+  a post over HTTPS — iframe ad prepended, JS ad at the midpoint, header embed
+  raw in `<head>`, no PHP notices.
+- Final: 87 tests + 10 AJAX tests green, phpcs clean, `php -l` clean.
+
+### Open item
+
+One PHPUnit run reported `Tests: 87, Assertions: 143, Errors: 1` without naming
+the failing test. It has **not** reproduced in 14 subsequent runs, including
+three with `--random-order`, so the failing test was never identified. Treat it
+as suspected environment flake (ddev DB), not as verified-clean. If it recurs,
+capture the full output immediately.
+
 ## 2026-07-31 (session 1, continued)
 
 - **P1 done**: site installed via wp-cli (ddev, WP 7.0.2, plugin active), composer

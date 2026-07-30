@@ -12,8 +12,10 @@
 	<!-- Only scan PHP files. -->
 	<arg name="extensions" value="php"/>
 
-	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
-	<arg name="cache" value=".cache/.php-cs-fixer.cache"/>
+	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan.
+		 Verify releases with `composer lint:release`, which disables the cache; a
+		 stale cache can hide newly introduced violations. -->
+	<arg name="cache" value=".cache/phpcs.cache"/>
 
 	<!-- Set the memory limit to 1024M.
 		 For most standard PHP configurations, this means the memory limit will temporarily be raised.
