@@ -17,3 +17,4 @@ phpcs.xml.dist export-ignore
 /tests export-ignore
 /vendor export-ignore
 /.cache export-ignore
+/build export-ignore

@@ -5,6 +5,7 @@
 .cache/*
 /tests/phpunit/cache
 /tests/phpunit/coverage
+/build
 .DS_Store
 
 # Track placeholders so that empty directories stay in the repo.
