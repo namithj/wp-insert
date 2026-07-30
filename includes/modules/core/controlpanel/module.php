@@ -22,9 +22,9 @@ function wp_insert_admin_enqueue_scripts( $page ) {
 		wp_enqueue_style( 'wp-insert-css' );
 		wp_register_style( 'wp-insert-jquery-ui', WP_INSERT_URL . 'includes/assets/css/jquery-ui/jquery-ui.min.css', [], WP_INSERT_VERSION );
 		wp_enqueue_style( 'wp-insert-jquery-ui' );
-		wp_register_script( 'wp-insert-js', WP_INSERT_URL . 'includes/assets/js/wp-insert.js', [ 'jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog' ], WP_INSERT_VERSION . wp_rand( 0, 9999 ), true );;
+		wp_register_script( 'wp-insert-js', WP_INSERT_URL . 'includes/assets/js/wp-insert.js', [ 'jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog' ], WP_INSERT_VERSION . wp_rand( 0, 9999 ), true );
 		wp_enqueue_script( 'wp-insert-js' );
-		wp_register_script( 'chart-js', WP_INSERT_URL . 'includes/assets/js/Chart.bundle.min.js', [ 'jquery' ], WP_INSERT_VERSION, true );;
+		wp_register_script( 'chart-js', WP_INSERT_URL . 'includes/assets/js/Chart.bundle.min.js', [ 'jquery' ], WP_INSERT_VERSION, true );
 		wp_enqueue_script( 'chart-js' );
 		do_action( 'wp_insert_modules_css' );
 		do_action( 'wp_insert_modules_js' );

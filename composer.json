@@ -2,7 +2,7 @@
     "name": "smartlogix/wp-insert",
     "description": "The Ultimate Adsense / Ad-Management Plugin for Wordpress",
     "type": "wordpress-plugin",
-    "license": "GPLv2",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Namith Jawahar"
@@ -30,9 +30,15 @@
             "Composer\\Config::disableProcessTimeout",
             "@php ./vendor/phpunit/phpunit/phpunit"
         ],
-        "test:multisite": [
+        "test:ajax": [
             "Composer\\Config::disableProcessTimeout",
-            "@php ./vendor/phpunit/phpunit/phpunit -c tests/multisite.xml"
-        ]
+            "@php ./vendor/phpunit/phpunit/phpunit --group ajax"
+        ],
+        "test:all": [
+            "@test",
+            "@test:ajax"
+        ],
+        "build": "bin/build-release.sh",
+        "lint:release": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --no-cache --report=summary,source"
     }
 }

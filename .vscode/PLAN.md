@@ -35,32 +35,35 @@ directory rules for a new release.
 6. Dead/disabled modules still shipped: `videointelligence`, `google` (commented out
    in `general/modules.php`) — candidates for removal before WP.org submission.
 
+All six were resolved during the 2.6.0 work; see STATUS.md for the detail and
+.vscode/WP-ORG-COMPLIANCE.md for the directory-guideline audit.
+
 ## Phases
 
-- [ ] **P0 — Tracking docs** (this file, STATUS.md)
-- [ ] **P1 — Environment + baseline**: install the local WP site (wp-cli + MySQL),
+- [x] **P0 — Tracking docs** (this file, STATUS.md)
+- [x] **P1 — Environment + baseline**: install the local WP site (wp-cli + MySQL),
   `composer install`, record phpcs baseline counts, activate plugin, smoke-test.
-- [ ] **P2 — Test scaffold**: PHPUnit + `wp-phpunit/wp-phpunit` + Yoast polyfills
+- [x] **P2 — Test scaffold**: PHPUnit + `wp-phpunit/wp-phpunit` + Yoast polyfills
   against local MySQL; `tests/phpunit/` bootstrap; composer `test` script wired.
-- [ ] **P3 — Characterization tests (write BEFORE refactoring)**: pin current
+- [x] **P3 — Characterization tests (write BEFORE refactoring)**: pin current
   rendering behavior so later changes can't silently break users' ads. Matrix in
   TEST-MATRIX.md — iframe / async JS (adsense) / inline JS / raw HTML / shortcode /
   multiline + quoted codes, across every placement entry point, plus rules gating,
   A/B modes, device styles, legacy data shapes (`above`/`middle` keyed units without
   `location`, units missing new fields).
-- [ ] **P4 — PHP 8.x + bug fixes**: fix adunit geo bug, null-safe reads across
+- [x] **P4 — PHP 8.x + bug fixes**: fix adunit geo bug, null-safe reads across
   frontend path; tests must stay green.
-- [ ] **P5 — Security hardening**: capability checks (`manage_options` +
+- [x] **P5 — Security hardening**: capability checks (`manage_options` +
   `unfiltered_html` for raw script storage), sanitize/unslash all `$_POST` reads,
   escape all admin-side output, remove debug output, keep ad-code storage lossless
   (tests prove round-trip fidelity).
-- [ ] **P6 — Coding standards**: phpcs (WordPress-Extra) clean or documented
+- [x] **P6 — Coding standards**: phpcs (WordPress-Extra) clean or documented
   ignores; remove `extract()`; i18n all user-facing strings.
-- [ ] **P7 — WP.org compliance**: readme.txt rewrite (Tested up to 6.9/7.0, ≤5 tags,
+- [x] **P7 — WP.org compliance**: readme.txt rewrite (Tested up to 6.9/7.0, ≤5 tags,
   Stable tag bump, external-services section), plugin-directory-guidelines audit,
   drop dead modules, verify GPL compat of bundled assets (Chart.js has uncompressed
   source ✓, GeoIP lib license check).
-- [ ] **P8 — Final verification**: full suite + lint green, version bump, STATUS.md
+- [x] **P8 — Final verification**: full suite + lint green, version bump, STATUS.md
   updated, commits.
 
 ## Invariants (never violate)
