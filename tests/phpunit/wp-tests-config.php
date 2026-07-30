@@ -2,17 +2,43 @@
 /**
  * Test suite configuration for the wp-phpunit core test library.
  *
- * Uses a dedicated `wpinsert_tests` database so the ddev dev site is untouched.
+ * Every value is environment driven so the same config works in the local ddev
+ * container and on CI. The defaults reproduce the ddev setup, where the plugin
+ * lives inside a WordPress checkout at /var/www/html/public and a dedicated
+ * `wpinsert_tests` database keeps the dev site untouched.
+ *
+ * Recognised environment variables:
+ *   WP_TESTS_ABSPATH  Path to the WordPress core checkout to test against.
+ *   WP_TESTS_DB_NAME / _DB_USER / _DB_PASSWORD / _DB_HOST
  *
  * @package wp-insert
  */
 
-define( 'ABSPATH', '/var/www/html/public/' );
+/**
+ * Read an environment variable, falling back to a default when it is unset or empty.
+ *
+ * @param string $name    Variable name.
+ * @param string $default Value to use when the variable is not provided.
+ * @return string
+ */
+function wp_insert_tests_env( $name, $default ) {
+	$value = getenv( $name );
+	return ( false === $value || '' === $value ) ? $default : $value;
+}
 
-define( 'DB_NAME', 'wpinsert_tests' );
-define( 'DB_USER', 'root' );
-define( 'DB_PASSWORD', 'root' );
-define( 'DB_HOST', 'db' );
+$wp_insert_tests_abspath = wp_insert_tests_env( 'WP_TESTS_ABSPATH', '/var/www/html/public' );
+define( 'ABSPATH', rtrim( $wp_insert_tests_abspath, '/\\' ) . '/' );
+
+if ( ! file_exists( ABSPATH . 'wp-settings.php' ) ) {
+	echo 'No WordPress core found at ' . ABSPATH . PHP_EOL
+		. 'Set WP_TESTS_ABSPATH to a WordPress checkout (see bin/install-wp-core.sh).' . PHP_EOL;
+	exit( 1 );
+}
+
+define( 'DB_NAME', wp_insert_tests_env( 'WP_TESTS_DB_NAME', 'wpinsert_tests' ) );
+define( 'DB_USER', wp_insert_tests_env( 'WP_TESTS_DB_USER', 'root' ) );
+define( 'DB_PASSWORD', wp_insert_tests_env( 'WP_TESTS_DB_PASSWORD', 'root' ) );
+define( 'DB_HOST', wp_insert_tests_env( 'WP_TESTS_DB_HOST', 'db' ) );
 define( 'DB_CHARSET', 'utf8mb4' );
 define( 'DB_COLLATE', '' );
 
