@@ -39,7 +39,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 		);
 		$control->create_section( 'Device - Large Desktop' );
 		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -79,7 +79,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 		);
 		$control->create_section( 'Devices - Medium Desktop' );
 		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -119,7 +119,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 		);
 		$control->create_section( 'Devices - Tablet' );
 		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div>' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -159,7 +159,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 		);
 		$control->create_section( 'Devices - Mobile (Normal)' );
 		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -190,7 +190,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 		);
 		$control->create_section( 'Devices - Mobile (Small)' );
 		$control->set_HTML( '<div class="wp_insert_rule_block">' . $control->HTML . '</div><div style="clear: both;"></div>' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 
 		$control->add_control(
@@ -202,7 +202,7 @@ function wp_insert_form_accordion_tabs_devices_styles( $control, $identifier, $l
 			]
 		);
 		$control->create_section( 'Styles (Common)' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 	echo '</div>';
 	return $control;

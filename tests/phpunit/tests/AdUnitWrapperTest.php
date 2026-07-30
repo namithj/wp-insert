@@ -60,7 +60,7 @@ class AdUnitWrapperTest extends WP_UnitTestCase {
 	public function test_device_exclusion_emits_display_none() {
 		$data   = self::full_ad_unit( [ 'device_exclude_mobile' => 'true' ] );
 		$parsed = self::parse_ad_unit( wp_insert_get_ad_unit( $data ) );
-		$this->assertStringContainsString( "display: none;", $parsed['styles'] );
+		$this->assertStringContainsString( 'display: none;', $parsed['styles'] );
 	}
 
 	public function test_device_adwidth_emits_width_rule() {

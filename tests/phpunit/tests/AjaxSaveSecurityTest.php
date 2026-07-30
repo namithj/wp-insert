@@ -28,18 +28,18 @@ class AjaxSaveSecurityTest extends WP_Ajax_UnitTestCase {
 	 * @param string $identifier Unit identifier.
 	 */
 	protected function post_save_request( $ad_code, $identifier = 'testunit01' ) {
-		$_POST['wp_insert_nonce']      = wp_create_nonce( 'wp-insert' );
-		$_POST['wp_insert_type']       = 'inpostads';
-		$_POST['wp_insert_identifier'] = $identifier;
-		$_POST['wp_insert_parameters'] = [
+		$_POST['wp_insert_nonce']                                    = wp_create_nonce( 'wp-insert' );
+		$_POST['wp_insert_type']                                     = 'inpostads';
+		$_POST['wp_insert_identifier']                               = $identifier;
+		$_POST['wp_insert_parameters']                               = [
 			'wp_insert_inpostads_' . $identifier . '_title',
 			'wp_insert_inpostads_' . $identifier . '_status',
 			'wp_insert_inpostads_' . $identifier . '_location',
 			'wp_insert_inpostads_' . $identifier . '_primary_ad_code',
 		];
-		$_POST[ 'wp_insert_inpostads_' . $identifier . '_title' ]           = 'Round Trip Unit';
-		$_POST[ 'wp_insert_inpostads_' . $identifier . '_status' ]          = 'true';
-		$_POST[ 'wp_insert_inpostads_' . $identifier . '_location' ]        = 'above';
+		$_POST[ 'wp_insert_inpostads_' . $identifier . '_title' ]    = 'Round Trip Unit';
+		$_POST[ 'wp_insert_inpostads_' . $identifier . '_status' ]   = 'true';
+		$_POST[ 'wp_insert_inpostads_' . $identifier . '_location' ] = 'above';
 		$_POST[ 'wp_insert_inpostads_' . $identifier . '_primary_ad_code' ] = wp_slash( $ad_code );
 
 		try {
@@ -136,7 +136,7 @@ class AjaxSaveSecurityTest extends WP_Ajax_UnitTestCase {
 
 	public function test_header_tracking_code_round_trip() {
 		$this->_setRole( 'administrator' );
-		$_POST['wp_insert_nonce'] = wp_create_nonce( 'wp-insert' );
+		$_POST['wp_insert_nonce']                       = wp_create_nonce( 'wp-insert' );
 		$_POST['wp_insert_trackingcodes_header_status'] = 'true';
 		$_POST['wp_insert_trackingcodes_header_code']   = wp_slash( self::$ad_inline_js );
 		try {

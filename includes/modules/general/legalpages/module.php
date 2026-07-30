@@ -4,7 +4,7 @@ require_once __DIR__ . '/functions.php';
 /* Begin Add Assets */
 add_action( 'wp_insert_modules_js', 'wp_insert_module_legalpages_js', 0 );
 function wp_insert_module_legalpages_js() {
-	wp_register_script( 'wp-insert-module-legalpages-js', WP_INSERT_URL . 'includes/modules/general/legalpages/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? rand( 0, 9999 ) : '' ) );
+	wp_register_script( 'wp-insert-module-legalpages-js', WP_INSERT_URL . 'includes/modules/general/legalpages/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? wp_rand( 0, 9999 ) : '' ), true );
 	wp_enqueue_script( 'wp-insert-module-legalpages-js' );
 }
 /* End Add Assets */

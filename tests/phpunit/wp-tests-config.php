@@ -16,6 +16,7 @@ define( 'DB_HOST', 'db' );
 define( 'DB_CHARSET', 'utf8mb4' );
 define( 'DB_COLLATE', '' );
 
+// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Required by the WP test bootstrap.
 $table_prefix = 'wptests_';
 
 define( 'WP_TESTS_DOMAIN', 'example.org' );

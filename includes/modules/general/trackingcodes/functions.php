@@ -29,9 +29,9 @@ function wp_insert_trackingcodes_google_analytics_form_get_content() {
 				'helpText'   => 'Your Google Analytics Tracker ID (XX-XXXXX-X)',
 			]
 		);
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		wp_insert_echo_html( $control->JS );
 		echo '</script>';
 	echo '</div>';
 	wp_die();
@@ -41,7 +41,7 @@ add_action( 'wp_ajax_wp_insert_trackingcodes_google_analytics_form_save_action',
 function wp_insert_trackingcodes_google_analytics_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$trackingCodes                        = get_option( 'wp_insert_trackingcodes' );
+	$trackingCodes = get_option( 'wp_insert_trackingcodes' );
 	if ( ! is_array( $trackingCodes ) ) {
 		$trackingCodes = [];
 	}
@@ -63,7 +63,7 @@ function wp_insert_trackingcodes_google_analytics_wp_footer() {
 			echo 'document.write(unescape("%3Cscript src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));';
 		echo '</script>';
 		echo '<script type="text/javascript">';
-			echo 'var pageTracker = _gat._getTracker("' . $trackingCodes['analytics']['code'] . '");';
+			echo 'var pageTracker = _gat._getTracker("' . esc_js( $trackingCodes['analytics']['code'] ) . '");';
 			echo 'pageTracker._trackPageview();';
 		echo '</script>';
 	}
@@ -99,9 +99,9 @@ function wp_insert_trackingcodes_header_form_get_content() {
 				'label'      => 'Embed Code',
 			]
 		);
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		wp_insert_echo_html( $control->JS );
 		echo '</script>';
 	echo '</div>';
 	wp_die();
@@ -111,7 +111,7 @@ add_action( 'wp_ajax_wp_insert_trackingcodes_header_form_save_action', 'wp_inser
 function wp_insert_trackingcodes_header_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$trackingCodes                     = get_option( 'wp_insert_trackingcodes' );
+	$trackingCodes = get_option( 'wp_insert_trackingcodes' );
 	if ( ! is_array( $trackingCodes ) ) {
 		$trackingCodes = [];
 	}
@@ -134,7 +134,7 @@ function wp_insert_trackingcodes_header_wp_head() {
 		$trackingCodes = [];
 	}
 	if ( isset( $trackingCodes['header']['status'] ) && wp_validate_boolean( $trackingCodes['header']['status'] ) && isset( $trackingCodes['header']['code'] ) && ! empty( $trackingCodes['header']['code'] ) ) {
-		echo stripslashes( $trackingCodes['header']['code'] );
+		wp_insert_echo_ad_code( stripslashes( $trackingCodes['header']['code'] ) );
 	}
 }
 /* End Header Code Embed */
@@ -168,9 +168,9 @@ function wp_insert_trackingcodes_footer_form_get_content() {
 				'label'      => 'Embed Code',
 			]
 		);
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		echo '<script type="text/javascript">';
-		echo $control->JS;
+		wp_insert_echo_html( $control->JS );
 		echo '</script>';
 	echo '</div>';
 	wp_die();
@@ -180,7 +180,7 @@ add_action( 'wp_ajax_wp_insert_trackingcodes_footer_form_save_action', 'wp_inser
 function wp_insert_trackingcodes_footer_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
 
-	$trackingCodes                     = get_option( 'wp_insert_trackingcodes' );
+	$trackingCodes = get_option( 'wp_insert_trackingcodes' );
 	if ( ! is_array( $trackingCodes ) ) {
 		$trackingCodes = [];
 	}
@@ -203,7 +203,7 @@ function wp_insert_trackingcodes_footer_wp_footer() {
 		$trackingCodes = [];
 	}
 	if ( isset( $trackingCodes['footer']['status'] ) && wp_validate_boolean( $trackingCodes['footer']['status'] ) && isset( $trackingCodes['footer']['code'] ) && ! empty( $trackingCodes['footer']['code'] ) ) {
-		echo stripslashes( $trackingCodes['footer']['code'] );
+		wp_insert_echo_ad_code( stripslashes( $trackingCodes['footer']['code'] ) );
 	}
 }
 /* End Footer Code Embed */

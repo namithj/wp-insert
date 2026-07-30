@@ -27,7 +27,7 @@ function wp_insert_pagelevelads_wp_head() {
 	if ( isset( $pagelevelads ) && is_array( $pagelevelads ) ) {
 		foreach ( $pagelevelads as $pagelevelad ) {
 			if ( isset( $pagelevelad ) && is_array( $pagelevelad ) && wp_insert_get_ad_status( $pagelevelad ) ) {
-				echo wp_insert_get_ad_unit_code( $pagelevelad );
+				wp_insert_echo_ad_code( wp_insert_get_ad_unit_code( $pagelevelad ) );
 			}
 		}
 	}

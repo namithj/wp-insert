@@ -2,7 +2,7 @@
 /* Begin Add Assets */
 add_action( 'wp_insert_modules_js', 'wp_insert_module_inpostads_js', 0 );
 function wp_insert_module_inpostads_js() {
-	wp_register_script( 'wp-insert-module-inpostads-js', WP_INSERT_URL . 'includes/modules/general/inpost/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? rand( 0, 9999 ) : '' ) );
+	wp_register_script( 'wp-insert-module-inpostads-js', WP_INSERT_URL . 'includes/modules/general/inpost/js/module.js', [ 'wp-insert-js' ], WP_INSERT_VERSION . ( ( WP_INSERT_DEBUG ) ? wp_rand( 0, 9999 ) : '' ), true );
 	wp_enqueue_script( 'wp-insert-module-inpostads-js' );
 }
 /* End Add Assets */
@@ -161,7 +161,7 @@ function wp_insert_inpostads_form_accordion_tabs_location( $control, $identifier
 			]
 		);
 		$control->create_section( 'Location' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 		echo '</div>';
 		return $control;
@@ -179,7 +179,7 @@ function wp_insert_inpostads_form_accordion_tabs_manual_override( $control, $ide
 	echo '<div>';
 		$control->set_HTML( '<p class="codeSnippet"><code>[wpinsertinpostad id="' . $identifier . '"]</code></p><p>For those extreme cases when auto positioning just doesnt work out the way you want, use the shortcode above to precisely position your ad unit inside your post content.<br>Gutenberg users can utilize "Wp-Insert" blocks for manual positioning within post content.</p>' );
 		$control->create_section( 'Code to add to your post/page content' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 	echo '</div>';
 	return $control;
@@ -205,7 +205,7 @@ function wp_insert_inpostads_form_accordion_tabs_positioning( $control, $identif
 			]
 		);
 		$control->create_section( 'Positioning' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 	echo '</div>';
 	return $control;
@@ -274,7 +274,7 @@ function wp_insert_inpostads_the_content( $content ) {
 									if ( $position ) {
 										if ( ( $minimumCharacterCount == 0 ) || ( $minimumCharacterCount == '' ) ) {
 											$content = substr_replace( $content, '/p>' . wp_insert_get_ad_unit( $inpostad ), $position, 3 );
-										} elseif ( strlen( strip_tags( $content ) ) > $minimumCharacterCount ) {
+										} elseif ( strlen( wp_strip_all_tags( $content ) ) > $minimumCharacterCount ) {
 												$content = substr_replace( $content, '/p>' . wp_insert_get_ad_unit( $inpostad ), $position, 3 );
 										}
 									}
@@ -330,19 +330,21 @@ function wp_insert_inpostads_get_paragraph_count( $content ) {
 	return $paragraphCount;
 }
 
-function wp_insert_inpostads_get_insertion_position( $search, $string, $offset ) {
-	$arr = explode( $search, $string );
-	switch ( $offset ) {
-		case $offset == 0:
-			return false;
-			break;
-		case $offset > max( array_keys( $arr ) ):
-			return false;
-			break;
-		default:
-			return strlen( implode( $search, array_slice( $arr, 0, $offset ) ) );
-			break;
+/**
+ * Byte offset of the $offset-th occurrence of $search within $content.
+ *
+ * @param string $search  Delimiter to count (e.g. '/p>').
+ * @param string $content Content to scan.
+ * @param int    $offset  1-based occurrence to locate.
+ * @return int|false Offset, or false when out of range.
+ */
+function wp_insert_inpostads_get_insertion_position( $search, $content, $offset ) {
+	$offset   = (int) $offset;
+	$segments = explode( $search, $content );
+	if ( ( $offset <= 0 ) || ( $offset > max( array_keys( $segments ) ) ) ) {
+		return false;
 	}
+	return strlen( implode( $search, array_slice( $segments, 0, $offset ) ) );
 }
 /* End In-Post Ads Ad Insertion */
 

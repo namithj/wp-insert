@@ -20,7 +20,7 @@ function wp_insert_inthemeads_form_accordion_tabs_code_snippet( $control, $ident
 	echo '<div>';
 		$control->set_HTML( '<p class="codeSnippet"><code>&lt;?php if(function_exists("wp_intheme_ad")) { wp_intheme_ad("' . $identifier . '"); } ?&gt;</code></p>' );
 		$control->create_section( 'Code to add to your theme files' );
-		echo $control->HTML;
+		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 	echo '</div>';
 	return $control;
@@ -38,7 +38,7 @@ function wp_template_ad( $identifier ) {
 function wp_intheme_ad( $identifier ) {
 	$inthemeads = get_option( 'wp_insert_inthemeads' );
 	if ( isset( $inthemeads[ $identifier ] ) && is_array( $inthemeads[ $identifier ] ) && wp_insert_get_ad_status( $inthemeads[ $identifier ] ) ) {
-		echo wp_insert_get_ad_unit( $inthemeads[ $identifier ] );
+		wp_insert_echo_ad_code( wp_insert_get_ad_unit( $inthemeads[ $identifier ] ) );
 	}
 }
 /* End In-Theme Ad Insertion */
