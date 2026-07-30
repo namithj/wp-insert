@@ -98,7 +98,7 @@ function wp_insert_vi_gdpr_data_init() {
 				'post_type'    => 'viconsent',
 			]
 		);
-		die();
+		wp_die();
 	}
 
 	$labels = [

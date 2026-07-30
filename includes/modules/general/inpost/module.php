@@ -264,15 +264,17 @@ function wp_insert_inpostads_the_content( $content ) {
 								break;
 							case 'middle':
 								if ( $paragraphCount > 1 ) {
-									if ( ( $inpostad['paragraph_buffer_count'] == 0 ) || ( $inpostad['paragraph_buffer_count'] == '' ) ) {
+									$paragraphBufferCount  = $inpostad['paragraph_buffer_count'] ?? '';
+									$minimumCharacterCount = $inpostad['minimum_character_count'] ?? '';
+									if ( ( $paragraphBufferCount == 0 ) || ( $paragraphBufferCount == '' ) ) {
 										$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, round( $paragraphCount / 2 ) );
 									} else {
-										$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, $inpostad['paragraph_buffer_count'] );
+										$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, $paragraphBufferCount );
 									}
 									if ( $position ) {
-										if ( ( $inpostad['minimum_character_count'] == 0 ) || ( $inpostad['minimum_character_count'] == '' ) ) {
+										if ( ( $minimumCharacterCount == 0 ) || ( $minimumCharacterCount == '' ) ) {
 											$content = substr_replace( $content, '/p>' . wp_insert_get_ad_unit( $inpostad ), $position, 3 );
-										} elseif ( strlen( strip_tags( $content ) ) > $inpostad['minimum_character_count'] ) {
+										} elseif ( strlen( strip_tags( $content ) ) > $minimumCharacterCount ) {
 												$content = substr_replace( $content, '/p>' . wp_insert_get_ad_unit( $inpostad ), $position, 3 );
 										}
 									}
@@ -289,7 +291,7 @@ function wp_insert_inpostads_the_content( $content ) {
 								break;
 							case 'paragraphtop':
 								if ( $paragraphCount > 1 ) {
-									$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, $inpostad['paragraphtopposition'] );
+									$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, ( $inpostad['paragraphtopposition'] ?? 0 ) );
 									if ( $position ) {
 										$content = substr_replace( $content, '/p>' . wp_insert_get_ad_unit( $inpostad ), $position, 3 );
 									}
@@ -297,7 +299,7 @@ function wp_insert_inpostads_the_content( $content ) {
 								break;
 							case 'paragraphbottom':
 								if ( $paragraphCount > 1 ) {
-									$paragraphbottomposition = ( $paragraphCount - (int) $inpostad['paragraphbottomposition'] );
+									$paragraphbottomposition = ( $paragraphCount - (int) ( $inpostad['paragraphbottomposition'] ?? 0 ) );
 									if ( ( $paragraphbottomposition > 0 ) && ( $paragraphbottomposition < $paragraphCount ) ) {
 										$position = wp_insert_inpostads_get_insertion_position( '/p>', $content, $paragraphbottomposition );
 										if ( $position ) {

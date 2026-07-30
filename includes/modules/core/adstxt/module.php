@@ -115,7 +115,7 @@ function wp_insert_adstxt_generate_form_get_content() {
 		//echo 'jQuery(".ui-dialog-buttonset").find("button").first().remove();';
 		echo '</script>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 /* End Create Ads.txt */
 
@@ -123,7 +123,7 @@ function wp_insert_adstxt_generate_form_get_content() {
 add_action( 'wp_ajax_wp_insert_adstxt_generate_form_save_action', 'wp_insert_adstxt_generate_form_save_action' );
 function wp_insert_adstxt_generate_form_save_action() {
 	check_ajax_referer( 'wp-insert', 'wp_insert_nonce' );
-	$content     = ( ( isset( $_POST['wp_insert_adstxt_content'] ) ) ? $_POST['wp_insert_adstxt_content'] : '' );
+	$content     = ( ( isset( $_POST['wp_insert_adstxt_content'] ) ) ? sanitize_textarea_field( wp_unslash( $_POST['wp_insert_adstxt_content'] ) ) : '' );
 	$output      = wp_insert_adstxt_updation_failed_message( $content );
 	$output     .= '<script type="text/javascript">';
 		$output .= 'jQuery(".ui-dialog-buttonset").find("button").first().hide();';
@@ -134,7 +134,7 @@ function wp_insert_adstxt_generate_form_save_action() {
 	} else {
 		echo $output;
 	}
-	die();
+	wp_die();
 }
 /* End Update Ads.txt */
 
@@ -175,7 +175,7 @@ function wp_insert_adstxt_updation_failed_message( $content ) {
 		$output .= '<p>Auto Creation / Updation of ads.txt failed due to access permission restrictions on the server.</p>';
 		$output .= '<p>You have to manually upload the file using your Host\'s File manager or your favourite FTP program</p>';
 		$output .= '<p>ads.txt should be located in the root of your server. After manually uploading the file click <a href="' . site_url() . '/ads.txt">here</a> to check if its accessible from the correct location</p>';
-		$output .= '<textarea style="display: none;" id="wp_insert_adstxt_content">' . $content . '</textarea>';
+		$output .= '<textarea style="display: none;" id="wp_insert_adstxt_content">' . esc_textarea( $content ) . '</textarea>';
 		$output .= '<p><a onclick="wp_insert_adstxt_content_download()" class="button button-primary" href="javascript:;">Download ads.txt</a></p>';
 	$output     .= '</div>';
 	return $output;

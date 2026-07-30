@@ -17,7 +17,7 @@ function wp_insert_vi_signup_form_get_content() {
 			echo '<p>There was an error processing your request, our team was notified. Try clearing your browser cache, log out and log in again.</p>';
 		echo '</div>';
 	}
-	die();
+	wp_die();
 }
 /* End Signup Form */
 
@@ -35,7 +35,7 @@ function wp_insert_vi_login_form_get_content() {
 			echo 'jQuery(".ui-dialog-buttonset").find("button").first().find("span:nth-child(1)").attr("class", "ui-button-icon-primary ui-icon ui-icon-key");';
 		echo '</script>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_vi_login_form_save_action', 'wp_insert_vi_login_form_save_action' );
@@ -59,7 +59,7 @@ function wp_insert_vi_login_form_save_action() {
 			}
 		}
 	}
-	die();
+	wp_die();
 }
 
 function wp_insert_vi_login_form_get_controls() {
@@ -95,7 +95,7 @@ function wp_insert_vi_update_adstxt() {
 	$adstxtContentData = array_filter( explode( "\n", trim( $adstxtContent ) ), 'trim' );
 	$viEntry           = wp_insert_vi_api_get_adstxt_content();
 	if ( strpos( str_replace( [ "\r", "\n", ' ' ], '', $adstxtContent ), str_replace( [ "\r", "\n", ' ' ], '', $viEntry ) ) !== false ) {
-		die();
+		wp_die();
 	} else {
 		$updatedAdstxtContent = '';
 		if ( strpos( $adstxtContent, '# 41b5eef6' ) !== false ) {
@@ -136,7 +136,7 @@ function wp_insert_vi_update_adstxt() {
 			echo '</div>';
 		}
 	}
-	die();
+	wp_die();
 }
 /* End Login Form */
 
@@ -147,7 +147,7 @@ function wp_insert_vi_logout_action() {
 	wp_insert_vi_api_logout();
 	echo '###SUCCESS###';
 	wp_insert_vi_plugin_card_content( false, true );
-	die();
+	wp_die();
 }
 /* End Logout */
 
@@ -298,7 +298,7 @@ function wp_insert_vi_customize_adcode_form_get_content() {
 			echo $control->JS;
 			echo 'wp_insert_vi_code_iab_category_parent_change();';
 			echo '</script>';
-			die();
+			wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_vi_customize_adcode_form_save_action', 'wp_insert_vi_customize_adcode_form_save_action' );
@@ -329,7 +329,7 @@ function wp_insert_vi_customize_adcode_form_save_action() {
 	} else {
 		echo '###SUCCESS###';
 	}
-	die();
+	wp_die();
 }
 
 function wp_insert_vi_customize_adcode_get_settings() {

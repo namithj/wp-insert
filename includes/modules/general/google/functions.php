@@ -107,7 +107,7 @@ function wp_insert_google_login_form_get_content() {
 			echo 'jQuery(".ui-dialog-buttonset").find("button").first().find("span:nth-child(1)").attr("class", "ui-button-icon-primary ui-icon ui-icon-key");';
 		echo '</script>';
 	echo '</div>';
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_google_login_generate_auth_url', 'wp_insert_google_login_generate_auth_url' );
@@ -120,7 +120,7 @@ function wp_insert_google_login_generate_auth_url() {
 			echo $wp_insert_google_api_get_auth_url;
 		}
 	}
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_google_login_form_save_action', 'wp_insert_google_login_form_save_action' );
@@ -135,7 +135,7 @@ function wp_insert_google_login_form_save_action() {
 			echo '<p class="wp_insert_google_login_error">Login Error:<br />Please check your credentials and try again later!' . '</p>';
 		}
 	}
-	die();
+	wp_die();
 }
 /* End Login / Authorization Form */
 
@@ -146,7 +146,7 @@ function wp_insert_google_logout_action() {
 	wp_insert_google_api_revoke_access_token();
 	echo '###SUCCESS###';
 	wp_insert_google_plugin_card_content( false, true );
-	die();
+	wp_die();
 }
 /* End Logout / De-Authorization */
 
@@ -183,6 +183,6 @@ function wp_insert_google_adunit_get_stats() {
 			echo '</div>';
 		}
 	}
-	die();
+	wp_die();
 }
 /* End Ad Unit Stats */

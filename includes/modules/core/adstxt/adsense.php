@@ -2,9 +2,10 @@
 /* Begin Admin Notice */
 add_action( 'init', 'wp_insert_adstxt_adsense_admin_notice_reactivate' );
 function wp_insert_adstxt_adsense_admin_notice_reactivate() {
-	if ( isset( $_GET['wp_insert_adstxt_adsense_reset'] ) ) {
+	if ( isset( $_GET['wp_insert_adstxt_adsense_reset'] ) && current_user_can( 'manage_options' ) ) {
 		wp_insert_adstxt_adsense_admin_notice_reset();
-		wp_redirect( esc_url( admin_url( '/admin.php?page=wp-insert' ) ) );
+		wp_safe_redirect( admin_url( '/admin.php?page=wp-insert' ) );
+		exit;
 	}
 }
 
@@ -53,7 +54,7 @@ add_action( 'wp_ajax_wp_insert_adstxt_adsense_admin_notice_dismiss', 'wp_insert_
 function wp_insert_adstxt_adsense_admin_notice_dismiss() {
 	check_ajax_referer( 'wp-insert-adstxt-adsense-admin-notice', 'wp_insert_adstxt_adsense_admin_notice_nonce' );
 	update_option( 'wp_insert_adstxt_adsense_admin_notice_dismissed', 'true' );
-	die();
+	wp_die();
 }
 /* End Admin Notice */
 
@@ -76,7 +77,7 @@ function wp_insert_adstxt_adsense_auto_update() {
 			echo wp_insert_adstxt_updation_failed_message( $adstxtUpdatedContent );
 		}
 	}
-	die();
+	wp_die();
 }
 /* End Auto Update Ads.txt (Adsense) */
 

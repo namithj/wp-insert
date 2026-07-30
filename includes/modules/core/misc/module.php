@@ -1,4 +1,55 @@
 <?php
+/* Begin AJAX Capability Guard */
+add_action( 'check_ajax_referer', 'wp_insert_ajax_capability_guard', 10, 1 );
+function wp_insert_ajax_capability_guard( $handlerAction ) {
+	$adminOnlyActions = [ 'wp-insert', 'wp-insert-admin-notice', 'wp-insert-adstxt-adsense-admin-notice' ];
+	if ( in_array( $handlerAction, $adminOnlyActions, true ) && ! current_user_can( 'manage_options' ) ) {
+		wp_die( -1, 403 );
+	}
+	if ( ( 'wp-insert-gutenberg' === $handlerAction ) && ! current_user_can( 'edit_posts' ) ) {
+		wp_die( -1, 403 );
+	}
+}
+/* End AJAX Capability Guard */
+
+/* Begin Ad Unit Types */
+function wp_insert_get_ad_unit_types() {
+	return [ 'inpostads', 'adwidgets', 'shortcodeads', 'inthemeads', 'pagelevelads' ];
+}
+
+function wp_insert_get_ad_code_fields() {
+	return [ 'primary_ad_code', 'secondary_ad_code', 'tertiary_ad_code', 'geo_group1_adcode', 'geo_group2_adcode' ];
+}
+
+/**
+ * Sanitize a single ad unit field on save.
+ *
+ * Ad code fields are stored raw (slashed, matching the legacy storage format the
+ * render pipeline expects) for users with the `unfiltered_html` capability; other
+ * users get wp_kses_post filtering. All remaining fields receive standard
+ * WordPress sanitization.
+ *
+ * @param string       $field Field name (without prefixes).
+ * @param string|array $value Raw (slashed) request value.
+ * @return string|array
+ */
+function wp_insert_sanitize_ad_field( $field, $value ) {
+	if ( in_array( $field, wp_insert_get_ad_code_fields(), true ) ) {
+		if ( current_user_can( 'unfiltered_html' ) ) {
+			return $value;
+		}
+		return wp_slash( wp_kses_post( wp_unslash( $value ) ) );
+	}
+	if ( is_array( $value ) ) {
+		return array_map( 'sanitize_text_field', $value );
+	}
+	if ( ( 'styles' === $field ) || ( 'notes' === $field ) || ( '_styles' === substr( $field, -7 ) ) ) {
+		return sanitize_textarea_field( $value );
+	}
+	return sanitize_text_field( $value );
+}
+/* End Ad Unit Types */
+
 /* Begin Version Upgrade */
 add_action( 'init', 'wp_insert_upgrade_version', 0 );
 function wp_insert_upgrade_version() {

@@ -99,7 +99,7 @@ function wp_insert_admin_notice_dismiss() {
 	check_ajax_referer( 'wp-insert-admin-notice', 'wp_insert_admin_notice_nonce' );
 	$userId = get_current_user_id();
 	update_user_meta( $userId, 'wp_insert_2.3_admin_notice_dismissed', 'true' );
-	die();
+	wp_die();
 }
 /* End Admin Notice */
 ?>

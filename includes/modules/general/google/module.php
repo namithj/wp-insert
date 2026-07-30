@@ -106,7 +106,7 @@ function wp_insert_google_get_ad_units() {
 		}
 		echo '</div>';*/
 	}
-	die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_wp_insert_google_get_chart', 'wp_insert_google_get_chart' );
@@ -156,6 +156,6 @@ function wp_insert_google_get_chart() {
 			echo '<div class="clear"></div>';
 		echo '</div>';
 	}
-	die();
+	wp_die();
 }
 /* End Add Card in Admin Panel */

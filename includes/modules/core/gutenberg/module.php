@@ -56,9 +56,9 @@ function wp_insert_gutenberg_get_ad_data() {
 	$shortcodeads = get_option( 'wp_insert_shortcodeads' );
 	if ( isset( $shortcodeads ) && is_array( $shortcodeads ) ) {
 		foreach ( $shortcodeads as $key => $shortcodead ) {
-			$title = $shortcodead['title'];
-			if ( ! isset( $shortcodead['title'] ) || ( $shortcodead['title'] == '' ) ) {
-				$title = $key;
+			$title = $key;
+			if ( isset( $shortcodead['title'] ) && ( $shortcodead['title'] != '' ) ) {
+				$title = $shortcodead['title'];
 			}
 			$adData[] = [
 				'type'  => 'shortcodeads',
@@ -69,5 +69,5 @@ function wp_insert_gutenberg_get_ad_data() {
 	}
 	echo '###SUCCESS###';
 	echo json_encode( $adData );
-	die();
+	wp_die();
 }

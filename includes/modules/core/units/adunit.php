@@ -1,8 +1,8 @@
 <?php
-$wpInsertPostInstance;
-$wpInsertABTestingMode;
+$wpInsertPostInstance  = null;
+$wpInsertABTestingMode = null;
 $wpInsertVIAdDisplayed = false;
-$wpInsertGeoLocation;
+$wpInsertGeoLocation   = null;
 
 /* Begin Ad Unit */
 function wp_insert_get_ad_unit( $data, $additionalStyles = '' ) {
@@ -117,19 +117,21 @@ function wp_insert_get_ad_unit_code( $data ) {
 	global $wpInsertVIAdDisplayed;
 	global $wpInsertGeoLocation;
 
-	$adUnitCode = '';
-	if ( ( $wpInsertGeoLocation != false ) && ( $wpInsertGeoLocation != '' ) && ( ( is_array( $data['geo_group1_countries'] ) && ( count( $data['geo_group1_countries'] ) > 0 ) ) || ( is_array( $data['geo_group2_countries'] ) && ( count( $adOptions['geo_group1_countries'] ) > 0 ) ) ) ) {
-		if ( ( $data['geo_group1_adcode'] != '' ) && in_array( $wpInsertGeoLocation, $data['geo_group1_countries'] ) ) {
+	$adUnitCode          = '';
+	$geoGroup1Countries  = ( isset( $data['geo_group1_countries'] ) && is_array( $data['geo_group1_countries'] ) ) ? $data['geo_group1_countries'] : [];
+	$geoGroup2Countries  = ( isset( $data['geo_group2_countries'] ) && is_array( $data['geo_group2_countries'] ) ) ? $data['geo_group2_countries'] : [];
+	if ( ( $wpInsertGeoLocation != false ) && ( $wpInsertGeoLocation != '' ) && ( ( count( $geoGroup1Countries ) > 0 ) || ( count( $geoGroup2Countries ) > 0 ) ) ) {
+		if ( ( ( $data['geo_group1_adcode'] ?? '' ) != '' ) && in_array( $wpInsertGeoLocation, $geoGroup1Countries ) ) {
 			$adUnitCode = do_shortcode( stripslashes( $data['geo_group1_adcode'] ) );
 		}
-		if ( ( $data['geo_group2_adcode'] != '' ) && in_array( $wpInsertGeoLocation, $data['geo_group2_countries'] ) ) {
+		if ( ( ( $data['geo_group2_adcode'] ?? '' ) != '' ) && in_array( $wpInsertGeoLocation, $geoGroup2Countries ) ) {
 			$adUnitCode = do_shortcode( stripslashes( $data['geo_group2_adcode'] ) );
 		}
 	}
 	if ( $adUnitCode == '' ) {
 		switch ( $wpInsertABTestingMode ) {
 			case 1:
-				if ( isset( $data['primary_ad_code_type'] ) && ( $data['primary_ad_code_type'] == 'vicode' ) ) {
+				if ( isset( $data['primary_ad_code_type'] ) && ( $data['primary_ad_code_type'] == 'vicode' ) && function_exists( 'wp_insert_vi_api_get_vi_code' ) ) {
 					if ( $wpInsertVIAdDisplayed !== true ) {
 						$wpInsertVIAdDisplayed = true;
 						$adUnitCode            = '<div id="wp_insert_vi_ad">' . wp_insert_vi_api_get_vi_code( 'wp_insert_vi_code_settings' ) . '</div>';
@@ -137,17 +139,17 @@ function wp_insert_get_ad_unit_code( $data ) {
 						$adUnitCode = '';
 					}
 				} else {
-					$adUnitCode = do_shortcode( stripslashes( $data['primary_ad_code'] ) );
+					$adUnitCode = do_shortcode( stripslashes( $data['primary_ad_code'] ?? '' ) );
 				}
 				break;
 			case 2:
-				$adUnitCode = do_shortcode( stripslashes( $data['secondary_ad_code'] ) );
+				$adUnitCode = do_shortcode( stripslashes( $data['secondary_ad_code'] ?? '' ) );
 				break;
 			case 3:
-				$adUnitCode = do_shortcode( stripslashes( $data['tertiary_ad_code'] ) );
+				$adUnitCode = do_shortcode( stripslashes( $data['tertiary_ad_code'] ?? '' ) );
 				break;
 			default:
-				$adUnitCode = do_shortcode( stripslashes( $data['primary_ad_code'] ) );
+				$adUnitCode = do_shortcode( stripslashes( $data['primary_ad_code'] ?? '' ) );
 		}
 	}
 	return $adUnitCode;
@@ -173,12 +175,8 @@ function wp_insert_track_post_instance( $content ) {
 add_action( 'wp', 'wp_insert_track_ad_instance', 1 );
 function wp_insert_track_ad_instance() {
 	global $wpInsertABTestingMode;
-	$abtestingMode = get_option( 'wp_insert_abtesting_mode' );
-	if ( isset( $abtestingMode ) ) {
-		$wpInsertABTestingMode = rand( 1, floatval( $abtestingMode ) );
-	} else {
-		$wpInsertABTestingMode = 1;
-	}
+	$abtestingMode         = get_option( 'wp_insert_abtesting_mode' );
+	$wpInsertABTestingMode = rand( 1, max( 1, (int) $abtestingMode ) );
 }
 /* End Assign AB Testing Mode */
 
@@ -220,7 +218,7 @@ function wp_insert_get_ad_status( $rules ) {
 	if ( ! isset( $rules ) ) {
 		return false; }
 
-	if ( ! wp_validate_boolean( $rules['status'] ) ) {
+	if ( ! wp_validate_boolean( $rules['status'] ?? '' ) ) {
 		return false;
 	}
 

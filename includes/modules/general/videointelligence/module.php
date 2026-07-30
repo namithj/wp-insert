@@ -118,6 +118,6 @@ function wp_insert_vi_get_chart() {
 			echo '<div class="clear"></div>';
 		echo '</div>';
 	}
-	die();
+	wp_die();
 }
 /* End Add Card in Admin Panel */
