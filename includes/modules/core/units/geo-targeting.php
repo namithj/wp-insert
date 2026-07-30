@@ -50,7 +50,7 @@ function wp_insert_form_accordion_tabs_geo_targeting( $control, $identifier, $lo
 		wp_insert_echo_html( $control->HTML );
 		$control->clear_controls();
 		echo '<p>';
-			echo 'This feature uses the Free Geo ip service from <a href="http://freegeoip.net/">freegeoip.net</a>, if you find this feature useful please consider donating to the project at <a href="http://freegeoip.net/">freegeoip.net</a>';
+			echo 'Country lookups are resolved on your own server using an IP-to-country database bundled with the plugin. No visitor IP address is sent to any external service.';
 		echo '</p>';
 	echo '</div>';
 	return $control;

@@ -1,108 +1,140 @@
 === Wp-Insert ===
 Contributors: namithjawahar
-Tags: google adsense, adsense, google ads, google analytics, privacy policy, best adsense plugin, ad management, ad rotation, tracking codes
-Donate link: http://wpinsert.smartlogix.co.in/support/
-Requires at least: 5
-Tested up to: 6.1.1
-Stable tag: 2.5.1
+Donate link: https://wpinsert.smartlogix.co.in/support/
+Tags: adsense, ad management, ads.txt, ad rotation, tracking codes
+Requires at least: 6.3
+Tested up to: 7.0
+Requires PHP: 7.4
+Stable tag: 2.6.0
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The Ultimate Adsense / Ad-Management Plugin for Wordpress
+The Ultimate Adsense / Ad-Management Plugin for WordPress.
 
 == Description ==
-**WP-INSERT by <a href="http://www.smartlogix.co.in/" title="SmartLogix Technologies : Experts in WordPress Themes and Plugins">SmartLogix</a> : The Ultimate Adsense / Ad-Management Plugin for Wordpress (Optimized for Adsense)**
 
-Wp-Insert is the most powerful yet easiest to use wordpress ad management / ad insertion plugin which does a lot more than ad management / insertion.
+Wp-Insert is a powerful yet easy to use ad management / ad insertion plugin which
+does a lot more than ad management and insertion. Ad code from any network —
+AdSense, iframes, JavaScript snippets or plain HTML — is inserted exactly as you
+provide it.
 
-= Features =  
-     
-* Adsense Optimized
-* Gutenberg Support
-* Builtin support for Google Page-Level Ads
-* Builtin support for Google Adsnese Auto Ads
-* Unlimited Adblocks (No restrictions placed on you)
-* Insert Ad Above, Below, To the Left and Right of Page or Post Content
-* Insert Ad in the Middle of Page/Post Content with intelligent midpoint detection algorithms
-* Insert ads after set number of Paragraphs counting from top or bottom
-* Insert Ads into the Sidebars using Ad Widgets
-* Insert Ads into post content using shortcodes is required
-* GUI Driven Rules based System to control when and where to display Ads
-* Use the GUI to easily exclude ads from any specific post, pages, archives etc
-* Manually override auto positioning on a per post basis
-* Hide ads for Loggedin users
-* Hide ads for Mobile users
-* Builtin support for AMP plugin by Automattic
-* Woocommerce aware
-* Hide ads on specific pages
-* Insert Ads directly into the theme files with control over when and where to display Ads
-* Insert Google Analytics, Facebook trackng pixel or any other tracking Code easily
-* Supports shortcodes (from any plugin) for creative use of Ad blocks
-* Insert any type of Embed codes into the Header / Footer of your Site
-* Insert Google Analytics Code, Facebook Pixel Code, Custom CSS or any other code to your site without having to edit any theme files
-* Style Ads the Way you want
-* Hide / Modify ads on Large Desktop, Medium Desktop, Tablets and Mobiles with indivigual targetting options and features available for different deveices.
-* Does not slow down your site (Highly Efficient Algorithms)
-* Legal Page Templates (Privacy Policy, Terms & Conditions, Disclaimer, Copyright) to kick start your Legal Pages
-* A/B Testing Facility for Ads (Comply with Adsense Policies while serving other Ad Networks)
-* Ad roation via A/B testing feature (You can even use different networks with conflicting terms such that only ads from one network appears at any time)
-* Geo-targeted Country Specific Ad Placement with builtin caching for improved performace.
-* Supports Authorized Digital Sellers, or ads.txt, an IAB initiative to improve transparency in programmatic advertising.
-* ads.txt daily monitoring to prevent revenue loss due to accidental adsense publisher id omission.
-* Backed by <a href="http://www.smartlogix.co.in/" title="SmartLogix Technologies : Experts in WordPress Themes and Plugins">SmartLogix</a>, The Unparalleled WordPress Specialist
+= Features =
 
-== Screenshots ==
-
-1. The New Unified plugin admin page.
-2. Elaborate Rules system to control WHEN and WHERE to show your Ads
-3. Geotarget Different Ads just for audence from specific Countries
-4. Easy to use preprepared Legal Page Templates to serve as a starting point to your legal pages.
-5. Easily insert Ads directly into your theme for Advanced Ad Placement and still support the Rules system.
-6. Multiple Ad Networks / Ab testing.
-7. Google Analytics integrated.
-8. Easily embed codes in the Header / Footer.
-9. Ad Widgets which support the Rules System.
+* Adsense optimised, with support for Auto Ads / Page-Level ads
+* Unlimited ad blocks, with no artificial restrictions
+* Insert ads above, below, to the left, to the right, or in the middle of post content with intelligent midpoint detection
+* Insert ads after a chosen number of paragraphs, counting from the top or the bottom
+* Insert ads into sidebars using ad widgets
+* Insert ads into post content using shortcodes
+* Insert ads directly into theme files, with the rules system still applied
+* Gutenberg blocks for manual ad placement
+* GUI driven rules system controlling when and where ads appear
+* Exclude ads from specific posts, pages, categories, archives, search and 404 pages
+* Hide ads for logged-in users or for mobile visitors
+* Per-device targeting and styling for large desktop, medium desktop, tablet and mobile
+* A/B testing across up to three ad networks, so only one network's ads appear at a time
+* Country specific ad placement using a bundled, offline IP-to-country database
+* Insert Google Analytics, Facebook Pixel or any other tracking code into the header or footer
+* Supports shortcodes from other plugins inside ad blocks
+* Authorized Digital Sellers (ads.txt) management with daily AdSense publisher-ID monitoring
+* Legal page templates (Privacy Policy, Terms & Conditions, Disclaimer, Copyright) to kick-start your legal pages
+* Compatible with the AMP plugin by Automattic and WooCommerce aware
 
 == Installation ==
+
 = In WordPress =
 
-* Go in your Dashboard to 'Plugins' -> 'Install'
+* Go in your Dashboard to 'Plugins' -> 'Add New'
 * Search for 'Wp-Insert'
-* Click on 'Install'
+* Click on 'Install Now'
 * Activate the plugin through the 'Plugins' menu in WordPress
-* Now you can go to the Settings-Page from the Admin Menu
+* Open the 'Wp Insert' page from the admin menu
 
 = Manually =
 
-* Download the Plugin
-* Go in your Dashboard to 'Plugins' -> 'Install'
-* Click on Upload
-* Click on 'Choose file' and choose the downloaded Zip-file
-* Click on 'Install'
+* Download the plugin
+* Go in your Dashboard to 'Plugins' -> 'Add New'
+* Click on 'Upload Plugin'
+* Choose the downloaded zip file and click 'Install Now'
 * Activate the plugin through the 'Plugins' menu in WordPress
-* Now you can go to the Settings-Page from the Admin Menu
+* Open the 'Wp Insert' page from the admin menu
 
 == Frequently Asked Questions ==
-<a href="http://wp-insert.smartlogix.co.in/" title="The Ultimate Adsense / Ad-Management Plugin for Wordpress">Wp-Insert Tutorial and Support Website</a>
- 
-<a href="http://www.smartlogix.co.in/" title="SmartLogix Technologies : Experts in WordPress Themes and Plugins">Wp-Insert Developers</a>
 
-== Privacy Policy ==
+= Will my existing ad code keep working after updating? =
 
-Users privacy is very important to us and we make extra effort not to collect data about the users to the maximum extend possible.
-However to provide enhanced functionality we utilize the APIs from different third party services as listed below and the usage of those API are in accordance with their privacy policies.
+Yes. Ad code is stored and rendered exactly as you entered it, and the plugin ships
+an automated test suite that verifies iframes, JavaScript snippets, AdSense code,
+plain HTML and shortcodes all render byte-for-byte identically across every
+placement type.
 
-= Geo Targeting =
+= Who can add or edit ad code? =
 
-To enable Geo Targeting functionality for Ads we have to send the visitor IP address to a third party service (http://freegeoip.net/ OR https://ipstack.com/) and the usage of thier API is in accordance to their privacy policy located at https://ipstack.com/privacy/.
-This third party API is utilized only when you enable or use Geo Targetting features in the plugin admin.
+Only users with the `manage_options` capability (administrators on a single site).
+Users who do not additionally have the `unfiltered_html` capability have their
+input filtered through `wp_kses_post()` before it is saved.
 
-= video intelligence =
+= Where can I get support? =
 
-The plugin provides deep integration with video intelligence to provide enhanced features and for easy integration with their services.
-This third party API and features are utilized only when you enable or use video inteligence related features in the plugin admin and the usage of thier API and features are in accordance to their privacy policy.
+Visit the [Wp-Insert support site](https://wpinsert.smartlogix.co.in/support/).
 
-video intelligence ("vi") as a third party, needs to process the user's technical data such as cookie ID, IP Address, Geo-Location and Device ID to personalize content and advertising and analyse our traffic.
-You can find below a link vi's Legal webpage where there are transparently presented all GDPR relevant information.
-Please access the link to check vi's Privacy Policy, Terms&Conditions pages, Opt Out Mechanism, Vendor and Purposes lists.
-https://www.vi.ai/legals/
+== External Services ==
+
+This plugin does not send visitor data to any external service.
+
+Country based ad targeting is resolved locally using an IP-to-country database
+bundled with the plugin, so no visitor IP address leaves your server. Earlier
+versions of Wp-Insert used the third-party freegeoip.net / ipstack APIs for this
+feature; that is no longer the case.
+
+Ad code that you add through the plugin may itself load resources from your ad
+network (for example Google AdSense). Those requests are made by the ad code you
+supply, are governed by that network's own privacy policy, and are entirely under
+your control.
+
+== Screenshots ==
+
+1. The unified plugin admin page.
+2. Rules system controlling when and where your ads are shown.
+3. Geo-target different ads to audiences from specific countries.
+4. Pre-prepared legal page templates to serve as a starting point.
+5. Insert ads directly into your theme for advanced ad placement.
+6. Multiple ad networks / A-B testing.
+7. Google Analytics integration.
+8. Embed codes in the header / footer.
+9. Ad widgets which support the rules system.
+
+== Changelog ==
+
+= 2.6.0 =
+* Modernisation release. Existing ad code and settings are preserved; no
+  reconfiguration is required.
+* Added an automated test suite covering ad-code rendering fidelity (iframes,
+  JavaScript, AdSense, HTML, shortcodes) across every placement type, so updates
+  cannot silently change how your ads are output.
+* Fixed a fatal error on PHP 8 when a second geo-targeting country group was
+  configured.
+* Fixed numerous PHP 8.x warnings across the ad rendering path, including for ad
+  units created by older versions of the plugin.
+* Security: added capability checks to every admin AJAX endpoint, restricted ad
+  data saving to known ad unit types, added nonce verification to the ads.txt
+  AdSense reset action, and removed debug output from the ad save routine.
+* Security: escaped all admin-side output, including the Google Analytics tracker
+  ID which was previously written unescaped into an inline script.
+* The jQuery UI stylesheet is now bundled with the plugin instead of being loaded
+  from an external CDN.
+* Country targeting no longer contacts a third-party geolocation API; lookups are
+  resolved from a local database.
+* Removed unused video intelligence and Google API modules that were shipped but
+  never loaded.
+* The full codebase now passes the WordPress Coding Standards with no errors or
+  warnings.
+
+= 2.5.1 =
+* Plugin header and coding standards updates.
+
+== Upgrade Notice ==
+
+= 2.6.0 =
+Compatibility, security and coding standards release. Your existing ad units,
+ad code and settings carry over unchanged.
